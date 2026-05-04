@@ -20,7 +20,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   if (isInitializing) {
     return (
       <SplashContainer>
-        <BaseSpin size="large" tip="Loading system..." />
+        <BaseSpin size="large" />
       </SplashContainer>
     );
   }

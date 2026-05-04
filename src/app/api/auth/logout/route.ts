@@ -16,14 +16,18 @@ export async function POST() {
 
     (await cookies()).delete("access_token");
     (await cookies()).delete("refresh_token");
+    (await cookies()).set("session_hint", "false", {
+      path: "/",
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+    });
 
     return Response.json({ success: true });
   } catch (error) {
     console.error("Logout error:", error);
     return Response.json(
-      { message: "Internal server error" },
+      { message: "Internal server error", statusCode: ResponseCode.INTERNAL_SERVER_ERROR },
       { status: ResponseCode.INTERNAL_SERVER_ERROR }
     );
   }
 }
-

@@ -6,7 +6,10 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
+    const { searchParams } = new URL(req.url);
+    const backendUrl = `${process.env.NEXT_PUBLIC_API_URL}/auth/login?${searchParams.toString()}`;
+
+    const res = await fetch(backendUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
@@ -17,26 +20,35 @@ export async function POST(req: Request) {
       return Response.json(error, { status: res.status });
     }
 
-    const data = await res.json();
-    const { accessToken, refreshToken } = data;
+    const result = await res.json();
+    const { access_token, refresh_token } = result.data || {};
 
-    if (!accessToken || !refreshToken) {
+    if (!access_token || !refresh_token) {
       return Response.json(
-        { message: "Invalid response from server" },
+        { message: "Invalid response from server", statusCode: ResponseCode.INTERNAL_SERVER_ERROR },
         { status: ResponseCode.INTERNAL_SERVER_ERROR }
       );
     }
 
-    (await cookies()).set("access_token", accessToken, {
+    const isProduction = process.env.NODE_ENV === "production";
+
+    (await cookies()).set("access_token", access_token, {
       httpOnly: true,
-      secure: true,
+      secure: isProduction,
       sameSite: "lax",
       path: "/",
     });
 
-    (await cookies()).set("refresh_token", refreshToken, {
+    (await cookies()).set("refresh_token", refresh_token, {
       httpOnly: true,
-      secure: true,
+      secure: isProduction,
+      sameSite: "lax",
+      path: "/",
+    });
+
+    (await cookies()).set("session_hint", "true", {
+      httpOnly: false,
+      secure: isProduction,
       sameSite: "lax",
       path: "/",
     });
@@ -45,7 +57,7 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error("Login error:", error);
     return Response.json(
-      { message: "Internal server error" },
+      { message: "Internal server error", statusCode: ResponseCode.INTERNAL_SERVER_ERROR },
       { status: ResponseCode.INTERNAL_SERVER_ERROR }
     );
   }
