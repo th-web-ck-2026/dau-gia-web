@@ -75,3 +75,13 @@ export const formatDate = (date: string | null | undefined): string => {
 
 export const formatCurrency = (value: number, currencyLabel: string) =>
   `${new Intl.NumberFormat("en-US").format(value)} ${currencyLabel}`;
+
+export enum Role {
+  ADMIN = "ADMIN",
+  USER = "USER",
+}
+
+export enum AuthProvider {
+  EMAIL = "email",
+  GOOGLE = "google",
+}

@@ -4,6 +4,16 @@ import { ResponseCode } from "@/constants";
 
 export async function POST() {
   try {
+    const refreshToken = (await cookies()).get("refresh_token")?.value;
+
+    if (refreshToken) {
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ refreshToken }),
+      });
+    }
+
     (await cookies()).delete("access_token");
     (await cookies()).delete("refresh_token");
 
@@ -16,3 +26,4 @@ export async function POST() {
     );
   }
 }
+

@@ -38,6 +38,9 @@ export interface ResponseData<T> {
   message?: string;
   status?: number;
   success?: boolean;
+  statusCode?: number;
+  path?: string;
+  timestamp?: string;
 }
 
 export interface ValidationError {
@@ -55,7 +58,10 @@ export interface ValidationError {
 export interface ServerError {
   error: string;
   message: string;
-  status: number;
+  status?: number;
+  statusCode?: number;
+  path?: string;
+  timestamp?: string;
   success: boolean;
 }
 
