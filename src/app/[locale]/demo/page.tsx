@@ -1,4 +1,4 @@
-import DemoComponent from "@/pages/demo";
+import DemoComponent from "@/features/demo";
 
 const DemoPage = () => {
   return <DemoComponent />;

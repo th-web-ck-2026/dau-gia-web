@@ -8,13 +8,17 @@ async function proxy(req: Request, path: string[]) {
   try {
     const accessToken = (await cookies()).get("access_token")?.value;
 
-    let res = await fetch(`${API_URL}/${path.join("/")}`, {
+    const { searchParams } = new URL(req.url);
+    const fullPath = path.join("/");
+    const backendUrl = `${API_URL}/${fullPath}${searchParams.toString() ? `?${searchParams.toString()}` : ""}`;
+
+    let res = await fetch(backendUrl, {
       method: req.method,
       headers: {
         Authorization: accessToken ? `Bearer ${accessToken}` : "",
         "Content-Type": "application/json",
       },
-      body: req.method !== "GET" ? await req.text() : undefined,
+      body: req.method !== "GET" && req.method !== "HEAD" ? await req.text() : undefined,
     });
 
     if (res.status === ResponseCode.UNAUTHORIZED) {
@@ -22,7 +26,7 @@ async function proxy(req: Request, path: string[]) {
 
       if (!refreshToken) {
         return Response.json(
-          { message: "Unauthorized" },
+          { message: "Unauthorized", statusCode: ResponseCode.UNAUTHORIZED },
           { status: ResponseCode.UNAUTHORIZED }
         );
       }
@@ -37,7 +41,7 @@ async function proxy(req: Request, path: string[]) {
         (await cookies()).delete("access_token");
         (await cookies()).delete("refresh_token");
         return Response.json(
-          { message: "Session expired" },
+          { message: "Session expired", statusCode: ResponseCode.UNAUTHORIZED },
           { status: ResponseCode.UNAUTHORIZED }
         );
       }
@@ -47,40 +51,48 @@ async function proxy(req: Request, path: string[]) {
 
       if (!newToken || !newRefresh) {
         return Response.json(
-          { message: "Invalid refresh response" },
+          { message: "Invalid refresh response", statusCode: ResponseCode.INTERNAL_SERVER_ERROR },
           { status: ResponseCode.INTERNAL_SERVER_ERROR }
         );
       }
 
+      const isProduction = process.env.NODE_ENV === "production";
+
       (await cookies()).set("access_token", newToken, {
         httpOnly: true,
-        secure: true,
+        secure: isProduction,
         sameSite: "lax",
         path: "/",
       });
 
       (await cookies()).set("refresh_token", newRefresh, {
         httpOnly: true,
-        secure: true,
+        secure: isProduction,
         sameSite: "lax",
         path: "/",
       });
 
-      res = await fetch(`${API_URL}/${path.join("/")}`, {
+      res = await fetch(backendUrl, {
         method: req.method,
         headers: {
           Authorization: `Bearer ${newToken}`,
           "Content-Type": "application/json",
         },
-        body: req.method !== "GET" ? await req.text() : undefined,
+        body: req.method !== "GET" && req.method !== "HEAD" ? await req.text() : undefined,
       });
     }
 
-    return res;
+    const responseData = await res.json();
+    return Response.json(responseData, {
+      status: res.status,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
   } catch (error) {
     console.error("Proxy error:", error);
     return Response.json(
-      { message: "Internal server error" },
+      { message: "Internal server error", statusCode: ResponseCode.INTERNAL_SERVER_ERROR },
       { status: ResponseCode.INTERNAL_SERVER_ERROR }
     );
   }

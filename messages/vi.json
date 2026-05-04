@@ -34,5 +34,37 @@
     "title": "404 - Không tìm thấy trang",
     "subTitle": "Xin lỗi, trang bạn đang tìm kiếm không tồn tại hoặc đã bị di chuyển.",
     "backHome": "Quay lại trang chủ"
+  },
+  "auth": {
+    "loginTitle": "Đăng nhập",
+    "loginSubTitle": "Chào mừng bạn quay trở lại với BIDWAR",
+    "emailLabel": "Email",
+    "emailPlaceholder": "Nhập email của bạn",
+    "passwordLabel": "Mật khẩu",
+    "passwordPlaceholder": "Nhập mật khẩu",
+    "forgotPassword": "Quên mật khẩu?",
+    "loginButton": "Đăng nhập",
+    "noAccount": "Chưa có tài khoản?",
+    "registerNow": "Đăng ký ngay",
+    "registerTitle": "Đăng ký tài khoản",
+    "registerSubTitle": "Tham gia đấu giá cùng BIDWAR",
+    "fullnameLabel": "Họ và tên",
+    "fullnamePlaceholder": "Nhập họ và tên",
+    "phoneLabel": "Số điện thoại",
+    "phonePlaceholder": "Nhập số điện thoại",
+    "registerButton": "Đăng ký",
+    "alreadyHaveAccount": "Đã có tài khoản?",
+    "loginNow": "Đăng nhập ngay",
+    "loginSuccess": "Đăng nhập thành công!",
+    "registerSuccess": "Đăng ký thành công! Vui lòng đăng nhập.",
+    "phoneInvalid": "Số điện thoại không hợp lệ (10 số)"
+  },
+  "validation": {
+    "required": "Vui lòng nhập {field}",
+    "emailInvalid": "Email không hợp lệ",
+    "passwordMinLength": "Mật khẩu phải có ít nhất {min} ký tự",
+    "phoneInvalid": "Số điện thoại không hợp lệ (10 số)"
   }
 }
+
+

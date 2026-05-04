@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { FormInstance } from "antd";
 
 import { ResponseCode } from "@/constants";
@@ -47,32 +48,20 @@ const resolveErrorResponse = (
 export function useLoadServerError() {
   const { notification } = useFeedback();
 
-  const loadServerErrors = ({ error, form }: LoadServerErrorsArgs) => {
-    if (!error) {
+  const showErrorMessage = useCallback((message: string | string[]) => {
+    const normalizedMessage = Array.isArray(message) ? message[0] : message;
+
+    if (
+      normalizedMessage &&
+      IGNORED_ERROR_MESSAGES.includes(normalizedMessage)
+    ) {
       return;
     }
 
-    const response = resolveErrorResponse(error);
-    const status = response?.status;
-    const errorData = response?.data;
+    notification.error({ message: COMMON_ERROR_MESSAGE });
+  }, [notification]);
 
-    if (status === ResponseCode.VALIDATION_ERROR && !!form) {
-      if (isRecord(errorData) && "detail" in errorData) {
-        handleValidationErrors(errorData as ValidationError, form);
-        return;
-      }
-    }
-
-    const message =
-      (isRecord(errorData) && "message" in errorData
-        ? (errorData.message as string)
-        : undefined) ||
-      (isRecord(error) && "message" in error ? (error.message as string) : "");
-
-    showErrorMessage(message);
-  };
-
-  const handleValidationErrors = (
+  const handleValidationErrors = useCallback((
     data: ValidationError,
     form: FormInstance
   ) => {
@@ -100,20 +89,37 @@ export function useLoadServerError() {
     } else {
       showErrorMessage("Some fields are invalid");
     }
-  };
+  }, [showErrorMessage]);
 
-  const showErrorMessage = (message: string | string[]) => {
-    const normalizedMessage = Array.isArray(message) ? message[0] : message;
-
-    if (
-      normalizedMessage &&
-      IGNORED_ERROR_MESSAGES.includes(normalizedMessage)
-    ) {
+  const loadServerErrors = useCallback(({ error, form }: LoadServerErrorsArgs) => {
+    if (!error) {
       return;
     }
 
-    notification.error({ message: COMMON_ERROR_MESSAGE });
-  };
+    const response = resolveErrorResponse(error);
+    const status = response?.status;
+    const errorData = response?.data;
+    const config = (error as any)?.config || (response as any)?.config;
+
+    if (config?._silent) {
+      return;
+    }
+
+    if (status === ResponseCode.VALIDATION_ERROR && !!form) {
+      if (isRecord(errorData) && "detail" in errorData) {
+        handleValidationErrors(errorData as ValidationError, form);
+        return;
+      }
+    }
+
+    const message =
+      (isRecord(errorData) && "message" in errorData
+        ? (errorData.message as string)
+        : undefined) ||
+      (isRecord(error) && "message" in error ? (error.message as string) : "");
+
+    showErrorMessage(message);
+  }, [handleValidationErrors, showErrorMessage]);
 
   return {
     loadServerErrors,
