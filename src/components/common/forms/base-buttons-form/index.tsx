@@ -1,0 +1,51 @@
+import React from "react";
+
+import {
+  BaseForm,
+  BaseFormProps,
+  IBaseForm,
+} from "@/components/common/forms/base-form";
+import { BaseButtonsGroup } from "@/components/common/forms/components/base-buttons-group";
+import { BaseFormItem } from "@/components/common/forms/components/base-form-item";
+import { BaseFormList } from "@/components/common/forms/components/base-form-list";
+import { BaseFormTitle } from "@/components/common/forms/components/base-form-title";
+
+export interface BaseButtonsFormProps extends BaseFormProps {
+  isFieldsChanged: boolean;
+  setFieldsChanged?: (state: boolean) => void;
+  footer?: React.ReactElement;
+  loading?: boolean;
+}
+
+export const BaseButtonsForm: IBaseForm<BaseButtonsFormProps> = ({
+  form,
+  isFieldsChanged,
+  setFieldsChanged,
+  footer,
+  loading = false,
+  children,
+  ...props
+}) => {
+  const [formDefault] = BaseForm.useForm();
+  const currentForm = form || formDefault;
+
+  const onCancel = () => {
+    currentForm?.resetFields();
+    setFieldsChanged?.(false);
+  };
+
+  return (
+    <BaseForm form={currentForm} {...props}>
+      {children}
+      {isFieldsChanged &&
+        (footer || <BaseButtonsGroup loading={loading} onCancel={onCancel} />)}
+    </BaseForm>
+  );
+};
+
+BaseButtonsForm.Title = BaseFormTitle;
+BaseButtonsForm.Item = BaseFormItem;
+BaseButtonsForm.List = BaseFormList;
+BaseButtonsForm.useForm = BaseForm.useForm;
+BaseButtonsForm.useWatch = BaseForm.useWatch;
+BaseButtonsForm.Provider = BaseForm.Provider;

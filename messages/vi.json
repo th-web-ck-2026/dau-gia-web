@@ -1,0 +1,38 @@
+{
+  "common": {
+    "viLocale": "Tiếng Việt",
+    "enLocale": "Tiếng Anh",
+    "id": "ID",
+    "email": "Email",
+    "address": "Địa chỉ",
+    "firstName": "Tên",
+    "lastName": "Họ",
+    "confirm": "Xác nhận",
+    "cancel": "Hủy",
+    "save": "Lưu",
+    "delete": "Xóa",
+    "edit": "Sửa",
+    "add": "Thêm",
+    "search": "Tìm kiếm",
+    "reset": "Đặt lại",
+    "submit": "Gửi",
+    "back": "Quay lại",
+    "next": "Tiếp theo",
+    "previous": "Trước",
+    "loading": "Đang tải...",
+    "error": "Lỗi",
+    "success": "Thành công",
+    "warning": "Cảnh báo",
+    "info": "Thông tin",
+    "noData": "Không có dữ liệu",
+    "actions": "Hành động",
+    "status": "Trạng thái",
+    "createdAt": "Ngày tạo",
+    "updatedAt": "Ngày cập nhật"
+  },
+  "notFound": {
+    "title": "404 - Không tìm thấy trang",
+    "subTitle": "Xin lỗi, trang bạn đang tìm kiếm không tồn tại hoặc đã bị di chuyển.",
+    "backHome": "Quay lại trang chủ"
+  }
+}
