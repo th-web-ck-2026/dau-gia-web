@@ -20,35 +20,22 @@ export const useLoginHooks = () => {
     }
   }, [isAuthenticated, isInitializing, router]);
 
-  const loginMutation = useAppMutation(
+  const { mutate: handleLogin, isPending: isLoading } = useAppMutation(
     (data: LoginDto) => login(data, AuthProvider.EMAIL),
     {
-      queryOptions: {
-        onSuccess: async () => {
-          notification.success({
-            message: t("loginSuccess"),
-          });
-          
-          // Set session hint to true
-          cookies.set("session_hint", "true");
-          
-          // Refresh user info into Redux store
-          await refreshUser();
-          
-          router.push("/");
-        },
+      onSuccess: async () => {
+        notification.success({
+          message: t("loginSuccess"),
+        });
+        cookies.set("session_hint", "true");
+        await refreshUser();
+        router.push("/");
       },
     }
   );
 
-
-
-  const handleLogin = (values: LoginDto) => {
-    loginMutation.mutate(values);
-  };
-
   return {
     handleLogin,
-    isLoading: loginMutation.isPending,
+    isLoading,
   };
 };

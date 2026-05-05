@@ -20,13 +20,7 @@ const isRecord = (value: unknown): value is Record<string, unknown> =>
 
 const isApiErrorResponse = (value: unknown): value is ApiErrorData => {
   if (!isRecord(value)) return false;
-  return (
-    "status" in value &&
-    "data" in value &&
-    "statusText" in value &&
-    "headers" in value &&
-    "config" in value
-  );
+  return "status" in value && "data" in value;
 };
 
 const resolveErrorResponse = (
@@ -58,7 +52,9 @@ export function useLoadServerError() {
       return;
     }
 
-    notification.error({ message: COMMON_ERROR_MESSAGE });
+    notification.error({
+      message: normalizedMessage || COMMON_ERROR_MESSAGE
+    });
   }, [notification]);
 
   const handleValidationErrors = useCallback((
@@ -92,31 +88,29 @@ export function useLoadServerError() {
   }, [showErrorMessage]);
 
   const loadServerErrors = useCallback(({ error, form }: LoadServerErrorsArgs) => {
-    if (!error) {
-      return;
-    }
+    if (!error) return;
 
-    const response = resolveErrorResponse(error);
-    const status = response?.status;
-    const errorData = response?.data;
-    const config = (error as any)?.config || (response as any)?.config;
+    const errorData = (error as any)?.response?.data || (error as any)?.data || error;
+    const status = (error as any)?.response?.status || (error as any)?.status || (error as any)?.statusCode;
+    const config = (error as any)?.config || (error as any)?.response?.config;
 
-    if (config?._silent) {
-      return;
-    }
+    if (config?._silent) return;
 
-    if (status === ResponseCode.VALIDATION_ERROR && !!form) {
-      if (isRecord(errorData) && "detail" in errorData) {
-        handleValidationErrors(errorData as ValidationError, form);
+    if (status === ResponseCode.VALIDATION_ERROR && form) {
+      const validationData = isRecord(errorData) ? errorData : {};
+      if ("detail" in validationData) {
+        // @ts-ignore
+        handleValidationErrors(validationData as ValidationError, form as FormInstance);
         return;
       }
     }
 
     const message =
-      (isRecord(errorData) && "message" in errorData
-        ? (errorData.message as string)
+      (isRecord(errorData)
+        ? (isRecord(errorData.error) ? errorData.error.message : errorData.error) || errorData.message
         : undefined) ||
-      (isRecord(error) && "message" in error ? (error.message as string) : "");
+      (error as any)?.message ||
+      "";
 
     showErrorMessage(message);
   }, [handleValidationErrors, showErrorMessage]);

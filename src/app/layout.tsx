@@ -5,6 +5,7 @@ import { getLocale } from "next-intl/server";
 
 import StyledComponentsRegistry from "@/lib/styled-components-registry";
 
+import "@/styles/globals.css";
 import { beVietnamPro, inter, sfPro } from "./fonts";
 
 export const viewport: Viewport = {

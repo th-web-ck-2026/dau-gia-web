@@ -18,25 +18,17 @@ export const useRegisterHooks = () => {
     }
   }, [isAuthenticated, isInitializing, router]);
 
-  const registerMutation = useAppMutation((data: RegisterDto) => register(data), {
-    queryOptions: {
-      onSuccess: () => {
-        notification.success({
-          message: t("registerSuccess"),
-        });
-        router.push("/auth/login");
-      },
+  const { mutate: handleRegister, isPending: isLoading } = useAppMutation(register, {
+    onSuccess: () => {
+      notification.success({
+        message: t("registerSuccess"),
+      });
+      router.push("/auth/login");
     },
   });
 
-
-
-  const handleRegister = (values: RegisterDto) => {
-    registerMutation.mutate(values);
-  };
-
   return {
     handleRegister,
-    isLoading: registerMutation.isPending,
+    isLoading,
   };
 };

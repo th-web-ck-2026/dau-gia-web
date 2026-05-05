@@ -6,11 +6,15 @@ import {
   BaseForm,
   BaseInput,
   BaseButton,
+  InputPassword,
+  BaseDivider
 } from "@/components/common";
 import { AuthLayout } from "../shared/AuthLayout";
 import { useLoginHooks } from "./index.hooks";
 import { useLoginUtils } from "./index.utils";
 import * as S from "./index.styles";
+import BidwarLogo from "@/assets/svg/bidwar-text-brand.svg";
+import GoogleIcon from "@/assets/svg/auth/google-icon";
 
 const LoginPage: React.FC = () => {
   const t = useTranslations("auth");
@@ -19,7 +23,8 @@ const LoginPage: React.FC = () => {
 
   return (
     <AuthLayout>
-      <S.Title level={2}>{t("loginTitle")}</S.Title>
+      <BidwarLogo style={{ marginBottom: "12px" }} />
+      <S.Title level={1}>{t("loginTitle")}</S.Title>
       <S.SubTitle>{t("loginSubTitle")}</S.SubTitle>
 
       <BaseForm layout="vertical" onFinish={handleLogin}>
@@ -36,7 +41,7 @@ const LoginPage: React.FC = () => {
           label={t("passwordLabel")}
           rules={validationRules.password}
         >
-          <BaseInput.Password placeholder={t("passwordPlaceholder")} size="large" />
+          <InputPassword placeholder={t("passwordPlaceholder")} size="large" />
         </BaseForm.Item>
 
         <S.ForgotPasswordWrapper>
@@ -55,6 +60,12 @@ const LoginPage: React.FC = () => {
           </BaseButton>
         </BaseForm.Item>
       </BaseForm>
+
+      <BaseDivider>{t("or")}</BaseDivider>
+
+      <BaseButton icon={<GoogleIcon />}>
+        {t("googleLogin")}
+      </BaseButton>
 
       <S.FooterText>
         {t("noAccount")}{" "}
