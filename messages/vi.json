@@ -57,7 +57,9 @@
     "loginNow": "Đăng nhập ngay",
     "loginSuccess": "Đăng nhập thành công!",
     "registerSuccess": "Đăng ký thành công! Vui lòng đăng nhập.",
-    "phoneInvalid": "Số điện thoại không hợp lệ (10 số)"
+    "phoneInvalid": "Số điện thoại không hợp lệ (10 số)",
+    "or": "HOẶC",
+    "googleLogin": "Đăng nhập với Google"
   },
   "validation": {
     "required": "Vui lòng nhập {field}",

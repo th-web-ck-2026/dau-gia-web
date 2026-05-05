@@ -57,7 +57,9 @@
     "loginNow": "Login now",
     "loginSuccess": "Login successful!",
     "registerSuccess": "Register successful! Please login.",
-    "phoneInvalid": "Invalid phone number (10 digits)"
+    "phoneInvalid": "Invalid phone number (10 digits)",
+    "or": "OR",
+    "googleLogin": "Login with Google"
   },
   "validation": {
     "required": "Please enter {field}",

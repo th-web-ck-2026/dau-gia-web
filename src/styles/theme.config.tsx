@@ -137,7 +137,8 @@ export const getThemeConfig = (theme: DefaultTheme): ThemeConfig => {
       },
       Form: {
         marginLG: 16,
-        colorInfoBorderHover: theme.primary5,
+        colorInfoBorderHover: theme.textBrand,
+        labelColor: theme.textMain,
       },
       Checkbox: {
         borderRadiusSM: remToPixels(theme.borderRadius.xxxs),

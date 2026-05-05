@@ -14,7 +14,7 @@ export type BaseFormItemProps = FormItemProps;
 
 export const BaseFormItem = styled(
   Form.Item as React.FC<FormItemProps>
-)<InternalFormItemProps>`
+) <InternalFormItemProps>`
   margin-bottom: 0.75rem;
 
   :disabled {
@@ -35,7 +35,7 @@ export const BaseFormItem = styled(
 
   .ant-input:focus {
     box-shadow: ${({ theme }) => theme.boxShadow};
-    border-color: ${({ theme }) => theme.primary5};
+    border-color: ${({ theme }) => theme.primary};
   }
 
   .ant-input:disabled {
@@ -53,7 +53,7 @@ export const BaseFormItem = styled(
   }
 
   .ant-form-item-label > label {
-    color: ${({ theme }) => theme.textTertiary};
+    color: ${({ theme }) => theme.textMain};
     font-size: ${({ theme }) => theme.fontSizes.xs};
     font-weight: ${({ theme }) => theme.fontWeights.medium};
     line-height: 1.25rem;

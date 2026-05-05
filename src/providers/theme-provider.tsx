@@ -8,7 +8,7 @@ import { ConfigProvider, App as FeedbackProvider, Spin } from "antd";
 import { DefaultTheme, ThemeProvider } from "styled-components";
 
 import { getThemeConfig } from "@/styles/theme.config";
-import GlobalStyle from "@/styles/theme.global";
+import { getGlobalStyles } from "@/styles/theme.global";
 import { themeObject } from "@/styles/themes/theme-variables";
 
 const loadingStyles: React.CSSProperties = {
@@ -44,7 +44,7 @@ export const AppThemeProvider = (props: PropsWithChildren) => {
 
   return (
     <ThemeProvider theme={currentTheme as DefaultTheme}>
-      <GlobalStyle />
+      <style>{getGlobalStyles(currentTheme as DefaultTheme)}</style>
       <ConfigProvider theme={themeConfig}>
         <FeedbackProvider>{props.children}</FeedbackProvider>
       </ConfigProvider>

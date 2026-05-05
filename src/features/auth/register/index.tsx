@@ -7,6 +7,7 @@ import {
   BaseForm,
   BaseInput,
   BaseButton,
+  InputPassword
 } from "@/components/common";
 import { AuthLayout } from "../shared/AuthLayout";
 import { useRegisterHooks } from "./index.hooks";
@@ -19,7 +20,7 @@ const RegisterPage: React.FC = () => {
   const { validationRules } = useRegisterUtils();
 
   return (
-    <AuthLayout>
+    <AuthLayout reversed>
       <S.Title level={2}>{t("registerTitle")}</S.Title>
       <S.SubTitle>{t("registerSubTitle")}</S.SubTitle>
 
@@ -53,7 +54,7 @@ const RegisterPage: React.FC = () => {
           label={t("passwordLabel")}
           rules={validationRules.password}
         >
-          <BaseInput.Password placeholder={t("passwordPlaceholder")} size="large" />
+          <InputPassword placeholder={t("passwordPlaceholder")} size="large" />
         </BaseForm.Item>
 
         <BaseForm.Item>
