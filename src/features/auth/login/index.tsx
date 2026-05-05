@@ -18,7 +18,7 @@ import GoogleIcon from "@/assets/svg/auth/google-icon";
 
 const LoginPage: React.FC = () => {
   const t = useTranslations("auth");
-  const { form, handleLogin, isLoading } = useLoginHooks();
+  const { form, handleLogin, handleGoogleLogin, isLoading } = useLoginHooks();
   const { validationRules, initialValues } = useLoginUtils();
 
   return (
@@ -70,7 +70,14 @@ const LoginPage: React.FC = () => {
 
       <BaseDivider>{t("or")}</BaseDivider>
 
-      <BaseButton icon={<GoogleIcon />}>
+      <BaseButton
+        icon={<GoogleIcon />}
+        block
+        size="large"
+        variant="outlined"
+        onClick={() => handleGoogleLogin()}
+        loading={isLoading}
+      >
         {t("googleLogin")}
       </BaseButton>
 

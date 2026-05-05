@@ -53,6 +53,8 @@ export enum LOCALE {
   VI = "vi",
 }
 
+export const PHONE_NUMBER_VI_PATTERN = /^(?:\+84|0)[35789]\d{8}$/;
+
 export const PASSWORD_PATTERN =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/;
 
