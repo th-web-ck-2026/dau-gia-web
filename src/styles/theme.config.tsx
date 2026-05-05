@@ -430,6 +430,14 @@ export const getThemeConfig = (theme: DefaultTheme): ThemeConfig => {
         colorBgSpotlight: theme.textTertiary,
         fontSize: remToPixels(theme.fontSizes.xxs),
       },
+      Segmented: {
+        itemSelectedBg: theme.textBrand,
+        itemColor: theme.black,
+        itemSelectedColor: theme.white,
+        trackBg: theme.primary1,
+        itemHoverBg: theme.primary2,
+        itemActiveBg: theme.primary3,
+      }
     },
   };
 };

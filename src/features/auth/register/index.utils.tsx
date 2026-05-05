@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 import { Rule } from "antd/es/form";
+import { RegisterDto } from "@/interfaces/auth";
 
 export const useRegisterUtils = () => {
   const t = useTranslations("auth");
@@ -23,8 +24,16 @@ export const useRegisterUtils = () => {
     ],
   };
 
+  const initialValues: RegisterDto = {
+    email: "",
+    password: "",
+    fullname: "",
+    phone: "",
+  };
+
 
   return {
     validationRules,
+    initialValues,
   };
 };

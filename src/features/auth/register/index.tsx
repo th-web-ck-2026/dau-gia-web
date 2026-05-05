@@ -16,15 +16,20 @@ import * as S from "./index.styles";
 
 const RegisterPage: React.FC = () => {
   const t = useTranslations("auth");
-  const { handleRegister, isLoading } = useRegisterHooks();
-  const { validationRules } = useRegisterUtils();
+  const { form, handleRegister, isLoading } = useRegisterHooks();
+  const { validationRules, initialValues } = useRegisterUtils();
 
   return (
     <AuthLayout reversed>
       <S.Title level={2}>{t("registerTitle")}</S.Title>
       <S.SubTitle>{t("registerSubTitle")}</S.SubTitle>
 
-      <BaseForm layout="vertical" onFinish={handleRegister}>
+      <BaseForm
+        form={form}
+        layout="vertical"
+        onFinish={handleRegister}
+        initialValues={initialValues}
+      >
         <BaseForm.Item
           name="fullname"
           label={t("fullnameLabel")}
