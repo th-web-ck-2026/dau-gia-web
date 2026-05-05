@@ -1,4 +1,5 @@
 import { login } from "@/api/auth";
+import { useGoogleLogin } from "@react-oauth/google";
 import { AuthProvider } from "@/constants";
 import { useAppMutation, useAuth } from "@/hooks/common";
 import { LoginDto } from "@/interfaces/auth";
@@ -37,9 +38,36 @@ export const useLoginHooks = () => {
     }
   );
 
+  const { mutate: loginWithGoogle, isPending: isGoogleLoading } = useAppMutation(
+    (data: { idToken: string }) => login(data, AuthProvider.GOOGLE),
+    {
+      onSuccess: async () => {
+        notification.success({
+          message: t("loginSuccess"),
+        });
+        await refreshUser();
+        router.push("/");
+      },
+    }
+  );
+
+  const handleGoogleLogin = useGoogleLogin({
+    onSuccess: (tokenResponse) => {
+      if (tokenResponse.access_token) {
+        loginWithGoogle({ idToken: tokenResponse.access_token } as any);
+      }
+    },
+    onError: () => {
+      notification.error({
+        message: t("loginError"),
+      });
+    },
+  });
+
   return {
     form,
     handleLogin,
-    isLoading,
+    handleGoogleLogin,
+    isLoading: isLoading || isGoogleLoading,
   };
 };
