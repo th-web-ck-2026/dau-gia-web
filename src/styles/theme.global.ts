@@ -6,7 +6,9 @@ export const getGlobalStyles = (theme: DefaultTheme) => `
   ${resetCss}
 
   :root {
-    color-scheme: light dark;
+    // Tạm thời chưa dùng dark mode, có thể bật lại khi cần thiết
+    // color-scheme: light dark;
+    color-scheme: light;
   }
 
   html,
@@ -84,15 +86,15 @@ export const getGlobalStyles = (theme: DefaultTheme) => `
 
   .ant-notification {
     ${(["info", "success", "warning", "error"] as const)
-      .map(
-        (notification) => `
+    .map(
+      (notification) => `
           .ant-notification-notice-${notification} {
             border: 1px solid ${theme[colorTypeFrom(notification)]};
             background: ${theme.notification[colorTypeFrom(notification)]};
           }
         `
-      )
-      .join("")}
+    )
+    .join("")}
 
     @media (max-width: ${theme.breakpoints.sm}px) {
       .ant-notification-notice {

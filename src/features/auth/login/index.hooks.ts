@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useFeedback } from "@/hooks/common";
 import { cookies } from "@/utils/cookie";
+import { BaseForm } from "@/components/common";
 import { useEffect } from "react";
 
 export const useLoginHooks = () => {
@@ -13,6 +14,7 @@ export const useLoginHooks = () => {
   const t = useTranslations("auth");
   const { notification } = useFeedback();
   const { refreshUser, isAuthenticated, isInitializing } = useAuth();
+  const [form] = BaseForm.useForm();
 
   useEffect(() => {
     if (!isInitializing && isAuthenticated) {
@@ -23,6 +25,7 @@ export const useLoginHooks = () => {
   const { mutate: handleLogin, isPending: isLoading } = useAppMutation(
     (data: LoginDto) => login(data, AuthProvider.EMAIL),
     {
+      form,
       onSuccess: async () => {
         notification.success({
           message: t("loginSuccess"),
@@ -35,6 +38,7 @@ export const useLoginHooks = () => {
   );
 
   return {
+    form,
     handleLogin,
     isLoading,
   };

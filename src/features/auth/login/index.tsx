@@ -18,8 +18,8 @@ import GoogleIcon from "@/assets/svg/auth/google-icon";
 
 const LoginPage: React.FC = () => {
   const t = useTranslations("auth");
-  const { handleLogin, isLoading } = useLoginHooks();
-  const { validationRules } = useLoginUtils();
+  const { form, handleLogin, isLoading } = useLoginHooks();
+  const { validationRules, initialValues } = useLoginUtils();
 
   return (
     <AuthLayout>
@@ -27,11 +27,17 @@ const LoginPage: React.FC = () => {
       <S.Title level={1}>{t("loginTitle")}</S.Title>
       <S.SubTitle>{t("loginSubTitle")}</S.SubTitle>
 
-      <BaseForm layout="vertical" onFinish={handleLogin}>
+      <BaseForm
+        form={form}
+        layout="vertical"
+        onFinish={handleLogin}
+        initialValues={initialValues}
+      >
         <BaseForm.Item
           name="email"
           label={t("emailLabel")}
           rules={validationRules.email}
+          normalize={(value) => value?.trim()}
         >
           <BaseInput placeholder={t("emailPlaceholder")} size="large" />
         </BaseForm.Item>
@@ -40,6 +46,7 @@ const LoginPage: React.FC = () => {
           name="password"
           label={t("passwordLabel")}
           rules={validationRules.password}
+          normalize={(value) => value?.trim()}
         >
           <InputPassword placeholder={t("passwordPlaceholder")} size="large" />
         </BaseForm.Item>
