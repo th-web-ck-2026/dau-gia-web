@@ -20,6 +20,7 @@ export const useDemo = () => {
   const [activeTab, setActiveTab] = useState("1");
   const [inputValue, setInputValue] = useState("");
   const [selectValue, setSelectValue] = useState<string>("option1");
+  const [segmentedValue, setSegmentedValue] = useState<string | number>("Daily");
   const [dateValue, setDateValue] = useState<unknown>(null);
 
   const handleShowNotification = (
@@ -74,6 +75,8 @@ export const useDemo = () => {
     setSelectValue,
     dateValue,
     setDateValue,
+    segmentedValue,
+    setSegmentedValue,
     handleShowNotification,
     handleShowMessage,
     handleConfirmModal,
