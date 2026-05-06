@@ -53,6 +53,8 @@ export enum LOCALE {
   VI = "vi",
 }
 
+export const IDENTITY_CARD_NO_PATTERN = /^\d{9,12}$/;
+
 export const PHONE_NUMBER_VI_PATTERN = /^(?:\+84|0)[35789]\d{8}$/;
 
 export const PASSWORD_PATTERN =
@@ -86,4 +88,9 @@ export enum Role {
 export enum AuthProvider {
   EMAIL = "email",
   GOOGLE = "google",
+}
+
+export enum UserRoleType {
+  TO_CHUC = 'TO_CHUC',
+  CA_NHAN = 'CA_NHAN'
 }

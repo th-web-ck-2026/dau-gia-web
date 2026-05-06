@@ -3,77 +3,45 @@ import React from "react";
 
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
-import {
-  BaseForm,
-  BaseInput,
-  BaseButton,
-  InputPassword
-} from "@/components/common";
 import { AuthLayout } from "../shared/AuthLayout";
+import * as S from "./index.styles";
+import BidwarLogo from "@/assets/svg/bidwar-text-brand.svg";
+import FormRegister from "./form";
 import { useRegisterHooks } from "./index.hooks";
 import { useRegisterUtils } from "./index.utils";
-import * as S from "./index.styles";
+import { BaseSegmented } from "@/components/common";
+import { UserRoleType } from "@/constants";
 
 const RegisterPage: React.FC = () => {
   const t = useTranslations("auth");
   const { form, handleRegister, isLoading } = useRegisterHooks();
-  const { validationRules, initialValues } = useRegisterUtils();
-
+  const { validationRules, initialValues, optionsSegmented, userType, setUserType } = useRegisterUtils();
   return (
     <AuthLayout reversed>
-      <S.Title level={2}>{t("registerTitle")}</S.Title>
+      <BidwarLogo style={{ marginBottom: "12px" }} />
+      <S.Title level={1}>{t("registerTitle")}</S.Title>
       <S.SubTitle>{t("registerSubTitle")}</S.SubTitle>
 
-      <BaseForm
+      <BaseSegmented
+        block
+        size="large"
+        value={userType}
+        onChange={(value) => {
+          const type = value as UserRoleType;
+          setUserType(type);
+          form.setFieldValue("userRoles", type);
+        }}
+        options={optionsSegmented}
+      />
+
+      <FormRegister
+        type={userType}
         form={form}
-        layout="vertical"
         onFinish={handleRegister}
+        validationRules={validationRules}
         initialValues={initialValues}
-      >
-        <BaseForm.Item
-          name="fullname"
-          label={t("fullnameLabel")}
-          rules={validationRules.fullname}
-        >
-          <BaseInput placeholder={t("fullnamePlaceholder")} size="large" />
-        </BaseForm.Item>
-
-        <BaseForm.Item
-          name="email"
-          label={t("emailLabel")}
-          rules={validationRules.email}
-        >
-          <BaseInput placeholder={t("emailPlaceholder")} size="large" />
-        </BaseForm.Item>
-
-        <BaseForm.Item
-          name="phone"
-          label={t("phoneLabel")}
-          rules={validationRules.phone}
-        >
-          <BaseInput placeholder={t("phonePlaceholder")} size="large" />
-        </BaseForm.Item>
-
-        <BaseForm.Item
-          name="password"
-          label={t("passwordLabel")}
-          rules={validationRules.password}
-        >
-          <InputPassword placeholder={t("passwordPlaceholder")} size="large" />
-        </BaseForm.Item>
-
-        <BaseForm.Item>
-          <BaseButton
-            type="primary"
-            htmlType="submit"
-            size="large"
-            block
-            loading={isLoading}
-          >
-            {t("registerButton")}
-          </BaseButton>
-        </BaseForm.Item>
-      </BaseForm>
+        isLoading={isLoading}
+      />
 
       <S.FooterText>
         {t("alreadyHaveAccount")}{" "}

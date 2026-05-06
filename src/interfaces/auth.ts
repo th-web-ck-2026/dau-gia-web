@@ -1,4 +1,4 @@
-import { Role } from "@/constants";
+import { Role, UserRoleType } from "@/constants";
 
 export interface User {
   _id: string;
@@ -18,6 +18,7 @@ export interface User {
   soCccd?: string | null;
   ngayCapCccd?: string | null;
   noiCapCccd?: string | null;
+  userRoles?: UserRoleType
 }
 
 
@@ -38,12 +39,24 @@ export interface GoogleLoginDto {
   idToken: string;
 }
 
-export interface RegisterDto {
+export interface BaseRegisterDto {
   email: string;
   password: string;
   fullname: string;
   phone: string;
+  userRoles: UserRoleType;
 }
+
+export interface IndividualRegisterDto extends BaseRegisterDto {
+  soCccd: string;
+}
+
+export interface OrganizationRegisterDto extends BaseRegisterDto {
+  // Add organization specific fields here later (e.g. taxCode)
+  soCccd: string; 
+}
+
+export type RegisterDto = IndividualRegisterDto | OrganizationRegisterDto;
 
 export interface ForgotPasswordDto {
   email: string;

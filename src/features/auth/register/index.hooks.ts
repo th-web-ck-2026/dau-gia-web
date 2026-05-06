@@ -3,7 +3,8 @@ import { BaseForm } from "@/components/common";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useFeedback, useAuth, useAppMutation } from "@/hooks/common";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { UserRoleType } from "@/constants";
 
 export const useRegisterHooks = () => {
   const router = useRouter();
@@ -18,7 +19,7 @@ export const useRegisterHooks = () => {
     }
   }, [isAuthenticated, isInitializing, router]);
 
-  const { mutate: handleRegister, isPending: isLoading } = useAppMutation(register, {
+  const { mutate, isPending: isLoading } = useAppMutation(register, {
     form,
     onSuccess: () => {
       notification.success({
@@ -27,6 +28,12 @@ export const useRegisterHooks = () => {
       router.push("/auth/login");
     },
   });
+
+  const handleRegister = (values: any) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { confirmPassword, agreement, ...submitData } = values;
+    mutate(submitData);
+  };
 
   return {
     form,
