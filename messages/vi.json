@@ -59,13 +59,27 @@
     "registerSuccess": "Đăng ký thành công! Vui lòng đăng nhập.",
     "phoneInvalid": "Số điện thoại không hợp lệ (10 số)",
     "or": "HOẶC",
-    "googleLogin": "Đăng nhập với Google"
+    "googleLogin": "Đăng nhập với Google",
+    "individual": "Cá nhân",
+    "organization": "Tổ chức",
+    "soCccdLabel": "Số CMT/CCCD",
+    "soCccdLabel2": "Số CMT/CCCD người đại diện",
+    "soCccdPlaceholder": "vd: 123456789012",
+    "confirmPasswordLabel": "Xác nhận mật khẩu",
+    "confirmPasswordPlaceholder": "***********",
+    "agreementText": "Tôi đồng ý với Điều khoản sử dụng và Chính sách bảo mật của Đấu giá",
+    "passwordSubText": "Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường và số",
+    "inputInfoPlaceholder": "Nhập thông tin"
   },
   "validation": {
     "required": "Vui lòng nhập {field}",
     "emailInvalid": "Email không hợp lệ",
     "passwordMinLength": "Mật khẩu phải có ít nhất {min} ký tự",
-    "phoneInvalid": "Số điện thoại không hợp lệ (10 số)"
+    "passwordInvalid": "Mật khẩu phải chứa ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt",
+    "phoneInvalid": "Số điện thoại không hợp lệ (10 số, bắt đầu bằng 0 hoặc +84)",
+    "passwordMismatch": "Mật khẩu xác nhận không khớp",
+    "identityCardNoInvalid": "Số CMT/CCCD không hợp lệ (9 hoặc 12 số)",
+    "agreementRequired": "Bạn phải đồng ý với các điều khoản"
   }
 }
 

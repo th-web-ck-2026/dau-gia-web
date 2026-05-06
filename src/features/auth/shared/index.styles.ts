@@ -36,7 +36,7 @@ export const FormSection = styled(BaseCol)`
 
 export const FormWrapper = styled(BaseFlex)`
   width: 100%;
-  max-width: 440px;
+  max-width: 550px;
   flex-direction: column;
 `;
 
