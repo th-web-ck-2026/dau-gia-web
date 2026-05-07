@@ -9,7 +9,7 @@ export const AuthLayoutContainer = styled(BaseRow) <{ $reversed?: boolean }>`
 `;
 
 export const BannerSection = styled(BaseCol)`
-  background-color: #0089ED;
+  background-color: ${({ theme }) => theme.backgroundBrand};
   position: relative;
   overflow: hidden;
 `;
@@ -32,6 +32,13 @@ export const FormSection = styled(BaseCol)`
   justify-content: center;
   min-height: 100vh;
   padding: 24px;
+  position: relative;
+`;
+
+export const LanguageWrapper = styled.div<{ $reversed?: boolean }>`
+  position: absolute;
+  top: 24px;
+  ${({ $reversed }) => ($reversed ? "left: 24px;" : "right: 24px;")}
 `;
 
 export const FormWrapper = styled(BaseFlex)`

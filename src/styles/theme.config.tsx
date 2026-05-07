@@ -264,7 +264,7 @@ export const getThemeConfig = (theme: DefaultTheme): ThemeConfig => {
         horizontalItemGutter: remToPixels(theme.paddings.xs),
       },
       Dropdown: {
-        paddingXXS: 0,
+        paddingXXS: 1,
         fontSizeIcon: 10,
         controlHeight: 34,
       },

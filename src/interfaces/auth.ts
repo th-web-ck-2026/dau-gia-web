@@ -36,7 +36,7 @@ export interface LoginDto {
 }
 
 export interface GoogleLoginDto {
-  idToken: string;
+  code: string;
 }
 
 export interface BaseRegisterDto {
@@ -53,7 +53,7 @@ export interface IndividualRegisterDto extends BaseRegisterDto {
 
 export interface OrganizationRegisterDto extends BaseRegisterDto {
   // Add organization specific fields here later (e.g. taxCode)
-  soCccd: string; 
+  soCccd: string;
 }
 
 export type RegisterDto = IndividualRegisterDto | OrganizationRegisterDto;
