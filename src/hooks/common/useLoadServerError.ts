@@ -18,26 +18,6 @@ const COMMON_ERROR_MESSAGE = "Có lỗi xảy ra. Vui lòng thử lại sau.";
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === "object" && value !== null;
 
-const isApiErrorResponse = (value: unknown): value is ApiErrorData => {
-  if (!isRecord(value)) return false;
-  return "status" in value && "data" in value;
-};
-
-const resolveErrorResponse = (
-  error: ApiError | ApiErrorData | unknown
-): ApiErrorData | null => {
-  if (!error) return null;
-  if (isApiErrorResponse(error)) {
-    return error;
-  }
-  if (isRecord(error) && "response" in error) {
-    const response = (error as { response?: unknown }).response;
-    if (isApiErrorResponse(response)) {
-      return response;
-    }
-  }
-  return null;
-};
 
 export function useLoadServerError() {
   const { notification } = useFeedback();
@@ -99,7 +79,7 @@ export function useLoadServerError() {
     if (status === ResponseCode.VALIDATION_ERROR && form) {
       const validationData = isRecord(errorData) ? errorData : {};
       if ("detail" in validationData) {
-        // @ts-ignore
+        // @ts-expect-error: validationData is casted to ValidationError but structure might vary
         handleValidationErrors(validationData as ValidationError, form as FormInstance);
         return;
       }
