@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "analyze": "npx gitnexus analyze",
-    "dev": "PORT=3333 next dev",
+    "dev": "next dev -p 3333",
     "build": "pnpm lint:check && next build",
     "start": "next start",
     "lint": "eslint",

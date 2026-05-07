@@ -39,7 +39,7 @@ export const useLoginHooks = () => {
   );
 
   const { mutate: loginWithGoogle, isPending: isGoogleLoading } = useAppMutation(
-    (data: { idToken: string }) => login(data, AuthProvider.GOOGLE),
+    (data: { code: string }) => login(data, AuthProvider.GOOGLE),
     {
       onSuccess: async () => {
         notification.success({
@@ -52,9 +52,10 @@ export const useLoginHooks = () => {
   );
 
   const handleGoogleLogin = useGoogleLogin({
-    onSuccess: (tokenResponse) => {
-      if (tokenResponse.access_token) {
-        loginWithGoogle({ idToken: tokenResponse.access_token } as any);
+    flow: "auth-code",
+    onSuccess: (response) => {
+      if (response.code) {
+        loginWithGoogle({ code: response.code });
       }
     },
     onError: () => {

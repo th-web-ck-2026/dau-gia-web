@@ -53,6 +53,11 @@ export enum LOCALE {
   VI = "vi",
 }
 
+export const LANGUAGE_OPTIONS = [
+  { value: LOCALE.EN, label: "ENG" },
+  { value: LOCALE.VI, label: "VIE" },
+] as const;
+
 export const IDENTITY_CARD_NO_PATTERN = /^\d{9,12}$/;
 
 export const PHONE_NUMBER_VI_PATTERN = /^(?:\+84|0)[35789]\d{8}$/;
