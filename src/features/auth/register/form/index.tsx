@@ -2,7 +2,6 @@ import React from "react";
 import { useTranslations } from "next-intl";
 import {
     BaseForm,
-    BaseInput,
     BaseButton,
     BaseCheckbox,
 } from "@/components/common";

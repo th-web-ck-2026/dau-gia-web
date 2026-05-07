@@ -31,7 +31,7 @@ export function useAppMutation<
     ...mutationOptions,
     mutationFn,
     onError: (error, variables, context) => {
-      // @ts-ignore: TanStack Query v5 generic inference limitation when wrapping useMutation
+      // @ts-expect-error: TanStack Query v5 generic inference limitation when wrapping useMutation
       onError?.(error, variables, context);
       loadServerErrors({
         error: error as unknown as Error,

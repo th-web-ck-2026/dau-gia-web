@@ -23,7 +23,7 @@ const LanguageAction = () => {
 
     const handleMenuClick = ({ key }: { key: string }) => {
         startTransition(() => {
-            router.replace(pathname, { locale: key as any, scroll: false });
+            router.replace(pathname, { locale: key, scroll: false });
         });
     };
 
