@@ -137,7 +137,8 @@ export const getThemeConfig = (theme: DefaultTheme): ThemeConfig => {
       },
       Form: {
         marginLG: 16,
-        colorInfoBorderHover: theme.primary5,
+        colorInfoBorderHover: theme.textBrand,
+        labelColor: theme.textMain,
       },
       Checkbox: {
         borderRadiusSM: remToPixels(theme.borderRadius.xxxs),
@@ -263,7 +264,7 @@ export const getThemeConfig = (theme: DefaultTheme): ThemeConfig => {
         horizontalItemGutter: remToPixels(theme.paddings.xs),
       },
       Dropdown: {
-        paddingXXS: 0,
+        paddingXXS: 1,
         fontSizeIcon: 10,
         controlHeight: 34,
       },
@@ -429,6 +430,14 @@ export const getThemeConfig = (theme: DefaultTheme): ThemeConfig => {
         colorBgSpotlight: theme.textTertiary,
         fontSize: remToPixels(theme.fontSizes.xxs),
       },
+      Segmented: {
+        itemSelectedBg: theme.textBrand,
+        itemColor: theme.black,
+        itemSelectedColor: theme.white,
+        trackBg: theme.primary1,
+        itemHoverBg: theme.primary2,
+        itemActiveBg: theme.primary3,
+      }
     },
   };
 };

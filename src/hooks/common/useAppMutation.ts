@@ -9,18 +9,10 @@ import { FormInstance } from "antd";
 
 import { useLoadServerError } from "./useLoadServerError";
 
-export interface AppMutationOptions {
+export interface UseAppMutationOptions<TData, TError, TVariables, TContext>
+  extends UseMutationOptions<TData, TError, TVariables, TContext> {
   form?: FormInstance;
 }
-
-export interface UseAppMutationProps<TData, TError, TVariables, TContext> {
-  useAppMutationProps?: AppMutationOptions;
-  queryOptions?: UseMutationOptions<TData, TError, TVariables, TContext>;
-}
-
-type MutationOnError<TData, TError, TVariables, TContext> = NonNullable<
-  UseMutationOptions<TData, TError, TVariables, TContext>["onError"]
->;
 
 export function useAppMutation<
   TData = unknown,
@@ -29,31 +21,51 @@ export function useAppMutation<
   TContext = unknown,
 >(
   mutationFn: MutationFunction<TData, TVariables>,
-  props?: UseAppMutationProps<TData, TError, TVariables, TContext>
+  options?: UseAppMutationOptions<TData, TError, TVariables, TContext>
 ): UseMutationResult<TData, TError, TVariables, TContext> {
   const { loadServerErrors } = useLoadServerError();
-  const handleError: MutationOnError<TData, TError, TVariables, TContext> = (
-    ...args
-  ) => {
-    const [error] = args;
-    props?.queryOptions?.onError?.(...args);
-    loadServerErrors({
-      error,
-      ...props?.useAppMutationProps,
-    });
-  };
 
-  const mutation = useMutation({
-    ...props?.queryOptions,
+  const { form, onError, ...mutationOptions } = options || {};
+
+  const mutation = useMutation<TData, TError, TVariables, TContext>({
+    ...mutationOptions,
     mutationFn,
-    onError: handleError,
+    onError: (error, variables, context) => {
+      // @ts-expect-error: TanStack Query v5 generic inference limitation when wrapping useMutation
+      onError?.(error, variables, context);
+      loadServerErrors({
+        error: error as unknown as Error,
+        form,
+      });
+    },
   });
 
-  const safeMutate = (...args: Parameters<typeof mutation.mutate>) => {
+  const safeMutate: UseMutationResult<
+    TData,
+    TError,
+    TVariables,
+    TContext
+  >["mutate"] = (variables, mutateOptions) => {
     if (!mutation.isPending) {
-      return mutation.mutate(...args);
+      mutation.mutate(variables, mutateOptions);
     }
   };
 
-  return { ...mutation, mutate: safeMutate };
+  const safeMutateAsync: UseMutationResult<
+    TData,
+    TError,
+    TVariables,
+    TContext
+  >["mutateAsync"] = (variables, mutateOptions) => {
+    if (!mutation.isPending) {
+      return mutation.mutateAsync(variables, mutateOptions);
+    }
+    return Promise.resolve() as any;
+  };
+
+  return {
+    ...mutation,
+    mutate: safeMutate,
+    mutateAsync: safeMutateAsync,
+  } as UseMutationResult<TData, TError, TVariables, TContext>;
 }

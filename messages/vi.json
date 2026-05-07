@@ -34,5 +34,53 @@
     "title": "404 - Không tìm thấy trang",
     "subTitle": "Xin lỗi, trang bạn đang tìm kiếm không tồn tại hoặc đã bị di chuyển.",
     "backHome": "Quay lại trang chủ"
+  },
+  "auth": {
+    "loginTitle": "Đăng nhập",
+    "loginSubTitle": "Chào mừng bạn quay trở lại với BIDWAR",
+    "emailLabel": "Email",
+    "emailPlaceholder": "Nhập email của bạn",
+    "passwordLabel": "Mật khẩu",
+    "passwordPlaceholder": "Nhập mật khẩu",
+    "forgotPassword": "Quên mật khẩu?",
+    "loginButton": "Đăng nhập",
+    "noAccount": "Chưa có tài khoản?",
+    "registerNow": "Đăng ký ngay",
+    "registerTitle": "Đăng ký tài khoản",
+    "registerSubTitle": "Tham gia đấu giá cùng BIDWAR",
+    "fullnameLabel": "Họ và tên",
+    "fullnamePlaceholder": "Nhập họ và tên",
+    "phoneLabel": "Số điện thoại",
+    "phonePlaceholder": "Nhập số điện thoại",
+    "registerButton": "Đăng ký",
+    "alreadyHaveAccount": "Đã có tài khoản?",
+    "loginNow": "Đăng nhập ngay",
+    "loginSuccess": "Đăng nhập thành công!",
+    "registerSuccess": "Đăng ký thành công! Vui lòng đăng nhập.",
+    "phoneInvalid": "Số điện thoại không hợp lệ (10 số)",
+    "or": "HOẶC",
+    "googleLogin": "Đăng nhập với Google",
+    "individual": "Cá nhân",
+    "organization": "Tổ chức",
+    "soCccdLabel": "Số CMT/CCCD",
+    "soCccdLabel2": "Số CMT/CCCD người đại diện",
+    "soCccdPlaceholder": "vd: 123456789012",
+    "confirmPasswordLabel": "Xác nhận mật khẩu",
+    "confirmPasswordPlaceholder": "***********",
+    "agreementText": "Tôi đồng ý với Điều khoản sử dụng và Chính sách bảo mật của Đấu giá",
+    "passwordSubText": "Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường và số",
+    "inputInfoPlaceholder": "Nhập thông tin"
+  },
+  "validation": {
+    "required": "Vui lòng nhập {field}",
+    "emailInvalid": "Email không hợp lệ",
+    "passwordMinLength": "Mật khẩu phải có ít nhất {min} ký tự",
+    "passwordInvalid": "Mật khẩu phải chứa ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt",
+    "phoneInvalid": "Số điện thoại không hợp lệ (10 số, bắt đầu bằng 0 hoặc +84)",
+    "passwordMismatch": "Mật khẩu xác nhận không khớp",
+    "identityCardNoInvalid": "Số CMT/CCCD không hợp lệ (9 hoặc 12 số)",
+    "agreementRequired": "Bạn phải đồng ý với các điều khoản"
   }
 }
+
+

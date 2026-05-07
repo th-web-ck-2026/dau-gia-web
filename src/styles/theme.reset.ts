@@ -1,10 +1,14 @@
-"use client";
-
-import { css } from "styled-components";
-
-export const resetCss = css`
-  * {
+export const resetCss = `
+  *, *::before, *::after {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    list-style: none;
+  }
+
+  html,
+  body {
     margin: 0;
     padding: 0;
   }
@@ -15,15 +19,6 @@ export const resetCss = css`
 
   ::-webkit-scrollbar-track {
     background-color: transparent;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background-color: ${({ theme }) => theme.primary};
-    border-radius: 1.25rem;
-  }
-
-  body {
-    font-weight: ${({ theme }) => theme.fontWeights.medium};
   }
 
   img {

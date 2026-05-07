@@ -34,5 +34,53 @@
     "title": "404 - Page Not Found",
     "subTitle": "Sorry, the page you are looking for does not exist or has been moved.",
     "backHome": "Back to Home"
+  },
+  "auth": {
+    "loginTitle": "Login",
+    "loginSubTitle": "Welcome back to BIDWAR",
+    "emailLabel": "Email",
+    "emailPlaceholder": "Enter your email",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "forgotPassword": "Forgot password?",
+    "loginButton": "Login",
+    "noAccount": "Don't have an account?",
+    "registerNow": "Register now",
+    "registerTitle": "Register Account",
+    "registerSubTitle": "Join auctions with BIDWAR",
+    "fullnameLabel": "Full Name",
+    "fullnamePlaceholder": "Enter your full name",
+    "phoneLabel": "Phone Number",
+    "phonePlaceholder": "Enter your phone number",
+    "registerButton": "Register",
+    "alreadyHaveAccount": "Already have an account?",
+    "loginNow": "Login now",
+    "loginSuccess": "Login successful!",
+    "registerSuccess": "Register successful! Please login.",
+    "phoneInvalid": "Invalid phone number (10 digits)",
+    "or": "OR",
+    "googleLogin": "Login with Google",
+    "individual": "Individual",
+    "organization": "Organization",
+    "soCccdLabel": "Identity Card No.",
+    "soCccdLabel2": "Representative ID No.",
+    "soCccdPlaceholder": "ex: 123456789012",
+    "confirmPasswordLabel": "Confirm Password",
+    "confirmPasswordPlaceholder": "Re-enter password",
+    "agreementText": "I agree with the Terms of Service and Privacy Policy of Auction",
+    "passwordSubText": "Password must be at least 8 characters, including uppercase, lowercase and numbers",
+    "inputInfoPlaceholder": "Enter information"
+  },
+  "validation": {
+    "required": "Please enter {field}",
+    "emailInvalid": "Invalid email",
+    "passwordMinLength": "Password must be at least {min} characters",
+    "passwordInvalid": "Password must contain at least 8 characters, including uppercase, lowercase, numbers, and special characters",
+    "phoneInvalid": "Invalid phone number (10 digits, starting with 0 or +84)",
+    "passwordMismatch": "Passwords do not match",
+    "identityCardNoInvalid": "Invalid identity card number (9 or 12 digits)",
+    "agreementRequired": "You must agree to the terms"
   }
 }
+
+

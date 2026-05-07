@@ -53,6 +53,15 @@ export enum LOCALE {
   VI = "vi",
 }
 
+export const LANGUAGE_OPTIONS = [
+  { value: LOCALE.EN, label: "ENG" },
+  { value: LOCALE.VI, label: "VIE" },
+] as const;
+
+export const IDENTITY_CARD_NO_PATTERN = /^\d{9,12}$/;
+
+export const PHONE_NUMBER_VI_PATTERN = /^(?:\+84|0)[35789]\d{8}$/;
+
 export const PASSWORD_PATTERN =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/;
 
@@ -75,3 +84,18 @@ export const formatDate = (date: string | null | undefined): string => {
 
 export const formatCurrency = (value: number, currencyLabel: string) =>
   `${new Intl.NumberFormat("en-US").format(value)} ${currencyLabel}`;
+
+export enum Role {
+  ADMIN = "ADMIN",
+  USER = "USER",
+}
+
+export enum AuthProvider {
+  EMAIL = "email",
+  GOOGLE = "google",
+}
+
+export enum UserRoleType {
+  TO_CHUC = 'TO_CHUC',
+  CA_NHAN = 'CA_NHAN'
+}

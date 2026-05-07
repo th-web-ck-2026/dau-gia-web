@@ -1,16 +1,14 @@
-"use client";
-
-import * as styled from "styled-components";
-
-import { colorTypeFrom } from "@/styles/theme.utils";
-
+import { DefaultTheme } from "styled-components";
+import { colorTypeFrom } from "./theme.utils";
 import { resetCss } from "./theme.reset";
 
-export default styled.createGlobalStyle`
+export const getGlobalStyles = (theme: DefaultTheme) => `
   ${resetCss}
 
   :root {
-    color-scheme: light dark;
+    // Tạm thời chưa dùng dark mode, có thể bật lại khi cần thiết
+    // color-scheme: light dark;
+    color-scheme: light;
   }
 
   html,
@@ -44,19 +42,24 @@ export default styled.createGlobalStyle`
 
   button,
   input {
-    font-family: ${({ theme }) => theme?.fontFamilies.main}, sans-serif;
+    font-family: ${theme?.fontFamilies?.main}, sans-serif;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: ${theme.primary};
+    border-radius: 1.25rem;
   }
 
   .ant-menu-vertical {
     .ant-menu-item {
       .ant-menu-title-content {
         a {
-          font-size: ${({ theme }) => theme.fontSizes.md};
-          color: ${({ theme }) => theme.textMain};
+          font-size: ${theme.fontSizes.md};
+          color: ${theme.textMain};
 
           &:hover,
           :active {
-            color: ${({ theme }) => theme.primary6};
+            color: ${theme.primary6};
           }
         }
       }
@@ -76,23 +79,24 @@ export default styled.createGlobalStyle`
         min-width: 30px;
         min-height: 32px;
         padding: 8px 12px !important;
-        font-size: ${({ theme }) => theme.fontSizes.xxs};
+        font-size: ${theme.fontSizes.xxs};
       }
     }
   }
 
   .ant-notification {
-    ${({ theme }) =>
-      (["info", "success", "warning", "error"] as const).map(
-        (notification) => styled.css`
+    ${(["info", "success", "warning", "error"] as const)
+    .map(
+      (notification) => `
           .ant-notification-notice-${notification} {
             border: 1px solid ${theme[colorTypeFrom(notification)]};
             background: ${theme.notification[colorTypeFrom(notification)]};
           }
         `
-      )}
+    )
+    .join("")}
 
-    @media (max-width: ${({ theme }) => theme.breakpoints.sm}px) {
+    @media (max-width: ${theme.breakpoints.sm}px) {
       .ant-notification-notice {
         width: calc(100vw - 2rem);
       }
@@ -100,10 +104,10 @@ export default styled.createGlobalStyle`
   }
 
   .ant-message {
-    @media (max-width: ${({ theme }) => theme.breakpoints.sm}px) {
+    @media (max-width: ${theme.breakpoints.sm}px) {
       .ant-message-notice-content {
         max-width: calc(100vw - 2rem);
-        font-size: ${({ theme }) => theme.fontSizes.xs};
+        font-size: ${theme.fontSizes.xs};
       }
     }
   }

@@ -1,4 +1,4 @@
-import { User } from '@/interfaces';
+import { User } from '@/interfaces/auth';
 import { RootState } from '@/stores';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
@@ -6,55 +6,43 @@ interface AuthState {
   email: string | null;
   otp: string | null;
   user: User | null;
-  token: string | null;
+  isAuthenticated: boolean;
 }
 
 const initialState: AuthState = {
   email: null,
   otp: null,
   user: null,
-  token: null,
+  isAuthenticated: false,
 };
+
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setCredentials: (
-      state,
-      { payload: { user, token } }: PayloadAction<{ user: User; token: string }>
-    ) => {
-      state.user = user;
-      state.token = token;
-    },
-
-    updateCredentials: (state, action: PayloadAction<User>) => {
+    setCredentials: (state, action: PayloadAction<User>) => {
       state.user = action.payload;
+      state.isAuthenticated = true;
     },
 
     clearCredentials: (state) => {
       state.user = null;
-      state.token = null;
+      state.isAuthenticated = false;
+      state.email = null;
+      state.otp = null;
     },
 
     setEmail(state, action: PayloadAction<string>) {
       state.email = action.payload;
     },
 
-    clearAuth: (state) => {
-      state.email = null;
-      state.otp = null;
-    },
-
-    clearEmail(state) {
-      state.email = null;
-    },
-
     setOTP(state, action: PayloadAction<string>) {
       state.otp = action.payload;
     },
 
-    clearOTP(state) {
+    clearAuthTempData: (state) => {
+      state.email = null;
       state.otp = null;
     },
   },
@@ -62,14 +50,12 @@ const authSlice = createSlice({
 
 export const {
   setEmail,
-  clearEmail,
   setOTP,
-  clearOTP,
-  clearAuth,
   setCredentials,
-  updateCredentials,
   clearCredentials,
+  clearAuthTempData,
 } = authSlice.actions;
+
 
 export const selectUserInfo = (state: RootState) => state.auth.user;
 export default authSlice.reducer;

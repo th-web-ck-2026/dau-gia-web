@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { FormInstance } from "antd";
 
 import { ResponseCode } from "@/constants";
@@ -17,62 +18,26 @@ const COMMON_ERROR_MESSAGE = "Có lỗi xảy ra. Vui lòng thử lại sau.";
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === "object" && value !== null;
 
-const isApiErrorResponse = (value: unknown): value is ApiErrorData => {
-  if (!isRecord(value)) return false;
-  return (
-    "status" in value &&
-    "data" in value &&
-    "statusText" in value &&
-    "headers" in value &&
-    "config" in value
-  );
-};
-
-const resolveErrorResponse = (
-  error: ApiError | ApiErrorData | unknown
-): ApiErrorData | null => {
-  if (!error) return null;
-  if (isApiErrorResponse(error)) {
-    return error;
-  }
-  if (isRecord(error) && "response" in error) {
-    const response = (error as { response?: unknown }).response;
-    if (isApiErrorResponse(response)) {
-      return response;
-    }
-  }
-  return null;
-};
 
 export function useLoadServerError() {
   const { notification } = useFeedback();
 
-  const loadServerErrors = ({ error, form }: LoadServerErrorsArgs) => {
-    if (!error) {
+  const showErrorMessage = useCallback((message: string | string[]) => {
+    const normalizedMessage = Array.isArray(message) ? message[0] : message;
+
+    if (
+      normalizedMessage &&
+      IGNORED_ERROR_MESSAGES.includes(normalizedMessage)
+    ) {
       return;
     }
 
-    const response = resolveErrorResponse(error);
-    const status = response?.status;
-    const errorData = response?.data;
+    notification.error({
+      message: normalizedMessage || COMMON_ERROR_MESSAGE
+    });
+  }, [notification]);
 
-    if (status === ResponseCode.VALIDATION_ERROR && !!form) {
-      if (isRecord(errorData) && "detail" in errorData) {
-        handleValidationErrors(errorData as ValidationError, form);
-        return;
-      }
-    }
-
-    const message =
-      (isRecord(errorData) && "message" in errorData
-        ? (errorData.message as string)
-        : undefined) ||
-      (isRecord(error) && "message" in error ? (error.message as string) : "");
-
-    showErrorMessage(message);
-  };
-
-  const handleValidationErrors = (
+  const handleValidationErrors = useCallback((
     data: ValidationError,
     form: FormInstance
   ) => {
@@ -100,20 +65,35 @@ export function useLoadServerError() {
     } else {
       showErrorMessage("Some fields are invalid");
     }
-  };
+  }, [showErrorMessage]);
 
-  const showErrorMessage = (message: string | string[]) => {
-    const normalizedMessage = Array.isArray(message) ? message[0] : message;
+  const loadServerErrors = useCallback(({ error, form }: LoadServerErrorsArgs) => {
+    if (!error) return;
 
-    if (
-      normalizedMessage &&
-      IGNORED_ERROR_MESSAGES.includes(normalizedMessage)
-    ) {
-      return;
+    const errorData = (error as any)?.response?.data || (error as any)?.data || error;
+    const status = (error as any)?.response?.status || (error as any)?.status || (error as any)?.statusCode;
+    const config = (error as any)?.config || (error as any)?.response?.config;
+
+    if (config?._silent) return;
+
+    if (status === ResponseCode.VALIDATION_ERROR && form) {
+      const validationData = isRecord(errorData) ? errorData : {};
+      if ("detail" in validationData) {
+        // @ts-expect-error: validationData is casted to ValidationError but structure might vary
+        handleValidationErrors(validationData as ValidationError, form as FormInstance);
+        return;
+      }
     }
 
-    notification.error({ message: COMMON_ERROR_MESSAGE });
-  };
+    const message =
+      (isRecord(errorData)
+        ? (isRecord(errorData.error) ? errorData.error.message : errorData.error) || errorData.message
+        : undefined) ||
+      (error as any)?.message ||
+      "";
+
+    showErrorMessage(message);
+  }, [handleValidationErrors, showErrorMessage]);
 
   return {
     loadServerErrors,

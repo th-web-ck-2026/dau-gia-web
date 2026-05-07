@@ -23,10 +23,12 @@ src/
 ├── app/            # Next.js App Router (Routes & Layouts)
 ├── components/
 │   ├── common/     # Hệ thống Base Components dùng chung toàn app
-│   └── pages/      # Chứa các UI đặc thù cho từng trang/feature
+│   ├── layouts/    # Các layouts dùng chung toàn app
 ├── constants/      # Các hằng số, Enums, Messages hệ thống
+├── assets/         # Các tài nguyên tĩnh (Images, SVG)
+├── features/       # Chứa các UI đặc thù cho từng trang/feature
 ├── hooks/
-│   └── common/     # Các custom hooks dùng chung (Feedback, Query, Responsive)
+│   ├── common/     # Các custom hooks dùng chung (Feedback, Query, Responsive)
 ├── interfaces/     # Quản lý kiểu dữ liệu (TypeScript Interfaces)
 ├── i18n/           # Cấu hình đa ngôn ngữ (Routing, Middleware)
 ├── providers/      # Các context providers (Theme, Auth, QueryClient)
@@ -41,7 +43,7 @@ src/
 
 Để tạo một feature (ví dụ: `Product`), hãy tuân thủ cấu trúc thư mục từ folder `demo` mẫu:
 
-### 1. Tạo UI Component trong `src/pages/product`
+### 1. Tạo UI Component trong `src/features/product`
 
 Chia nhỏ logic để dễ quản lý:
 
@@ -56,7 +58,7 @@ Chia nhỏ logic để dễ quản lý:
 
 ### 2. Đăng ký Page trong `src/app/[locale]/product/page.tsx`
 
-Import Component từ thư mục `pages` và render.
+Import Component từ thư mục `features` và render.
 
 ---
 

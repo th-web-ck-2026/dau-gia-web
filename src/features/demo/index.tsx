@@ -36,6 +36,7 @@ import {
   BaseRate,
   BaseResult,
   BaseRow,
+  BaseSegmented,
   BaseSelect,
   BaseSkeleton,
   BaseSlider,
@@ -101,6 +102,8 @@ const DemoComponent = () => {
     setInputValue,
     selectValue,
     setSelectValue,
+    segmentedValue,
+    setSegmentedValue,
     setDateValue,
     handleShowNotification,
     handleShowMessage,
@@ -259,6 +262,33 @@ const DemoComponent = () => {
             <Option value="opt2">Tag 2</Option>
             <Option value="opt3">Tag 3</Option>
           </BaseSelect>
+        </S.DemoRow>
+      </S.DemoBlock>
+
+      {/* ================== SEGMENTED ================== */}
+      <S.SectionTitle>Segmented</S.SectionTitle>
+      <S.DemoBlock>
+        <S.Label>Default</S.Label>
+        <S.DemoRow>
+          <BaseSegmented
+            options={["Daily", "Weekly", "Monthly", "Quarterly", "Yearly"]}
+            value={segmentedValue}
+            onChange={setSegmentedValue}
+          />
+        </S.DemoRow>
+        <S.Label>Block</S.Label>
+        <BaseSegmented
+          block
+          options={["Daily", "Weekly", "Monthly", "Quarterly", "Yearly"]}
+        />
+        <S.Label>With Icons</S.Label>
+        <S.DemoRow>
+          <BaseSegmented
+            options={[
+              { label: "List", value: "List", icon: <EditOutlined /> },
+              { label: "Kanban", value: "Kanban", icon: <PlusOutlined /> },
+            ]}
+          />
         </S.DemoRow>
       </S.DemoBlock>
 
