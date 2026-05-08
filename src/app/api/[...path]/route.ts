@@ -18,7 +18,10 @@ async function proxy(req: Request, path: string[]) {
         Authorization: accessToken ? `Bearer ${accessToken}` : "",
         "Content-Type": "application/json",
       },
-      body: req.method !== "GET" && req.method !== "HEAD" ? await req.text() : undefined,
+      body:
+        req.method !== "GET" && req.method !== "HEAD"
+          ? await req.text()
+          : undefined,
     });
 
     if (res.status === ResponseCode.UNAUTHORIZED) {
@@ -46,12 +49,16 @@ async function proxy(req: Request, path: string[]) {
         );
       }
 
-      const refreshData = await refreshRes.json();
-      const { accessToken: newToken, refreshToken: newRefresh } = refreshData;
+      const result = await refreshRes.json();
+      const { access_token: newToken, refresh_token: newRefresh } =
+        result.data || {};
 
       if (!newToken || !newRefresh) {
         return Response.json(
-          { message: "Invalid refresh response", statusCode: ResponseCode.INTERNAL_SERVER_ERROR },
+          {
+            message: "Invalid refresh response",
+            statusCode: ResponseCode.INTERNAL_SERVER_ERROR,
+          },
           { status: ResponseCode.INTERNAL_SERVER_ERROR }
         );
       }
@@ -78,7 +85,10 @@ async function proxy(req: Request, path: string[]) {
           Authorization: `Bearer ${newToken}`,
           "Content-Type": "application/json",
         },
-        body: req.method !== "GET" && req.method !== "HEAD" ? await req.text() : undefined,
+        body:
+          req.method !== "GET" && req.method !== "HEAD"
+            ? await req.text()
+            : undefined,
       });
     }
 
@@ -92,7 +102,10 @@ async function proxy(req: Request, path: string[]) {
   } catch (error) {
     console.error("Proxy error:", error);
     return Response.json(
-      { message: "Internal server error", statusCode: ResponseCode.INTERNAL_SERVER_ERROR },
+      {
+        message: "Internal server error",
+        statusCode: ResponseCode.INTERNAL_SERVER_ERROR,
+      },
       { status: ResponseCode.INTERNAL_SERVER_ERROR }
     );
   }
