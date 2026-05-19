@@ -80,7 +80,28 @@
     "passwordMismatch": "Passwords do not match",
     "identityCardNoInvalid": "Invalid identity card number (9 or 12 digits)",
     "agreementRequired": "You must agree to the terms"
+  },
+  "infomation": {
+    "phoneNumber": "0912 345 678",
+    "email": "info@bidwar.vn",
+    "fax": "024 6688 9900",
+    "address": "5th Floor, TechnoSoft Building, No. 15 Duy Tan Street, Dich Vong Hau Ward, Cau Giay District, Hanoi, Vietnam.",
+    "license": "Auction Operation License No. 102/TP-ĐKHĐ issued by the Hanoi Department of Justice on May 15, 2021.",
+    "approval": "Decision No. 888/QĐ-STP dated January 10, 2024, issued by the Hanoi Department of Justice approving eligibility to conduct online auctions.",
+    "copyright": "© 2026 DAI VIET PARTNERSHIP AUCTION COMPANY. All rights reserved."
+  },
+  "header": {
+    "news": "News",
+    "contact": "Contact",
+    "about": "About",
+    "home": "Home",
+    "auctionAssets": "Auction assets",
+    "auctionNotices": "Auction notices",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "profile": "Profile",
+    "connectionStatus": "Connected",
+    "connectionStatusOffline": "Disconnected"
   }
 }
-
-
