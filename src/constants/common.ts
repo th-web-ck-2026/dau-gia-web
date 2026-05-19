@@ -96,6 +96,16 @@ export enum AuthProvider {
 }
 
 export enum UserRoleType {
-  TO_CHUC = 'TO_CHUC',
-  CA_NHAN = 'CA_NHAN'
+  TO_CHUC = "TO_CHUC",
+  CA_NHAN = "CA_NHAN",
 }
+
+export const ORGANIZATION_INFOMATION_KEY = {
+  phoneNumber: "phoneNumber",
+  email: "emailAddress",
+  fax: "faxNumber",
+  address: "address",
+  license: "license",
+  approval: "approval",
+  copyright: "copyright",
+};

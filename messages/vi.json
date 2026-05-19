@@ -80,7 +80,28 @@
     "passwordMismatch": "Mật khẩu xác nhận không khớp",
     "identityCardNoInvalid": "Số CMT/CCCD không hợp lệ (9 hoặc 12 số)",
     "agreementRequired": "Bạn phải đồng ý với các điều khoản"
+  },
+  "infomation": {
+    "phoneNumber": "0912 345 678",
+    "email": "info@bidwar.vn",
+    "fax": "024 6688 9900",
+    "address": "Tầng 5, Tòa nhà TechnoSoft, Số 15 Duy Tân, phường Dịch Vọng Hậu, quận Cầu Giấy, TP. Hà Nội, Việt Nam.",
+    "license": "102/TP-ĐKHĐ do Sở Tư pháp TP. Hà Nội cấp ngày 15/05/2021.",
+    "approval": "Quyết định số 888/QĐ-STP ngày 10/01/2024 của Sở Tư pháp TP. Hà Nội phê duyệt đủ điều kiện thực hiện hình thức đấu giá trực tuyến.",
+    "copyright": "© 2026 CÔNG TY ĐẤU GIÁ HỢP DANH ĐẠI VIỆT. Tất cả các quyền được bảo lưu."
+  },
+  "header": {
+    "news": "Tin tức",
+    "contact": "Liên hệ",
+    "about": "Giới thiệu",
+    "home": "Trang chủ",
+    "auctionAssets": "Tài sản đấu giá",
+    "auctionNotices": "Thông báo đấu giá",
+    "login": "Đăng nhập",
+    "register": "Đăng ký",
+    "logout": "Đăng xuất",
+    "profile": "Trang cá nhân",
+    "connectionStatus": "Đã kết nối",
+    "connectionStatusOffline": "Mất kết nối"
   }
 }
-
-
