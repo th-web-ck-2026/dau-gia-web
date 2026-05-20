@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const FooterWrapper = styled.footer`
-  background-color: ${({ theme }) => theme.primary8 || "#172b70"};
+  background-color: ${({ theme }) => theme.backgroundBrand};
   color: rgba(255, 255, 255, 0.85);
   font-family: ${({ theme }) =>
     theme.fontFamilies?.bePro || "var(--font-be-vietnam-pro)"};
