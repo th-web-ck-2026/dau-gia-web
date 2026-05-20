@@ -1,3 +1,4 @@
+import Footer from "@/components/layouts/footer";
 import Header from "@/components/layouts/header";
 
 export default function ClientLayout({
@@ -9,6 +10,7 @@ export default function ClientLayout({
     <>
       <Header />
       <main>{children}</main>
+      <Footer />
     </>
   );
 }
