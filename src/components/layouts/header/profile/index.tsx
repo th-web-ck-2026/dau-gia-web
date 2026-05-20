@@ -1,40 +1,17 @@
 "use client";
 
-import { useTranslations } from "next-intl";
-
-import { DownOutlined, LogoutOutlined, UserOutlined } from "@ant-design/icons";
-import type { MenuProps } from "antd";
+import { DownOutlined } from "@ant-design/icons";
 
 import { BaseAvatar, BaseDivider, BaseDropdown } from "@/components/common";
-import { useAuth } from "@/hooks/common/useAuth";
 import { Link } from "@/i18n/routing";
 import { getFirstLetterOfLastName } from "@/utils/common";
 
 import * as S from "./index.styles";
+import useProfileUtils from "./index.utils";
 
 export const Profile = () => {
-  const t = useTranslations("header");
-  const { user, isAuthenticated, logout } = useAuth();
-
-  const handleUserMenuClick = ({ key }: { key: string }) => {
-    if (key === "logout") {
-      logout();
-    }
-  };
-
-  const userMenuItems: MenuProps["items"] = [
-    {
-      key: "profile",
-      label: <Link href="/profile">{t("profile")}</Link>,
-      icon: <UserOutlined />,
-    },
-    {
-      key: "logout",
-      label: t("logout"),
-      icon: <LogoutOutlined />,
-      danger: true,
-    },
-  ];
+  const { user, isAuthenticated, userMenuItems, handleUserMenuClick, t } =
+    useProfileUtils();
 
   if (!isAuthenticated) {
     return (
