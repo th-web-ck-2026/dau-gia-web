@@ -39,10 +39,10 @@ export const Profile = () => {
   if (!isAuthenticated) {
     return (
       <S.ButtonsWrapper>
-        <Link href="/auth/login" passHref legacyBehavior>
+        <Link href="/auth/login">
           <S.Button type="primary">{t("login")}</S.Button>
         </Link>
-        <Link href="/auth/register" passHref legacyBehavior>
+        <Link href="/auth/register">
           <S.Button variant="outlined">{t("register")}</S.Button>
         </Link>
       </S.ButtonsWrapper>
@@ -62,9 +62,9 @@ export const Profile = () => {
           <S.DropdownWrapper>
             <div className="drop-top">
               {user?.avatar ? (
-                <BaseAvatar src={user?.avatar} size={32}></BaseAvatar>
+                <BaseAvatar src={user?.avatar} size={42}></BaseAvatar>
               ) : (
-                <BaseAvatar size={32}>
+                <BaseAvatar size={42}>
                   {getFirstLetterOfLastName(user?.fullname)}
                 </BaseAvatar>
               )}

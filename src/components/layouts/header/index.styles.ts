@@ -120,20 +120,21 @@ export const ClockDate = styled.span`
   color: ${({ theme }) => theme.textMain};
 `;
 
-export const WifiIconWrapper = styled.div`
+export const WifiIconWrapper = styled.div<{ $isOnline: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(31, 58, 160, 0.6);
+  color: ${({ $isOnline, theme }) =>
+    $isOnline ? theme.primary5 : theme.error};
   font-size: 18px;
   cursor: pointer;
-  transition: color 0.2s ease;
+  transition: all 0.2s ease;
   padding: 4px;
   border-radius: 50%;
 
   &:hover {
-    color: ${({ theme }) => theme.primary || "#1f3aa0"};
-    background-color: rgba(31, 58, 160, 0.05);
+    background-color: ${({ $isOnline, theme }) =>
+      $isOnline ? theme.primary1 : theme.error50};
   }
 `;
 
@@ -215,7 +216,7 @@ export const DrawerFooter = styled.div`
 export const DrawerClock = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   background-color: #f3f4f6;
   padding: 12px 16px;
   border-radius: 8px;
