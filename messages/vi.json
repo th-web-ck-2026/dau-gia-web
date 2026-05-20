@@ -103,5 +103,25 @@
     "profile": "Trang cá nhân",
     "connectionStatus": "Đã kết nối",
     "connectionStatusOffline": "Mất kết nối"
+  },
+  "footer": {
+    "companyName": "CÔNG TY ĐẤU GIÁ HỢP DANH ĐẠI VIỆT",
+    "tagline": "Đấu giá hợp danh tài sản Việt Nam",
+    "contact": "Liên hệ",
+    "aboutUs": "Về chúng tôi",
+    "about": "Giới thiệu",
+    "visionMission": "Tầm nhìn và sứ mệnh",
+    "newsEvents": "Tin tức & sự kiện",
+    "regulations": "Quy chế hoạt động",
+    "userManual": "Hướng dẫn sử dụng",
+    "privacyPolicy": "Chính sách bảo mật",
+    "termsOfUse": "Điều khoản sử dụng",
+    "subscribe": "Nhận thông tin báo",
+    "subscribeDesc": "Đăng ký nhận thông tin đấu giá mới nhất",
+    "emailPlaceholder": "Email của bạn",
+    "subscribeBtn": "Đăng ký ngay",
+    "address": "Địa chỉ",
+    "phone": "Điện thoại",
+    "email": "Email"
   }
 }

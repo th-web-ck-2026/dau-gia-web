@@ -103,5 +103,25 @@
     "profile": "Profile",
     "connectionStatus": "Connected",
     "connectionStatusOffline": "Disconnected"
+  },
+  "footer": {
+    "companyName": "DAI VIET PARTNERSHIP AUCTION COMPANY",
+    "tagline": "Vietnam Asset Partnership Auction",
+    "contact": "Contact Us",
+    "aboutUs": "About Us",
+    "about": "Introduction",
+    "visionMission": "Vision & Mission",
+    "newsEvents": "News & Events",
+    "regulations": "Operating Regulations",
+    "userManual": "User Manual",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfUse": "Terms of Use",
+    "subscribe": "Newsletter",
+    "subscribeDesc": "Subscribe to receive the latest auction news",
+    "emailPlaceholder": "Your email",
+    "subscribeBtn": "Subscribe now",
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email"
   }
 }
