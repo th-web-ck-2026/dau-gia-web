@@ -1,14 +1,17 @@
-import { login } from "@/api/auth";
+import { useEffect } from "react";
+
+import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
+
 import { useGoogleLogin } from "@react-oauth/google";
+
+import { login } from "@/api/auth";
+import { BaseForm } from "@/components/common";
 import { AuthProvider } from "@/constants";
 import { useAppMutation, useAuth } from "@/hooks/common";
-import { LoginDto } from "@/interfaces/auth";
-import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
 import { useFeedback } from "@/hooks/common";
+import { LoginDto } from "@/interfaces/auth";
 import { cookies } from "@/utils/cookie";
-import { BaseForm } from "@/components/common";
-import { useEffect } from "react";
 
 export const useLoginHooks = () => {
   const router = useRouter();
@@ -32,24 +35,25 @@ export const useLoginHooks = () => {
           message: t("loginSuccess"),
         });
         cookies.set("session_hint", "true");
-        await refreshUser();
         router.push("/");
+        refreshUser();
       },
     }
   );
 
-  const { mutate: loginWithGoogle, isPending: isGoogleLoading } = useAppMutation(
-    (data: { code: string }) => login(data, AuthProvider.GOOGLE),
-    {
-      onSuccess: async () => {
-        notification.success({
-          message: t("loginSuccess"),
-        });
-        await refreshUser();
-        router.push("/");
-      },
-    }
-  );
+  const { mutate: loginWithGoogle, isPending: isGoogleLoading } =
+    useAppMutation(
+      (data: { code: string }) => login(data, AuthProvider.GOOGLE),
+      {
+        onSuccess: async () => {
+          notification.success({
+            message: t("loginSuccess"),
+          });
+          router.push("/");
+          refreshUser();
+        },
+      }
+    );
 
   const handleGoogleLogin = useGoogleLogin({
     flow: "auth-code",

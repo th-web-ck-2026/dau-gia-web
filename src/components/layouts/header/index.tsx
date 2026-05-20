@@ -103,7 +103,7 @@ const Header = () => {
       </S.TopBar>
 
       <S.MainBar>
-        <Link href="/" passHref legacyBehavior>
+        <Link href="/">
           <S.LogoContainer>
             <BrandLogo />
           </S.LogoContainer>
@@ -126,7 +126,7 @@ const Header = () => {
               isOnline ? t("connectionStatus") : t("connectionStatusOffline")
             }
           >
-            <S.WifiIconWrapper>
+            <S.WifiIconWrapper $isOnline={isOnline}>
               {isOnline ? <WifiConnectedIcon /> : <WifiDisconnectedIcon />}
             </S.WifiIconWrapper>
           </BaseTooltip>
@@ -160,13 +160,6 @@ const Header = () => {
                 </S.DrawerMenuItem>
               );
             })}
-            <S.DrawerDivider />
-            <S.DrawerMenuItem
-              $selected={getActiveKey(pathname) === "/about"}
-              onClick={() => setDrawerVisible(false)}
-            >
-              <Link href="/about">{t("about")}</Link>
-            </S.DrawerMenuItem>
           </S.DrawerMenu>
 
           <S.DrawerDivider />
@@ -174,10 +167,7 @@ const Header = () => {
           <S.DrawerFooter>
             {isMounted && (
               <S.DrawerClock>
-                <span style={{ fontSize: "14px", color: "#6B7280" }}>
-                  System Time
-                </span>
-                <div style={{ textAlign: "right" }}>
+                <div style={{ textAlign: "center" }}>
                   <div style={{ fontWeight: 700, color: "#111827" }}>
                     {time}
                   </div>

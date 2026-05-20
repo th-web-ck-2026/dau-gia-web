@@ -1,21 +1,23 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ResponseCode } from "@/constants";
 
+import { useQueryClient } from "@tanstack/react-query";
+
+import { logout as logoutApi } from "@/api/auth";
 import { getMe } from "@/api/user";
+import { ResponseCode } from "@/constants";
 import { useAppQuery } from "@/hooks/common/useAppQuery";
 import {
   clearCredentials,
   selectUserInfo,
   setCredentials,
 } from "@/stores/auth/auth.slice";
-
-import { logout as logoutApi } from "@/api/auth";
 import { cookies } from "@/utils/cookie";
 
 export const useAuth = () => {
   const dispatch = useDispatch();
   const user = useSelector(selectUserInfo);
+  const queryClient = useQueryClient();
 
   const sessionHint = cookies.get("session_hint");
 
@@ -45,7 +47,7 @@ export const useAuth = () => {
         cookies.set("session_hint", "false");
       }
     } else if (isError) {
-      const errorData = (error as any);
+      const errorData = error as any;
       if (errorData?.statusCode === ResponseCode.UNAUTHORIZED) {
         dispatch(clearCredentials());
         cookies.set("session_hint", "false");
@@ -59,7 +61,8 @@ export const useAuth = () => {
     } finally {
       dispatch(clearCredentials());
       cookies.set("session_hint", "false");
-      window.location.href = "/login";
+      queryClient.clear();
+      // window.location.href = "/auth/login";
     }
   };
 
@@ -72,6 +75,3 @@ export const useAuth = () => {
     isAuthenticated: !!user,
   };
 };
-
-
-

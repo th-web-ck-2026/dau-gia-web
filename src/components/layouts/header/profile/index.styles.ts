@@ -55,9 +55,10 @@ export const DropdownWrapper = styled.div`
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      gap: 4px;
-      color: ${({ theme }) => theme.textMain} .name {
-        font-size: ${({ theme }) => theme.fontSizes.xs};
+      color: ${({ theme }) => theme.textMain};
+
+      .name {
+        font-size: ${({ theme }) => theme.fontSizes.xs} !important;
         font-weight: ${({ theme }) => theme.fontWeights.semibold};
       }
 
