@@ -123,5 +123,10 @@
     "address": "Địa chỉ",
     "phone": "Điện thoại",
     "email": "Email"
-  }
+  },
+  "sessions": {},
+  "auction": {},
+  "tender": {},
+  "host": {},
+  "admin": {}
 }
