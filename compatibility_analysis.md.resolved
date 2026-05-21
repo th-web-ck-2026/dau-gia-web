@@ -1,0 +1,140 @@
+# Báo cáo đánh giá khả thi & Kiến trúc triển khai FE
+
+Hồ sơ tài liệu nghiệp vụ từ Backend (`BACKEND_DOCS.md`, `docs.html`) và danh sách hạng mục Frontend (`FE_CHECKLIST.md`) có độ tương thích **rất cao (9.5/10)** với codebase hiện tại. Dưới đây là phân tích chi tiết về kiến trúc và cách ánh xạ nghiệp vụ vào cấu trúc dự án hiện tại.
+
+---
+
+## 1. Đánh giá độ tương thích kiến trúc
+
+### 1.1 Hệ thống Routing (Next.js App Router & i18n)
+Codebase hiện tại đang sử dụng cấu trúc **Next.js App Router** kết hợp định tuyến đa ngôn ngữ `next-intl` (đầu vào là `[locale]`). Cấu trúc định tuyến đề xuất trong tài liệu sẽ được ánh xạ hoàn toàn sạch sẽ như sau:
+
+| Route đề xuất | File path tương ứng trong Codebase | Tác nhân sử dụng |
+| :--- | :--- | :--- |
+| `/sessions` | `src/app/[locale]/(client)/sessions/page.tsx` | Khách / Người tham gia |
+| `/sessions/:id` | `src/app/[locale]/(client)/sessions/[id]/page.tsx` | Khách / Người tham gia |
+| `/host/sessions` | `src/app/[locale]/(client)/host/sessions/page.tsx` | Chủ phiên (Host) |
+| `/host/sessions/new` | `src/app/[locale]/(client)/host/sessions/new/page.tsx` | Chủ phiên (Host) |
+| `/host/sessions/:id/edit`| `src/app/[locale]/(client)/host/sessions/[id]/edit/page.tsx` | Chủ phiên (Host) |
+| `/host/sessions/:id/ranking`| `src/app/[locale]/(client)/host/sessions/[id]/ranking/page.tsx` | Chủ phiên (Host) |
+| `/bidder/submissions` | `src/app/[locale]/(client)/bidder/submissions/page.tsx` | Người đấu thầu |
+| `/admin/sessions` | `src/app/[locale]/(admin)/admin/sessions/page.tsx` | Quản trị viên (Admin) |
+| `/admin/users` | `src/app/[locale]/(admin)/admin/users/page.tsx` | Quản trị viên (Admin) |
+
+> [!NOTE]
+> Cấu trúc route này giúp phân tách hoàn toàn các màn hình của Client thông thường, Host quản lý phiên và Admin quản trị hệ thống, tuân thủ đúng phân quyền.
+
+### 1.2 Tích hợp API Client & Hooks
+Dự án đã cấu hình sẵn client HTTP Axios (`request` từ `src/services/axios.ts`) và tích hợp cơ chế quản lý dữ liệu React Query (`useAppQuery`, `useAppMutation` từ `src/hooks/common`).
+
+Chúng ta sẽ tạo thêm các file API tương ứng:
+- `src/api/tender.ts`
+- `src/api/auction.ts`
+
+Các hook nghiệp vụ sẽ gọi thông qua:
+```typescript
+import { useAppQuery, useAppMutation } from "@/hooks/common";
+import { getTenderSession, submitProposal } from "@/api/tender";
+
+// Ví dụ: lấy chi tiết phiên đấu thầu
+const { data, isLoading } = useAppQuery({
+  queryKey: ["tenderSession", id],
+  queryFn: () => getTenderSession(id),
+});
+```
+
+---
+
+## 2. Triển khai các tính năng cốt lõi
+
+### 2.1 Form Đăng ký thông tin Động (Dynamic Proposal Form)
+Đấu thầu yêu cầu form nhập liệu động dựa trên loại tiêu chí (`LoaiTieuChi`):
+- `SO` (Number): Nhập số.
+- `PHAN_TRAM` (Percent): Nhập số kèm ký tự `%`.
+- `DUNG_SAI` (Boolean): Checkbox/Switch.
+- `LUA_CHON` (Enum): Select dropdown.
+- `TAI_LIEU` (Document): File upload.
+
+Codebase đã có sẵn đầy đủ các wrapper Ant Design cao cấp tại `src/components/common`:
+- `BaseInput`, `BaseSelect`, `BaseCheckbox`, `BaseUpload`
+
+**Giải pháp render động:**
+```tsx
+const renderCriteriaInput = (criterion: TenderCriteria, value: any, onChange: (val: any) => void) => {
+  switch (criterion.loai) {
+    case 'SO':
+      return <BaseInput type="number" value={value} onChange={e => onChange(Number(e.target.value))} suffix={criterion.donVi} />;
+    case 'PHAN_TRAM':
+      return <BaseInput type="number" min={0} max={100} value={value} onChange={e => onChange(Number(e.target.value))} suffix="%" />;
+    case 'DUNG_SAI':
+      return <BaseCheckbox checked={!!value} onChange={e => onChange(e.target.checked)} />;
+    case 'LUA_CHON':
+      return (
+        <BaseSelect
+          value={value}
+          onChange={onChange}
+          options={criterion.cacLuaChon?.map(opt => ({ label: opt.nhan, value: opt.giaTri }))}
+        />
+      );
+    case 'TAI_LIEU':
+      return <BaseUpload fileList={value} onChange={onChange} />;
+    default:
+      return <BaseInput value={value} onChange={e => onChange(e.target.value)} />;
+  }
+};
+```
+
+### 2.2 Xử lý Realtime & Polling Fallback
+Để đảm bảo thời gian thực cho màn hình đặt giá đấu giá và bảng xếp hạng đấu thầu mà không gây quá tải:
+- **WebSocket/SSE:** Nếu Backend hỗ trợ cổng WS Gateway/SSE, chúng ta sẽ mở kết nối lắng nghe trực tiếp thông qua React hook.
+- **Polling Fallback:** Nếu Backend chưa có WS, tận dụng cấu hình `refetchInterval` của React Query cực kỳ đơn giản và an toàn:
+  ```typescript
+  const { data: status } = useAppQuery({
+    queryKey: ["auctionStatus", id],
+    queryFn: () => getAuctionStatus(id),
+    refetchInterval: (query) => {
+      // Chỉ tự động fetch lại mỗi 3 giây khi phiên đang mở (OPEN)
+      return query.state.data?.trangThai === "MO" ? 3000 : false;
+    },
+    // Dừng polling khi người dùng tab-out khỏi trang web để tiết kiệm băng thông
+    refetchOnWindowFocus: true, 
+  });
+  ```
+
+---
+
+## 3. Các điểm lưu ý quan trọng về UX & Bảo mật
+
+> [!WARNING]
+> **1. Đồng bộ thời gian Server (Countdown Clock):**
+> Tuyệt đối không dùng thời gian hệ thống client (`new Date()`) để chạy countdown vì client có thể chỉnh giờ máy tính.
+> - Cần tính toán độ lệch `offset = serverTime - clientTime` ngay khi API chi tiết/status phản hồi lần đầu tiên.
+> - Sử dụng `offset` này để căn chỉnh thời gian chạy đồng hồ đếm ngược trên giao diện.
+
+> [!IMPORTANT]
+> **2. Xử lý tranh chấp đặt giá (409 Conflict):**
+> Khi nhiều người cùng ấn đặt giá một lúc, người gửi sau sẽ nhận mã lỗi `409 Conflict` kèm thông tin giá cao nhất mới và bước giá kế tiếp hợp lệ.
+> - FE cần bắt lỗi `409`, gọi `useFeedback` thông báo giá hiện tại đã thay đổi.
+> - Tự động cập nhật ô Input giá trị đặt kế tiếp hợp lệ (`nextValidBid`) để người dùng chỉ cần nhấn lại mà không phải gõ lại.
+
+---
+
+## 4. Kế hoạch triển khai Frontend đề xuất
+
+1. **Phase 1: API Services & DTO Interfaces**
+   - Khai báo các types/interfaces cho `TenderSession`, `TenderCriteria`, `AuctionSession`, `Submission`, `Bid` tại `src/interfaces`.
+   - Viết các hàm API client trong `src/api/tender.ts` và `src/api/auction.ts`.
+2. **Phase 2: Danh sách & Chi tiết phiên (Tender + Auction)**
+   - Dựng trang `/sessions` hiển thị danh sách phiên dạng Grid/List kèm bộ lọc đa tiêu chí.
+   - Dựng trang chi tiết `/sessions/:id` hiển thị thông tin mô tả, điều kiện tham gia và countdown đồng bộ server.
+3. **Phase 3: Luồng Đấu Thầu (Tendering)**
+   - Triển khai Bảng tiêu chí kỹ thuật.
+   - Dựng Proposal dynamic form và thực hiện validate phía client trước khi nộp.
+   - Hiển thị kết quả điểm số breakdown và vị trí xếp hạng.
+4. **Phase 4: Luồng Đấu Giá (Auctioning)**
+   - Giao diện đặt giá realtime (Bid Input, Leading banner, danh sách lịch sử đặt giá gần nhất).
+   - Tích hợp Polling/WebSocket và bắt lỗi 409 để tự cập nhật bước giá mới nhất.
+5. **Phase 5: Quản lý của Host & Admin**
+   - Màn hình tạo mới/chỉnh sửa phiên dành cho Host.
+   - Giao diện thiết lập tiêu chí chấm điểm động (Criteria Builder) cho đấu thầu.
+   - Màn hình kiểm duyệt phiên của Admin.
