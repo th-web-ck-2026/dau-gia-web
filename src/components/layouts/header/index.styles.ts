@@ -13,62 +13,9 @@ export const HeaderWrapper = styled(Layout.Header)`
   z-index: 100;
 `;
 
-export const TopBar = styled.div`
-  background-color: ${({ theme }) => theme.backgroundBrand || "#1A3F75"};
-  height: 42px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 4px 96px;
-  color: ${({ theme }) => theme.white};
-  font-size: ${({ theme }) => theme.fontSizes.xxs};
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.xl}px) {
-    padding: 4px 70px;
-  }
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.md}px) {
-    padding: 4px 20px;
-    justify-content: space-between;
-  }
-`;
-
-export const TopBarLeft = styled.div`
-  display: flex;
-  gap: 16px;
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.md}px) {
-    gap: 12px;
-  }
-`;
-
-export const TopBarItem = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: ${({ theme }) => theme.fontSizes.xxs};
-  color: ${({ theme }) => theme.white};
-
-  svg {
-    font-size: ${({ theme }) => theme.fontSizes.xxs};
-  }
-
-  span {
-    font-weight: ${({ theme }) => theme.fontWeights.regular};
-    text-wrap: nowrap;
-  }
-`;
-
-export const TopBarRight = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
 export const LanguageSelectorWrapper = styled.div`
-  svg {
-    color: ${({ theme }) => theme.white};
-  }
+  display: flex;
+  align-items: center;
 `;
 
 export const MainBar = styled.div`
@@ -118,24 +65,6 @@ export const ClockDate = styled.span`
   font-size: ${({ theme }) => theme.fontSizes.md};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   color: ${({ theme }) => theme.textMain};
-`;
-
-export const WifiIconWrapper = styled.div<{ $isOnline: boolean }>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: ${({ $isOnline, theme }) =>
-    $isOnline ? theme.primary5 : theme.error};
-  font-size: 18px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  padding: 4px;
-  border-radius: 50%;
-
-  &:hover {
-    background-color: ${({ $isOnline, theme }) =>
-      $isOnline ? theme.primary1 : theme.error50};
-  }
 `;
 
 /* Mobile elements */
