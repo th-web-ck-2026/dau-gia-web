@@ -9,10 +9,7 @@ const useNavigationUtils = () => {
   const getActiveKey = (path: string): string => {
     if (path === "/" || path === "") return "/";
     if (path.startsWith("/auctions")) return "/auctions";
-    if (path.startsWith("/news")) return "/news";
-    if (path.startsWith("/notices")) return "/notices";
-    if (path.startsWith("/contact")) return "/contact";
-    if (path.startsWith("/about")) return "/about";
+    if (path.startsWith("/leaderboard")) return "/leaderboard";
     return "";
   };
 
@@ -23,19 +20,11 @@ const useNavigationUtils = () => {
     },
     {
       key: "/auctions",
-      label: <Link href="/auctions">{t("auctionAssets")}</Link>,
+      label: <Link href="/auctions">{t("auctionSessions")}</Link>,
     },
     {
-      key: "/news",
-      label: <Link href="/news">{t("news")}</Link>,
-    },
-    {
-      key: "/notices",
-      label: <Link href="/notices">{t("auctionNotices")}</Link>,
-    },
-    {
-      key: "/contact",
-      label: <Link href="/contact">{t("contact")}</Link>,
+      key: "/leaderboard",
+      label: <Link href="/leaderboard">{t("leaderboard")}</Link>,
     },
   ];
 
