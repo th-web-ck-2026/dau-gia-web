@@ -107,6 +107,8 @@
     "home": "Home",
     "auctionAssets": "Auction assets",
     "auctionNotices": "Auction notices",
+    "auctionSessions": "Auction sessions",
+    "leaderboard": "Leaderboard",
     "login": "Login",
     "register": "Register",
     "logout": "Logout",

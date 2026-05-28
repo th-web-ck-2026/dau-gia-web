@@ -4,15 +4,13 @@ import React, { useEffect, useState } from "react";
 
 import { useTranslations } from "next-intl";
 
-import { MailOutlined, MenuOutlined, PhoneOutlined } from "@ant-design/icons";
+import { MenuOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 
 import BrandLogo from "@/assets/svg/bidwar-text-brand.svg";
-import WifiConnectedIcon from "@/assets/svg/wifi-connected";
-import WifiDisconnectedIcon from "@/assets/svg/wifi-disconnected";
-import { BaseDrawer, BaseTooltip } from "@/components/common";
+import { BaseDrawer } from "@/components/common";
 import LanguageAction from "@/components/layouts/header/language";
-import { useAuth, useOnlineStatus } from "@/hooks/common";
+import { useAuth } from "@/hooks/common";
 import { Link, usePathname } from "@/i18n/routing";
 
 import * as S from "./index.styles";
@@ -21,10 +19,8 @@ import Profile from "./profile";
 
 const Header = () => {
   const t = useTranslations("header");
-  const infoTranslations = useTranslations("infomation");
   const pathname = usePathname();
   const { user, isAuthenticated, logout } = useAuth();
-  const isOnline = useOnlineStatus();
 
   const [time, setTime] = useState("");
   const [date, setDate] = useState("");
@@ -52,10 +48,7 @@ const Header = () => {
   const getActiveKey = (path: string): string => {
     if (path === "/" || path === "") return "/";
     if (path.startsWith("/auctions")) return "/auctions";
-    if (path.startsWith("/news")) return "/news";
-    if (path.startsWith("/notices")) return "/notices";
-    if (path.startsWith("/contact")) return "/contact";
-    if (path.startsWith("/about")) return "/about";
+    if (path.startsWith("/leaderboard")) return "/leaderboard";
     return "";
   };
 
@@ -66,42 +59,16 @@ const Header = () => {
     },
     {
       key: "/auctions",
-      label: <Link href="/auctions">{t("auctionAssets")}</Link>,
+      label: <Link href="/auctions">{t("auctionSessions")}</Link>,
     },
     {
-      key: "/news",
-      label: <Link href="/news">{t("news")}</Link>,
-    },
-    {
-      key: "/notices",
-      label: <Link href="/notices">{t("auctionNotices")}</Link>,
-    },
-    {
-      key: "/contact",
-      label: <Link href="/contact">{t("contact")}</Link>,
+      key: "/leaderboard",
+      label: <Link href="/leaderboard">{t("leaderboard")}</Link>,
     },
   ];
 
   return (
     <S.HeaderWrapper>
-      <S.TopBar>
-        <S.TopBarLeft>
-          <S.TopBarItem>
-            <PhoneOutlined />
-            <span>{infoTranslations("phoneNumber")}</span>
-          </S.TopBarItem>
-          <S.TopBarItem>
-            <MailOutlined />
-            <span>{infoTranslations("email")}</span>
-          </S.TopBarItem>
-        </S.TopBarLeft>
-        <S.TopBarRight>
-          <S.LanguageSelectorWrapper>
-            <LanguageAction color="white" />
-          </S.LanguageSelectorWrapper>
-        </S.TopBarRight>
-      </S.TopBar>
-
       <S.MainBar>
         <Link href="/">
           <S.LogoContainer>
@@ -121,15 +88,9 @@ const Header = () => {
 
           <Profile />
 
-          <BaseTooltip
-            title={
-              isOnline ? t("connectionStatus") : t("connectionStatusOffline")
-            }
-          >
-            <S.WifiIconWrapper $isOnline={isOnline}>
-              {isOnline ? <WifiConnectedIcon /> : <WifiDisconnectedIcon />}
-            </S.WifiIconWrapper>
-          </BaseTooltip>
+          <S.LanguageSelectorWrapper>
+            <LanguageAction />
+          </S.LanguageSelectorWrapper>
         </S.RightSection>
 
         <S.MobileSection>
