@@ -1,0 +1,122 @@
+"use client";
+
+import { useState } from "react";
+
+import { useTranslations } from "next-intl";
+
+import { BaseEmpty } from "@/components/common";
+import { LoaiPhien } from "@/constants/scoring";
+import type {
+  AuctionSession,
+  KeyAssetItem,
+  TenderSession,
+} from "@/interfaces/home";
+
+import AuctionCard from "./card/AuctionCard";
+import KeyAssetCard from "./card/KeyAssetCard";
+import TenderCard from "./card/TenderCard";
+import { CardGrid } from "./card/index.styles";
+import AuctionCardSkeleton from "./card/skeleton/AuctionCardSkeleton";
+import KeyAssetCardSkeleton from "./card/skeleton/KeyAssetCardSkeleton";
+import TenderCardSkeleton from "./card/skeleton/TenderCardSkeleton";
+import HeroBanner from "./hero-banner";
+import useHomeHooks from "./index.hooks";
+import * as S from "./index.styles";
+import { NavigationButtons } from "./index.utils";
+import WrapperSection from "./shared/WrapperSection";
+
+const HomeContent = () => {
+  const t = useTranslations("home");
+  const [activeTab, setActiveTab] = useState<LoaiPhien>(LoaiPhien.DAU_GIA);
+
+  const {
+    auctions,
+    isAuctionsLoading,
+    isAuctionsError,
+    tenders,
+    isTendersLoading,
+    isTendersError,
+    keyAssets,
+    isKeyAssetsLoading,
+    isKeyAssetsError,
+  } = useHomeHooks();
+
+  return (
+    <S.HomeContainer>
+      <HeroBanner />
+
+      <NavigationButtons activeTab={activeTab} onChange={setActiveTab} />
+
+      <S.ContentWrapper>
+        {/* Phiên đấu giá đang diễn ra */}
+        {activeTab === LoaiPhien.DAU_GIA && (
+          <WrapperSection
+            title={t("auctionSection")}
+            viewAllUrl="/auction-sessions"
+            viewAllLabel={t("viewAllAuctions")}
+          >
+            {isAuctionsError ? (
+              <BaseEmpty description={t("errorLoad")} />
+            ) : (
+              <CardGrid $columns={4}>
+                {isAuctionsLoading
+                  ? Array.from({ length: 4 }).map((_, i) => (
+                      <AuctionCardSkeleton key={i} />
+                    ))
+                  : auctions.map((item: AuctionSession) => (
+                      <AuctionCard key={item._id} data={item} />
+                    ))}
+              </CardGrid>
+            )}
+          </WrapperSection>
+        )}
+
+        {/* Gói thầu đang mở */}
+        {activeTab === LoaiPhien.DAU_THAU && (
+          <WrapperSection
+            title={t("tenderSection")}
+            viewAllUrl="/tender-sessions"
+            viewAllLabel={t("viewAllTenders")}
+          >
+            {isTendersError ? (
+              <BaseEmpty description={t("errorLoad")} />
+            ) : (
+              <CardGrid $columns={3}>
+                {isTendersLoading
+                  ? Array.from({ length: 3 }).map((_, i) => (
+                      <TenderCardSkeleton key={i} />
+                    ))
+                  : tenders.map((item: TenderSession) => (
+                      <TenderCard key={item._id} data={item} />
+                    ))}
+              </CardGrid>
+            )}
+          </WrapperSection>
+        )}
+
+        {/* Tài sản đấu giá nổi bật */}
+        <WrapperSection
+          title={t("keyAssetsSection")}
+          viewAllUrl="/key-assets"
+          viewAllLabel={t("viewAllKeyAssets")}
+        >
+          {isKeyAssetsError ? (
+            <BaseEmpty description={t("errorLoad")} />
+          ) : (
+            <CardGrid $columns={3}>
+              {isKeyAssetsLoading
+                ? Array.from({ length: 3 }).map((_, i) => (
+                    <KeyAssetCardSkeleton key={i} />
+                  ))
+                : keyAssets.map((item: KeyAssetItem) => (
+                    <KeyAssetCard key={item._id} data={item} />
+                  ))}
+            </CardGrid>
+          )}
+        </WrapperSection>
+      </S.ContentWrapper>
+    </S.HomeContainer>
+  );
+};
+
+export default HomeContent;

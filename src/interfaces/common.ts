@@ -28,6 +28,9 @@ export interface Meta {
   itemCount?: number;
   currentPage?: number;
   totalPages?: number;
+  total?: number;
+  page?: number;
+  limit?: number;
 }
 
 export interface ResponseData<T> {

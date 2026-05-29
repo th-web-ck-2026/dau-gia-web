@@ -1,3 +1,5 @@
-export default function Home() {
-  return <div>Home</div>;
+import HomeContent from "@/features/client/home";
+
+export default function Page() {
+  return <HomeContent />;
 }
