@@ -90,16 +90,6 @@ export enum Role {
   USER = "USER",
 }
 
-export enum AuthProvider {
-  EMAIL = "email",
-  GOOGLE = "google",
-}
-
-export enum UserRoleType {
-  TO_CHUC = "TO_CHUC",
-  CA_NHAN = "CA_NHAN",
-}
-
 export const ORGANIZATION_INFOMATION_KEY = {
   phoneNumber: "phoneNumber",
   email: "emailAddress",
