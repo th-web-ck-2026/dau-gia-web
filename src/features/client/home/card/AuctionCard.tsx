@@ -1,0 +1,78 @@
+"use client";
+
+import { useTranslations } from "next-intl";
+import Image from "next/image";
+
+import { UserOutlined } from "@ant-design/icons";
+
+import { BaseButton } from "@/components/common/base-button";
+import type { AuctionSession } from "@/interfaces/home";
+import { convertAmountToDateTime, formatCurrency } from "@/utils/common";
+
+import * as S from "./index.styles";
+
+interface AuctionCardProps {
+  data: AuctionSession;
+  onViewDetail?: (id: string) => void;
+}
+
+const FALLBACK_IMAGE = "/images/assets-default.png";
+
+const AuctionCard = ({ data, onViewDetail }: AuctionCardProps) => {
+  const t = useTranslations("home");
+
+  const handleViewDetail = () => {
+    onViewDetail?.(data._id);
+  };
+
+  return (
+    <S.CardWrapper>
+      <S.AuctionImageWrapper>
+        <Image
+          src={data.anhDaiDien || FALLBACK_IMAGE}
+          alt={data.tieuDe}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1280px) 33vw, 25vw"
+          style={{ objectFit: "cover" }}
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = FALLBACK_IMAGE;
+          }}
+        />
+      </S.AuctionImageWrapper>
+
+      <S.CardBody>
+        <S.StatusBadge>{t("statusOpen")}</S.StatusBadge>
+
+        <S.CardTitle>{data.tieuDe}</S.CardTitle>
+
+        <S.CardFieldList>
+          <S.CardField>
+            <S.FieldLabel>{t("startPrice")}:</S.FieldLabel>
+            <S.FieldValue>{formatCurrency(data.giaKhoiDiem)}</S.FieldValue>
+          </S.CardField>
+          <S.CardField>
+            <S.FieldLabel>{t("organizeTime")}:</S.FieldLabel>
+            <S.FieldValue>
+              {convertAmountToDateTime(data.thoiGianBatDau)} -{" "}
+              {convertAmountToDateTime(data.thoiGianKetThuc)}
+            </S.FieldValue>
+          </S.CardField>
+        </S.CardFieldList>
+
+        <S.CardFooter>
+          <S.BidCountText>
+            <UserOutlined />
+            {data.giaCaoNhat
+              ? `${formatCurrency(data.giaCaoNhat)} ${t("bidCount")}`
+              : `0 ${t("bidCount")}`}
+          </S.BidCountText>
+          <BaseButton type="primary" size="small" onClick={handleViewDetail}>
+            {t("viewDetail")}
+          </BaseButton>
+        </S.CardFooter>
+      </S.CardBody>
+    </S.CardWrapper>
+  );
+};
+
+export default AuctionCard;

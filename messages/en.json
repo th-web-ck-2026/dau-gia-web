@@ -140,5 +140,26 @@
   "auction": {},
   "tender": {},
   "host": {},
-  "admin": {}
+  "admin": {},
+  "home": {
+    "auctionBtn": "Asset Auction Platform",
+    "tenderBtn": "Project Tender Platform",
+    "auctionSection": "Live Auction Sessions",
+    "keyAssetsSection": "Featured Auction Assets",
+    "tenderSection": "Open Tender Packages",
+    "viewAllAuctions": "View all →",
+    "viewAllKeyAssets": "View all →",
+    "viewAllTenders": "View all tenders →",
+    "statusOpen": "Live",
+    "startPrice": "Starting price",
+    "deposit": "Deposit",
+    "organizeTime": "Schedule",
+    "bidCount": "bids",
+    "viewDetail": "View detail",
+    "submitProposal": "Submit proposal →",
+    "budget": "Budget",
+    "deadline": "Schedule",
+    "participantCount": "bidders joined",
+    "errorLoad": "Failed to load data. Please try again."
+  }
 }

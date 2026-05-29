@@ -140,5 +140,26 @@
   "auction": {},
   "tender": {},
   "host": {},
-  "admin": {}
+  "admin": {},
+  "home": {
+    "auctionBtn": "Sàn Đấu Giá Tài Sản",
+    "tenderBtn": "Sàn Đấu Thầu Dự Án",
+    "auctionSection": "Phiên đấu giá đang diễn ra",
+    "keyAssetsSection": "Tài sản đấu giá nổi bật",
+    "tenderSection": "Gói thầu đang mở",
+    "viewAllAuctions": "Xem tất cả →",
+    "viewAllKeyAssets": "Xem tất cả →",
+    "viewAllTenders": "Xem tất cả gói thầu →",
+    "statusOpen": "Đang diễn ra",
+    "startPrice": "Giá khởi điểm",
+    "deposit": "Tiền đặt trước",
+    "organizeTime": "Thời gian tổ chức",
+    "bidCount": "lượt đấu",
+    "viewDetail": "Xem chi tiết",
+    "submitProposal": "Nộp hồ sơ →",
+    "budget": "Ngân sách",
+    "deadline": "Thời gian tổ chức",
+    "participantCount": "nhà thầu đã tham gia",
+    "errorLoad": "Không thể tải dữ liệu. Vui lòng thử lại."
+  }
 }
