@@ -48,7 +48,6 @@ const HomeContent = () => {
       <NavigationButtons activeTab={activeTab} onChange={setActiveTab} />
 
       <S.ContentWrapper>
-        {/* Phiên đấu giá đang diễn ra */}
         {activeTab === LoaiPhien.DAU_GIA && (
           <WrapperSection
             title={t("auctionSection")}
@@ -71,7 +70,6 @@ const HomeContent = () => {
           </WrapperSection>
         )}
 
-        {/* Gói thầu đang mở */}
         {activeTab === LoaiPhien.DAU_THAU && (
           <WrapperSection
             title={t("tenderSection")}
@@ -94,7 +92,6 @@ const HomeContent = () => {
           </WrapperSection>
         )}
 
-        {/* Tài sản đấu giá nổi bật */}
         <WrapperSection
           title={t("keyAssetsSection")}
           viewAllUrl="/key-assets"
