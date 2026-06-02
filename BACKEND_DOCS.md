@@ -324,7 +324,7 @@ Request:
 
 ```json
 {
-  "tieuDe": "Goi thau thiet bi y te",
+  "tieuDe": "ô tô vinfast vf6",
   "moTa": "Mua sam thiet bi cho benh vien",
   "thoiGianBatDau": "2026-05-20T02:00:00.000Z",
   "thoiGianKetThuc": "2026-05-25T10:00:00.000Z",
@@ -333,6 +333,12 @@ Request:
   "trongSoGia": 0.4,
   "diemKyThuatToiThieu": 50,
   "anDanh": true,
+  "danhSachHinhAnh": [
+    "https://iili.io/C3Cy90N.png",
+    "https://iili.io/C3n9JCx.png",
+    "https://iili.io/C3n9r8P.png",
+    "https://iili.io/C3nHxR9.png"
+  ],
   "tieuChi": [
     {
       "tenTieuChi": "Kinh nghiem",
@@ -343,6 +349,9 @@ Request:
       "huongToiUu": "CAO_HON",
       "batBuoc": true,
       "rangBuocCung": false,
+      "cacLuaChon": ["string"],
+      "giaTriToiThieu": 1000000,
+      "giaTriToiDa": 100000000,
       "donVi": "hop dong"
     }
   ]
@@ -494,7 +503,13 @@ Request:
   "tienDatCoc": 25000000,
   "trongSoGia": 0.8,
   "trongSoUyTin": 0.2,
-  "anDanh": true
+  "anDanh": true,
+  "danhSachHinhAnh": [
+    "https://iili.io/C3Cy90N.png",
+    "https://iili.io/C3n9JCx.png",
+    "https://iili.io/C3n9r8P.png",
+    "https://iili.io/C3nHxR9.png"
+  ]
 }
 ```
 

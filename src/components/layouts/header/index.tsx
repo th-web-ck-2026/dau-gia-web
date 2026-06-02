@@ -47,7 +47,7 @@ const Header = () => {
 
   const getActiveKey = (path: string): string => {
     if (path === "/" || path === "") return "/";
-    if (path.startsWith("/auctions")) return "/auctions";
+    if (path.startsWith("/sessions")) return "/sessions";
     if (path.startsWith("/leaderboard")) return "/leaderboard";
     return "";
   };
@@ -58,8 +58,8 @@ const Header = () => {
       label: <Link href="/">{t("home")}</Link>,
     },
     {
-      key: "/auctions",
-      label: <Link href="/auctions">{t("auctionSessions")}</Link>,
+      key: "/sessions",
+      label: <Link href="/sessions">{t("sessions")}</Link>,
     },
     {
       key: "/leaderboard",
