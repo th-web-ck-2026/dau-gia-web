@@ -67,10 +67,11 @@ export const ButtonsRow = styled.div`
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}px) {
     flex-direction: column;
-    align-items: stretch;
+    align-items: center;
 
     .ant-btn {
       width: 100%;
+      max-width: 250px;
     }
   }
 `;
