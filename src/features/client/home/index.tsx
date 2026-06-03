@@ -4,7 +4,10 @@ import { useState } from "react";
 
 import { useTranslations } from "next-intl";
 
+import { SessionQueryParams } from "@/api/sessions";
 import { BaseEmpty } from "@/components/common";
+import { TrangThaiPhien } from "@/constants";
+import { SortOrder } from "@/constants";
 import { LoaiPhien } from "@/constants/scoring";
 import type {
   AuctionSession,
@@ -20,26 +23,44 @@ import AuctionCardSkeleton from "./card/skeleton/AuctionCardSkeleton";
 import KeyAssetCardSkeleton from "./card/skeleton/KeyAssetCardSkeleton";
 import TenderCardSkeleton from "./card/skeleton/TenderCardSkeleton";
 import HeroBanner from "./hero-banner";
-import useHomeHooks from "./index.hooks";
+import { useGetAuctions, useGetKeyAssets, useGetTenders } from "./index.hooks";
 import * as S from "./index.styles";
 import { NavigationButtons } from "./index.utils";
 import WrapperSection from "./shared/WrapperSection";
+
+const defaultParams: SessionQueryParams = {
+  limit: 4,
+  condition: {
+    trangThai: TrangThaiPhien.MO,
+  },
+  order: {
+    createdAt: SortOrder.DESC,
+  },
+};
 
 const HomeContent = () => {
   const t = useTranslations("home");
   const [activeTab, setActiveTab] = useState<LoaiPhien>(LoaiPhien.DAU_GIA);
 
   const {
-    auctions,
-    isAuctionsLoading,
-    isAuctionsError,
-    tenders,
-    isTendersLoading,
-    isTendersError,
-    keyAssets,
-    isKeyAssetsLoading,
-    isKeyAssetsError,
-  } = useHomeHooks();
+    data: auctionsData,
+    isLoading: isAuctionsLoading,
+    isError: isAuctionsError,
+  } = useGetAuctions({ ...defaultParams, limit: 4 });
+  const {
+    data: tendersData,
+    isLoading: isTendersLoading,
+    isError: isTendersError,
+  } = useGetTenders({ ...defaultParams, limit: 3 });
+  const {
+    data: keyAssetsData,
+    isLoading: isKeyAssetsLoading,
+    isError: isKeyAssetsError,
+  } = useGetKeyAssets({ ...defaultParams, limit: 3 });
+
+  const auctions = auctionsData?.data?.result || [];
+  const tenders = tendersData?.data?.result || [];
+  const keyAssets = keyAssetsData?.data?.result || [];
 
   return (
     <S.HomeContainer>

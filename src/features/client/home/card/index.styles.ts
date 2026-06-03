@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+import { BaseTypography } from "@/components/common/base-typography";
+
 export const CardWrapper = styled.div`
   border-radius: ${({ theme }) => theme.borderRadius.md};
   overflow: hidden;
@@ -80,16 +82,14 @@ export const StatusBadge = styled.span`
   }
 `;
 
-export const CardTitle = styled.h3`
-  margin: 0;
-  font-size: ${({ theme }) => theme.fontSizes.md};
-  font-weight: ${({ theme }) => theme.fontWeights.semibold};
-  color: ${({ theme }) => theme.textMain};
-  line-height: 1.45;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+export const CardTitle = styled(BaseTypography.Paragraph)`
+  && {
+    margin: 0;
+    font-size: ${({ theme }) => theme.fontSizes.md};
+    font-weight: ${({ theme }) => theme.fontWeights.semibold};
+    color: ${({ theme }) => theme.textMain};
+    line-height: 1.45;
+  }
 `;
 
 export const CardFieldList = styled.div`
@@ -135,18 +135,14 @@ export const BidCountText = styled.span`
   color: ${({ theme }) => theme.textSenary};
 `;
 
-export const CardDescription = styled.p`
-  margin: 0;
-  font-size: ${({ theme }) => theme.fontSizes.xs};
-  color: ${({ theme }) => theme.textQuaternary};
-  line-height: 1.55;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+export const CardDescription = styled(BaseTypography.Paragraph)`
+  && {
+    margin: 0;
+    font-size: ${({ theme }) => theme.fontSizes.xs};
+    color: ${({ theme }) => theme.textQuaternary};
+    line-height: 1.55;
+  }
 `;
-
-/* ── KeyAssetCard ──────────────────────────────── */
 
 export const KeyAssetWrapper = styled.div`
   border-radius: ${({ theme }) => theme.borderRadius.md};
