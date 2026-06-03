@@ -7,7 +7,7 @@ import { TeamOutlined } from "@ant-design/icons";
 
 import { BaseButton } from "@/components/common/base-button";
 import type { TenderSession } from "@/interfaces/home";
-import { convertAmountToDateTime, formatCurrency } from "@/utils/common";
+import { convertAmountToDateTime } from "@/utils/common";
 
 import * as S from "./index.styles";
 
@@ -29,7 +29,7 @@ const TenderCard = ({ data, onSubmit }: TenderCardProps) => {
     <S.CardWrapper>
       <S.TenderImageWrapper>
         <Image
-          src={data.anhDaiDien || FALLBACK_IMAGE}
+          src={data.danhSachHinhAnh?.[0] || FALLBACK_IMAGE}
           alt={data.tieuDe}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1280px) 33vw, 25vw"
@@ -43,17 +43,17 @@ const TenderCard = ({ data, onSubmit }: TenderCardProps) => {
       <S.CardBody>
         <S.StatusBadge>{t("statusOpen")}</S.StatusBadge>
 
-        <S.CardTitle>{data.tieuDe}</S.CardTitle>
+        <S.CardTitle ellipsis={{ rows: 1, tooltip: data.tieuDe }}>
+          {data.tieuDe}
+        </S.CardTitle>
 
-        {data.moTa && <S.CardDescription>{data.moTa}</S.CardDescription>}
+        {data.moTa && (
+          <S.CardDescription ellipsis={{ rows: 2, tooltip: data.moTa }}>
+            {data.moTa}
+          </S.CardDescription>
+        )}
 
         <S.CardFieldList>
-          {data.giaToiDa && (
-            <S.CardField>
-              <S.FieldLabel>{t("budget")}:</S.FieldLabel>
-              <S.FieldValue>{formatCurrency(data.giaToiDa)}</S.FieldValue>
-            </S.CardField>
-          )}
           <S.CardField>
             <S.FieldLabel>{t("deadline")}:</S.FieldLabel>
             <S.FieldValue>
@@ -66,7 +66,7 @@ const TenderCard = ({ data, onSubmit }: TenderCardProps) => {
         <S.CardFooter>
           <S.BidCountText>
             <TeamOutlined />
-            {`${data.soNguoiThamGia ?? 0} ${t("participantCount")}`}
+            {`${data.soLuongNguoiThamGia ?? 0} ${t("participantCount")}`}
           </S.BidCountText>
           <BaseButton type="primary" size="small" onClick={handleSubmit}>
             {t("submitProposal")}

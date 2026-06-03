@@ -29,7 +29,7 @@ const AuctionCard = ({ data, onViewDetail }: AuctionCardProps) => {
     <S.CardWrapper>
       <S.AuctionImageWrapper>
         <Image
-          src={data.anhDaiDien || FALLBACK_IMAGE}
+          src={data.danhSachHinhAnh?.[0] || FALLBACK_IMAGE}
           alt={data.tieuDe}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1280px) 33vw, 25vw"
@@ -43,7 +43,9 @@ const AuctionCard = ({ data, onViewDetail }: AuctionCardProps) => {
       <S.CardBody>
         <S.StatusBadge>{t("statusOpen")}</S.StatusBadge>
 
-        <S.CardTitle>{data.tieuDe}</S.CardTitle>
+        <S.CardTitle ellipsis={{ rows: 1, tooltip: data.tieuDe }}>
+          {data.tieuDe}
+        </S.CardTitle>
 
         <S.CardFieldList>
           <S.CardField>
@@ -62,8 +64,8 @@ const AuctionCard = ({ data, onViewDetail }: AuctionCardProps) => {
         <S.CardFooter>
           <S.BidCountText>
             <UserOutlined />
-            {data.giaCaoNhat
-              ? `${formatCurrency(data.giaCaoNhat)} ${t("bidCount")}`
+            {data?.soLuongNguoiThamGia
+              ? `${data.soLuongNguoiThamGia} ${t("bidCount")}`
               : `0 ${t("bidCount")}`}
           </S.BidCountText>
           <BaseButton type="primary" size="small" onClick={handleViewDetail}>

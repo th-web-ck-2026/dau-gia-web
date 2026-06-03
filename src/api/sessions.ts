@@ -1,17 +1,25 @@
+import { SortOrder } from "@/constants";
+import { TrangThaiPhien } from "@/constants";
 import { ResponseData } from "@/interfaces/common";
 import type {
   AuctionSession,
   KeyAssetItem,
   PageableResponse,
   TenderSession,
-  TrangThaiPhien,
 } from "@/interfaces/home";
 import { request } from "@/services/axios";
 
-interface SessionQueryParams {
-  trangThai?: TrangThaiPhien;
+export interface SessionQueryParams {
+  condition?: {
+    trangThai?: TrangThaiPhien;
+    _id?: string;
+    chuPhienId?: string;
+  };
   page?: number;
   limit?: number;
+  order?: {
+    createdAt?: SortOrder;
+  };
 }
 
 export const getAuctionSessions = (params?: SessionQueryParams) =>

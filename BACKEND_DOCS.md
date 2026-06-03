@@ -324,20 +324,20 @@ Request:
 
 ```json
 {
-  "tieuDe": "ô tô vinfast vf6",
+  "tieuDe": "Xay dung he thong dai hoc so ptit",
   "moTa": "Mua sam thiet bi cho benh vien",
-  "thoiGianBatDau": "2026-05-20T02:00:00.000Z",
-  "thoiGianKetThuc": "2026-05-25T10:00:00.000Z",
+  "thoiGianBatDau": "2026-06-03T10:00:00.000Z",
+  "thoiGianKetThuc": "2026-06-20T10:00:00.000Z",
   "giaToiDa": 1000000000,
   "trongSoKyThuat": 0.6,
   "trongSoGia": 0.4,
   "diemKyThuatToiThieu": 50,
   "anDanh": true,
   "danhSachHinhAnh": [
-    "https://iili.io/C3Cy90N.png",
-    "https://iili.io/C3n9JCx.png",
-    "https://iili.io/C3n9r8P.png",
-    "https://iili.io/C3nHxR9.png"
+    "https://iili.io/CKKVd7f.png",
+    "https://iili.io/CKKWUcg.png",
+    "https://iili.io/CKKXl5J.png",
+    "https://iili.io/CKKhRI4.png"
   ],
   "tieuChi": [
     {
@@ -349,7 +349,7 @@ Request:
       "huongToiUu": "CAO_HON",
       "batBuoc": true,
       "rangBuocCung": false,
-      "cacLuaChon": ["string"],
+      "cacLuaChon": ["string", "string1", "string2"],
       "giaTriToiThieu": 1000000,
       "giaTriToiDa": 100000000,
       "donVi": "hop dong"
