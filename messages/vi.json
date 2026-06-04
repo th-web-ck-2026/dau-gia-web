@@ -21,6 +21,9 @@
     "previous": "Trước",
     "loading": "Đang tải...",
     "error": "Lỗi",
+    "errorMessageCommon": "Có lỗi xảy ra. Vui lòng thử lại sau.",
+    "errorNotFound": "Không tìm thấy dữ liệu.",
+    "errorForbidden": "Bạn không có quyền truy cập.",
     "success": "Thành công",
     "warning": "Cảnh báo",
     "info": "Thông tin",
@@ -164,8 +167,7 @@
     "submitProposal": "Nộp hồ sơ →",
     "budget": "Ngân sách",
     "deadline": "Thời gian tổ chức",
-    "participantCount": "nhà thầu đã tham gia",
-    "errorLoad": "Không thể tải dữ liệu. Vui lòng thử lại."
+    "participantCount": "nhà thầu đã tham gia"
   },
   "errorBoundary": {
     "title": "Có lỗi xảy ra",
