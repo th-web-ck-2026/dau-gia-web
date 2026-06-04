@@ -14,10 +14,8 @@ export default async function LocaleLayout({ children }: Props) {
   const messages = await getMessages();
 
   return (
-    <ClientWrapper>
-      <LocaleProvider locale={locale} messages={messages}>
-        {children}
-      </LocaleProvider>
-    </ClientWrapper>
+    <LocaleProvider locale={locale} messages={messages}>
+      <ClientWrapper>{children}</ClientWrapper>
+    </LocaleProvider>
   );
 }
