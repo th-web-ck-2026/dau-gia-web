@@ -8,11 +8,11 @@ const RootLoading = async () => {
   const messages = await getMessages({ locale: defaultLocale });
 
   return (
-    <ClientWrapper>
-      <LocaleProvider locale={defaultLocale} messages={messages}>
+    <LocaleProvider locale={defaultLocale} messages={messages}>
+      <ClientWrapper>
         <Loading />
-      </LocaleProvider>
-    </ClientWrapper>
+      </ClientWrapper>
+    </LocaleProvider>
   );
 };
 

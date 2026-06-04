@@ -40,6 +40,7 @@ const defaultParams: SessionQueryParams = {
 
 const HomeContent = () => {
   const t = useTranslations("home");
+  const t_common = useTranslations("common");
   const [activeTab, setActiveTab] = useState<LoaiPhien>(LoaiPhien.DAU_GIA);
 
   const {
@@ -76,7 +77,7 @@ const HomeContent = () => {
             viewAllLabel={t("viewAllAuctions")}
           >
             {isAuctionsError ? (
-              <BaseEmpty description={t("errorLoad")} />
+              <BaseEmpty description={t_common("errorNotFound")} />
             ) : (
               <CardGrid $columns={4}>
                 {isAuctionsLoading
@@ -98,7 +99,7 @@ const HomeContent = () => {
             viewAllLabel={t("viewAllTenders")}
           >
             {isTendersError ? (
-              <BaseEmpty description={t("errorLoad")} />
+              <BaseEmpty description={t_common("errorNotFound")} />
             ) : (
               <CardGrid $columns={3}>
                 {isTendersLoading
@@ -119,7 +120,7 @@ const HomeContent = () => {
           viewAllLabel={t("viewAllKeyAssets")}
         >
           {isKeyAssetsError ? (
-            <BaseEmpty description={t("errorLoad")} />
+            <BaseEmpty description={t_common("errorNotFound")} />
           ) : (
             <CardGrid $columns={3}>
               {isKeyAssetsLoading
