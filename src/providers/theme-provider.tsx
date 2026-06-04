@@ -2,22 +2,14 @@
 
 import React, { PropsWithChildren, useLayoutEffect, useState } from "react";
 
-import { LoadingOutlined } from "@ant-design/icons";
 import "@ant-design/v5-patch-for-react-19";
-import { ConfigProvider, App as FeedbackProvider, Spin } from "antd";
+import { ConfigProvider, App as FeedbackProvider } from "antd";
 import { DefaultTheme, ThemeProvider } from "styled-components";
 
+import { Loading } from "@/components/common/loading";
 import { getThemeConfig } from "@/styles/theme.config";
 import { getGlobalStyles } from "@/styles/theme.global";
 import { themeObject } from "@/styles/themes/theme-variables";
-
-const loadingStyles: React.CSSProperties = {
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  minHeight: "100vh",
-  width: "100%",
-};
 
 export const AppThemeProvider = (props: PropsWithChildren) => {
   const [mounted, setMounted] = useState(false);
@@ -36,9 +28,9 @@ export const AppThemeProvider = (props: PropsWithChildren) => {
 
   if (!mounted) {
     return (
-      <div style={loadingStyles}>
-        <Spin indicator={<LoadingOutlined spin />} size="large" />
-      </div>
+      <ThemeProvider theme={currentTheme as DefaultTheme}>
+        <Loading />
+      </ThemeProvider>
     );
   }
 

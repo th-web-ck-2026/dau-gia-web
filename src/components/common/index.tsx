@@ -1,7 +1,8 @@
 "use client";
 
-export { ErrorBoundary } from "./error-boundary";
+export { ErrorBoundary, ErrorBoundaryFallback } from "./error-boundary";
 export * from "./base-button";
+export * from "./base-breadcrumb";
 export * from "./base-input";
 export * from "./base-typography";
 export * from "./base-space";
@@ -60,4 +61,5 @@ export * from "./inputs/suffix-input";
 export * from "./inputs/verification-code-input";
 export * from "./inputs/clipboard-input";
 export * from "./base-segmented";
-export * from './base-dropdown'
+export * from "./base-dropdown";
+export * from "./loading";

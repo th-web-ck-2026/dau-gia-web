@@ -6,7 +6,7 @@ import type {
   KeyAssetItem,
   PageableResponse,
   TenderSession,
-} from "@/interfaces/home";
+} from "@/interfaces/sessions";
 import { request } from "@/services/axios";
 
 export interface SessionQueryParams {

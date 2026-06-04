@@ -15,6 +15,7 @@ import {
 import {
   BaseAvatar,
   BaseBadge,
+  BaseBreadcrumb,
   BaseButton,
   BaseCard,
   BaseCheckbox,
@@ -355,6 +356,49 @@ const DemoComponent = () => {
             <BaseRate value={rateValue} onChange={setRateValue} allowHalf />
           </BaseCol>
         </BaseRow>
+      </S.DemoBlock>
+
+      {/* ================== BREADCRUMB ================== */}
+      <S.SectionTitle>Breadcrumb</S.SectionTitle>
+      <S.DemoBlock>
+        <BaseBreadcrumb
+          items={[
+            {
+              title: "Home",
+              href: "",
+            },
+            {
+              title: <a href="">Application Center</a>,
+            },
+            {
+              title: <a href="">Application List</a>,
+            },
+            {
+              title: "An Application",
+            },
+          ]}
+        />
+        <br />
+        <BaseBreadcrumb
+          items={[
+            {
+              href: "",
+              title: <HomeOutlined />,
+            },
+            {
+              href: "",
+              title: (
+                <>
+                  <UserOutlined />
+                  <span>Application List</span>
+                </>
+              ),
+            },
+            {
+              title: "Application",
+            },
+          ]}
+        />
       </S.DemoBlock>
 
       {/* ================== TAGS & BADGES & AVATARS ================== */}

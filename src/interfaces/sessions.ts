@@ -52,18 +52,9 @@ export interface BaseSession {
 export interface AuctionSession extends BaseSession {
   giaKhoiDiem: number;
   buocGia: number;
-  giaTran?: number;
-  trongSoGia: number;
-  trongSoUyTin: number;
-  trongSoCamKet?: number;
-  giaCaoNhat?: number;
 }
 
 export interface TenderSession extends BaseSession {
-  giaToiDa?: number;
-  trongSoKyThuat: number;
-  trongSoGia: number;
-  diemKyThuatToiThieu: number;
   thoiDiemCongBo?: string;
   tieuChi?: TenderCriteria[];
 }
