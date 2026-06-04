@@ -89,9 +89,8 @@ export function useLoadServerError() {
       if (status === ResponseCode.VALIDATION_ERROR && form) {
         const validationData = isRecord(errorData) ? errorData : {};
         if ("detail" in validationData) {
-          // @ts-expect-error: validationData is casted to ValidationError but structure might vary
           handleValidationErrors(
-            validationData as ValidationError,
+            validationData as unknown as ValidationError,
             form as FormInstance
           );
           return;
