@@ -13,7 +13,7 @@ import type {
   AuctionSession,
   KeyAssetItem,
   TenderSession,
-} from "@/interfaces/home";
+} from "@/interfaces/sessions";
 
 import AuctionCard from "./card/AuctionCard";
 import KeyAssetCard from "./card/KeyAssetCard";

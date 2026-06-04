@@ -6,7 +6,7 @@ import Image from "next/image";
 import { UserOutlined } from "@ant-design/icons";
 
 import { BaseButton } from "@/components/common/base-button";
-import type { AuctionSession } from "@/interfaces/home";
+import type { AuctionSession } from "@/interfaces/sessions";
 import { convertAmountToDateTime, formatCurrency } from "@/utils/common";
 
 import * as S from "./index.styles";

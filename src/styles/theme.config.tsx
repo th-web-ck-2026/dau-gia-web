@@ -245,7 +245,10 @@ export const getThemeConfig = (theme: DefaultTheme): ThemeConfig => {
       },
       Breadcrumb: {
         fontSizeIcon: 10,
-        colorTextDescription: theme.breadcrumb,
+        itemColor: theme.textSenary,
+        lastItemColor: theme.textBrand,
+        linkHoverColor: theme.breadcrumb,
+        separatorColor: theme.textSenary,
       },
       Tabs: {
         colorPrimaryHover: theme.primary,

@@ -112,7 +112,7 @@
     "login": "Login",
     "register": "Register",
     "logout": "Logout",
-    "profile": "Profile",
+    "profile": "Account Information",
     "connectionStatus": "Connected",
     "connectionStatusOffline": "Disconnected"
   },
@@ -166,5 +166,11 @@
     "deadline": "Schedule",
     "participantCount": "bidders joined",
     "errorLoad": "Failed to load data. Please try again."
+  },
+  "errorBoundary": {
+    "title": "Something went wrong",
+    "subTitle": "This page is temporarily unavailable. Please try again or return to the homepage.",
+    "retry": "Try again",
+    "goHome": "Back to Home"
   }
 }
