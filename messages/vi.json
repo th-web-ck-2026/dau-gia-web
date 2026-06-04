@@ -112,7 +112,7 @@
     "login": "Đăng nhập",
     "register": "Đăng ký",
     "logout": "Đăng xuất",
-    "profile": "Trang cá nhân",
+    "profile": "Thông tin tài khoản",
     "connectionStatus": "Đã kết nối",
     "connectionStatusOffline": "Mất kết nối"
   },
@@ -166,5 +166,11 @@
     "deadline": "Thời gian tổ chức",
     "participantCount": "nhà thầu đã tham gia",
     "errorLoad": "Không thể tải dữ liệu. Vui lòng thử lại."
+  },
+  "errorBoundary": {
+    "title": "Có lỗi xảy ra",
+    "subTitle": "Trang này tạm thời không thể hiển thị. Vui lòng thử lại hoặc quay về trang chủ.",
+    "retry": "Thử lại",
+    "goHome": "Về trang chủ"
   }
 }

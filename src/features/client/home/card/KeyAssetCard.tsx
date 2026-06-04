@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 
-import type { KeyAssetItem } from "@/interfaces/home";
+import type { KeyAssetItem } from "@/interfaces/sessions";
 import { formatCurrency } from "@/utils/common";
 
 import * as S from "./index.styles";

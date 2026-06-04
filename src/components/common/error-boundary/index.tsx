@@ -1,7 +1,14 @@
-'use client';
+"use client";
 
-import React, { Component, ErrorInfo, ReactNode } from 'react';
-import { Button, Result } from 'antd';
+import React, { Component, ErrorInfo, ReactNode } from "react";
+
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+
+import { BaseButton } from "../base-button";
+import { BaseResult } from "../base-result";
+import { BaseSpace } from "../base-space";
+import { BaseTypography } from "../base-typography";
+import * as S from "./index.styles";
 
 interface Props {
   children: ReactNode;
@@ -12,6 +19,120 @@ interface State {
   hasError: boolean;
   error?: Error;
 }
+
+const getFallbackTranslations = () => {
+  const pathname =
+    typeof window !== "undefined" ? window.location.pathname : "";
+  const isEn =
+    pathname.startsWith("/en") ||
+    pathname.startsWith("/en/") ||
+    pathname.includes("/en/");
+
+  if (isEn) {
+    return {
+      title: "Something went wrong",
+      subTitle:
+        "This page is temporarily unavailable. Please try again or return to the homepage.",
+      retry: "Try again",
+      goHome: "Back to Home",
+    };
+  }
+
+  return {
+    title: "Có lỗi xảy ra",
+    subTitle:
+      "Trang này tạm thời không thể hiển thị. Vui lòng thử lại hoặc quay về trang chủ.",
+    retry: "Thử lại",
+    goHome: "Về trang chủ",
+  };
+};
+
+interface FallbackProps {
+  error?: Error;
+  reset?: () => void;
+  title?: string;
+  subTitle?: string;
+  retryText?: string;
+  goHomeText?: string;
+}
+
+export const ErrorBoundaryFallback: React.FC<FallbackProps> = ({
+  error,
+  reset,
+  title,
+  subTitle,
+  retryText,
+  goHomeText,
+}) => {
+  const fallbackTranslations = getFallbackTranslations();
+
+  const displayTitle = title || fallbackTranslations.title;
+  const displaySubTitle = subTitle || fallbackTranslations.subTitle;
+  const displayRetryText = retryText || fallbackTranslations.retry;
+  const displayGoHomeText = goHomeText || fallbackTranslations.goHome;
+
+  const handleRetry = () => {
+    if (reset) {
+      reset();
+    } else {
+      window.location.reload();
+    }
+  };
+
+  const handleGoHome = () => {
+    window.location.href = "/";
+  };
+
+  return (
+    <S.ErrorContainer align="center" justify="center" vertical>
+      <BaseResult
+        icon={
+          <div style={{ width: 300, height: 300, margin: "0 auto" }}>
+            <DotLottieReact src="/lotties/500.lottie" loop autoplay />
+          </div>
+        }
+        title={
+          <BaseTypography.Title level={2} style={{ margin: "24px 0 8px" }}>
+            {displayTitle}
+          </BaseTypography.Title>
+        }
+        subTitle={
+          <BaseSpace
+            direction="vertical"
+            size="middle"
+            style={{ width: "100%", maxWidth: 600 }}
+          >
+            <BaseTypography.Text type="secondary" style={{ fontSize: 16 }}>
+              {displaySubTitle}
+            </BaseTypography.Text>
+            {process.env.NODE_ENV === "development" && error && (
+              <S.DevStackTrace>{error.stack || error.message}</S.DevStackTrace>
+            )}
+          </BaseSpace>
+        }
+        extra={
+          <BaseSpace size="middle" style={{ marginTop: 12 }}>
+            <BaseButton
+              type="primary"
+              size="large"
+              onClick={handleRetry}
+              style={{ minWidth: 120 }}
+            >
+              {displayRetryText}
+            </BaseButton>
+            <BaseButton
+              size="large"
+              onClick={handleGoHome}
+              style={{ minWidth: 120 }}
+            >
+              {displayGoHomeText}
+            </BaseButton>
+          </BaseSpace>
+        }
+      />
+    </S.ErrorContainer>
+  );
+};
 
 export class ErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {
@@ -24,7 +145,7 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('ErrorBoundary caught an error:', error, errorInfo);
+    console.error("ErrorBoundary caught an error:", error, errorInfo);
   }
 
   handleReset = () => {
@@ -38,35 +159,13 @@ export class ErrorBoundary extends Component<Props, State> {
       }
 
       return (
-        <div style={{ 
-          display: 'flex', 
-          justifyContent: 'center', 
-          alignItems: 'center', 
-          minHeight: '100vh',
-          padding: '24px'
-        }}>
-          <Result
-            status="error"
-            title="Đã có lỗi xảy ra"
-            subTitle={
-              process.env.NODE_ENV === 'development' 
-                ? this.state.error?.message 
-                : 'Vui lòng thử lại sau hoặc liên hệ hỗ trợ.'
-            }
-            extra={[
-              <Button type="primary" key="reload" onClick={() => window.location.reload()}>
-                Tải lại trang
-              </Button>,
-              <Button key="home" onClick={() => window.location.href = '/'}>
-                Về trang chủ
-              </Button>,
-            ]}
-          />
-        </div>
+        <ErrorBoundaryFallback
+          error={this.state.error}
+          reset={this.handleReset}
+        />
       );
     }
 
     return this.props.children;
   }
 }
-
