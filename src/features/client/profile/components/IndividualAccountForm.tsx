@@ -20,7 +20,7 @@ import * as S from "../index.styles";
 
 interface IndividualAccountFormProps {
   user: User;
-  onSave?: (values: any) => void;
+  onSave?: (values: Partial<User>) => void;
 }
 
 const IndividualAccountForm: React.FC<IndividualAccountFormProps> = ({
@@ -35,7 +35,6 @@ const IndividualAccountForm: React.FC<IndividualAccountFormProps> = ({
       ...values,
       birthday: values.birthday ? values.birthday.format("YYYY-MM-DD") : null,
     };
-    console.log("Saving individual profile:", formattedValues);
     if (onSave) {
       onSave(formattedValues);
     } else {

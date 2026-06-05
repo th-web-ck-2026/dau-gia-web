@@ -5,6 +5,8 @@ import React from "react";
 import { Loading } from "@/components/common";
 import { useAuth } from "@/hooks/common";
 
+import { ProfileGuard } from "./profile-guard";
+
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
@@ -14,5 +16,5 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     return <Loading />;
   }
 
-  return <>{children}</>;
+  return <ProfileGuard>{children}</ProfileGuard>;
 };

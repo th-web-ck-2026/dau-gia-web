@@ -8,7 +8,7 @@ import {
   EnvironmentOutlined,
   InboxOutlined,
 } from "@ant-design/icons";
-import { message } from "antd";
+import { UploadProps, message } from "antd";
 import dayjs from "dayjs";
 
 import {
@@ -21,15 +21,17 @@ import {
   BaseSelect,
   BaseUpload,
 } from "@/components/common";
+import { useProvinceWard, useUpload } from "@/hooks/common";
 import type { User } from "@/interfaces/auth";
 
+import { UpdateOrganizationPayload } from "../index.hooks";
 import * as S from "../index.styles";
 
 const { Dragger } = BaseUpload;
 
 interface OrganizationAccountFormProps {
   user: User;
-  onSave?: (values: any) => void;
+  onSave?: (values: UpdateOrganizationPayload) => void;
 }
 
 const OrganizationAccountForm: React.FC<OrganizationAccountFormProps> = ({
@@ -39,45 +41,86 @@ const OrganizationAccountForm: React.FC<OrganizationAccountFormProps> = ({
   const t = useTranslations("client.profile");
   const [form] = BaseForm.useForm();
 
+  const provinceCode = BaseForm.useWatch("province", form);
+  const { provincesData, wardsData, isLoadingProvinces, isLoadingWards } =
+    useProvinceWard(provinceCode);
+
+  const { uploadPublic } = useUpload();
+
   const handleFinish = (values: any) => {
-    const formattedValues = {
-      ...values,
-      orgRegDate: values.orgRegDate
+    const licenseUrl =
+      values.licenseImage?.[0]?.response || values.licenseImage?.[0]?.url || "";
+
+    const userPayload = {
+      soCccd: values.orgRegNo,
+      ngayCapCccd: values.orgRegDate
         ? values.orgRegDate.format("YYYY-MM-DD")
         : null,
+      noiCapCccd: values.orgRegPlace,
+      soTaiKhoan: values.bankAccountNo,
+      tenNganHang: values.bankName,
+      chiNhanhNganHang: values.bankBranch,
+      tenTaiKhoan: values.bankAccountHolder,
     };
-    console.log("Saving organization profile:", formattedValues);
+
+    const orgPayload = {
+      tenToChuc: values.orgName,
+      maSoThue: values.taxCode,
+      soDienThoai: values.companyPhone,
+      email: values.companyEmail,
+      maTinhTp: values.province,
+      tenTinhTp: provincesData.find((p) => p.code === values.province)?.name,
+      maXaPhuong: values.ward,
+      tenXaPhuong: wardsData.find((w) => w.code === values.ward)?.name,
+      diaChi: values.address,
+      licenseImage: licenseUrl,
+    };
+
     if (onSave) {
-      onSave(formattedValues);
+      onSave({ userPayload, orgPayload });
     } else {
       message.success(t("successSaveInfo"));
     }
   };
 
-  // [Important: Enable when API is ready]
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const dummyRequest = ({ file, onSuccess }: any) => {
-    setTimeout(() => {
-      onSuccess("ok");
-    }, 1000);
+  const handleUploadLicense = async (
+    options: Parameters<Required<UploadProps>["customRequest"]>[0]
+  ) => {
+    const { file, onSuccess, onError } = options;
+    try {
+      const response = await uploadPublic.mutateAsync({ file: file as File });
+      onSuccess?.(response.data);
+    } catch (err) {
+      onError?.(err as Error);
+    }
   };
 
-  // Mock initial values combining user core info + mock organization values for preview
   const initialValues = {
-    orgName: user.fullname || "",
-    orgRegNo: "0102030405",
-    orgRegDate: dayjs("2020-01-01"),
-    orgRegPlace: "Sở Kế hoạch và Đầu tư Hà Nội",
-    taxCode: "0102030405",
-    companyPhone: user.phone || "",
-    companyEmail: user.email || "",
-    province: "hanoi",
-    ward: "hoankiem",
-    address: user.address || "",
-    bankAccountNo: "1234567890",
-    bankName: "Ngân hàng TMCP Ngoại thương Việt Nam (Vietcombank)",
-    bankBranch: "Sở giao dịch",
-    bankAccountHolder: user.fullname ? user.fullname.toUpperCase() : "",
+    orgName: user.toChucProfile?.tenToChuc || user.fullname || "",
+    orgRegNo: user.soCccd || "",
+    orgRegDate: user.ngayCapCccd ? dayjs(user.ngayCapCccd) : null,
+    orgRegPlace: user.noiCapCccd || "",
+    taxCode: user.toChucProfile?.maSoThue || "",
+    companyPhone: user.toChucProfile?.soDienThoai || user.phone || "",
+    companyEmail: user.toChucProfile?.email || user.email || "",
+    province: user.toChucProfile?.maTinhTp || undefined,
+    ward: user.toChucProfile?.maXaPhuong || undefined,
+    address: user.toChucProfile?.diaChi || "",
+    bankAccountNo: user.soTaiKhoan || "",
+    bankName: user.tenNganHang || "",
+    bankBranch: user.chiNhanhNganHang || "",
+    bankAccountHolder:
+      user.tenTaiKhoan || (user.fullname ? user.fullname.toUpperCase() : ""),
+    licenseImage: user.toChucProfile?.diaChi
+      ? [
+          {
+            uid: "-1",
+            name: "license.png",
+            status: "done",
+            url: "https://iili.io/CfJ0CTQ.png",
+          },
+        ]
+      : [],
   };
 
   return (
@@ -176,7 +219,7 @@ const OrganizationAccountForm: React.FC<OrganizationAccountFormProps> = ({
             name="license"
             multiple={false}
             maxCount={1}
-            customRequest={dummyRequest}
+            customRequest={handleUploadLicense}
             accept="image/*"
           >
             <S.DraggerContent>
@@ -244,11 +287,14 @@ const OrganizationAccountForm: React.FC<OrganizationAccountFormProps> = ({
             <BaseSelect
               size="large"
               placeholder="Chọn Tỉnh/Thành phố"
-              options={[
-                { value: "hanoi", label: "Hà Nội" },
-                { value: "hcm", label: "TP. Hồ Chí Minh" },
-                { value: "danang", label: "Đà Nẵng" },
-              ]}
+              loading={isLoadingProvinces}
+              options={provincesData.map((p) => ({
+                value: p.code,
+                label: p.name,
+              }))}
+              onChange={() => {
+                form.setFieldValue("ward", undefined);
+              }}
             />
           </BaseForm.Item>
         </BaseCol>
@@ -267,11 +313,12 @@ const OrganizationAccountForm: React.FC<OrganizationAccountFormProps> = ({
             <BaseSelect
               size="large"
               placeholder="Chọn Phường/xã"
-              options={[
-                { value: "hoankiem", label: "Hoàn Kiếm" },
-                { value: "dist1", label: "Quận 1" },
-                { value: "haichau", label: "Hải Châu" },
-              ]}
+              loading={isLoadingWards}
+              options={wardsData.map((w) => ({
+                value: w.code,
+                label: w.name,
+              }))}
+              disabled={!provinceCode}
             />
           </BaseForm.Item>
         </BaseCol>
