@@ -7,16 +7,16 @@ export const FooterWrapper = styled.footer`
     theme.fontFamilies?.bePro || "var(--font-be-vietnam-pro)"};
   width: 100%;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-`;
-
-export const FooterContainer = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
   padding: 56px 24px 32px 24px;
 
   @media (max-width: ${({ theme }) => theme.breakpoints?.md || 768}px) {
     padding: 40px 16px 24px 16px;
   }
+`;
+
+export const FooterContainer = styled.div`
+  max-width: 1440px;
+  margin: 0 auto;
 `;
 
 export const TopSection = styled.div`

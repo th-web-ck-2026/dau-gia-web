@@ -3,14 +3,19 @@ import styled from "styled-components";
 
 export const HeaderWrapper = styled(Layout.Header)`
   height: auto;
-  padding: 0;
   background: ${({ theme }) => theme.white};
   line-height: normal;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   position: relative;
   z-index: 100;
+  padding: 8px 80px;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.lg - 1}px) {
+    padding: 8px 16px;
+  }
 `;
 
 export const LanguageSelectorWrapper = styled.div`
@@ -23,11 +28,11 @@ export const MainBar = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 80px;
+  width: 100%;
+  max-width: 1440px;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.lg - 1}px) {
     height: 70px;
-    padding: 8px 16px;
   }
 `;
 

@@ -39,7 +39,7 @@ const defaultParams: SessionQueryParams = {
 };
 
 const HomeContent = () => {
-  const t = useTranslations("home");
+  const t = useTranslations("client.home");
   const t_common = useTranslations("common");
   const [activeTab, setActiveTab] = useState<LoaiPhien>(LoaiPhien.DAU_GIA);
 
@@ -69,71 +69,73 @@ const HomeContent = () => {
 
       <NavigationButtons activeTab={activeTab} onChange={setActiveTab} />
 
-      <S.ContentWrapper>
-        {activeTab === LoaiPhien.DAU_GIA && (
-          <WrapperSection
-            title={t("auctionSection")}
-            viewAllUrl="/auction-sessions"
-            viewAllLabel={t("viewAllAuctions")}
-          >
-            {isAuctionsError ? (
-              <BaseEmpty description={t_common("errorNotFound")} />
-            ) : (
-              <CardGrid $columns={4}>
-                {isAuctionsLoading
-                  ? Array.from({ length: 4 }).map((_, i) => (
-                      <AuctionCardSkeleton key={i} />
-                    ))
-                  : auctions.map((item: AuctionSession) => (
-                      <AuctionCard key={item._id} data={item} />
-                    ))}
-              </CardGrid>
-            )}
-          </WrapperSection>
-        )}
+      <S.ContentRoot>
+        <S.ContentWrapper>
+          {activeTab === LoaiPhien.DAU_GIA && (
+            <WrapperSection
+              title={t("auctionSection")}
+              viewAllUrl="/auction-sessions"
+              viewAllLabel={t("viewAllAuctions")}
+            >
+              {isAuctionsError ? (
+                <BaseEmpty description={t_common("errorNotFound")} />
+              ) : (
+                <CardGrid $columns={4}>
+                  {isAuctionsLoading
+                    ? Array.from({ length: 4 }).map((_, i) => (
+                        <AuctionCardSkeleton key={i} />
+                      ))
+                    : auctions.map((item: AuctionSession) => (
+                        <AuctionCard key={item._id} data={item} />
+                      ))}
+                </CardGrid>
+              )}
+            </WrapperSection>
+          )}
 
-        {activeTab === LoaiPhien.DAU_THAU && (
+          {activeTab === LoaiPhien.DAU_THAU && (
+            <WrapperSection
+              title={t("tenderSection")}
+              viewAllUrl="/tender-sessions"
+              viewAllLabel={t("viewAllTenders")}
+            >
+              {isTendersError ? (
+                <BaseEmpty description={t_common("errorNotFound")} />
+              ) : (
+                <CardGrid $columns={3}>
+                  {isTendersLoading
+                    ? Array.from({ length: 3 }).map((_, i) => (
+                        <TenderCardSkeleton key={i} />
+                      ))
+                    : tenders.map((item: TenderSession) => (
+                        <TenderCard key={item._id} data={item} />
+                      ))}
+                </CardGrid>
+              )}
+            </WrapperSection>
+          )}
+
           <WrapperSection
-            title={t("tenderSection")}
-            viewAllUrl="/tender-sessions"
-            viewAllLabel={t("viewAllTenders")}
+            title={t("keyAssetsSection")}
+            viewAllUrl="/key-assets"
+            viewAllLabel={t("viewAllKeyAssets")}
           >
-            {isTendersError ? (
+            {isKeyAssetsError ? (
               <BaseEmpty description={t_common("errorNotFound")} />
             ) : (
               <CardGrid $columns={3}>
-                {isTendersLoading
+                {isKeyAssetsLoading
                   ? Array.from({ length: 3 }).map((_, i) => (
-                      <TenderCardSkeleton key={i} />
+                      <KeyAssetCardSkeleton key={i} />
                     ))
-                  : tenders.map((item: TenderSession) => (
-                      <TenderCard key={item._id} data={item} />
+                  : keyAssets.map((item: KeyAssetItem) => (
+                      <KeyAssetCard key={item._id} data={item} />
                     ))}
               </CardGrid>
             )}
           </WrapperSection>
-        )}
-
-        <WrapperSection
-          title={t("keyAssetsSection")}
-          viewAllUrl="/key-assets"
-          viewAllLabel={t("viewAllKeyAssets")}
-        >
-          {isKeyAssetsError ? (
-            <BaseEmpty description={t_common("errorNotFound")} />
-          ) : (
-            <CardGrid $columns={3}>
-              {isKeyAssetsLoading
-                ? Array.from({ length: 3 }).map((_, i) => (
-                    <KeyAssetCardSkeleton key={i} />
-                  ))
-                : keyAssets.map((item: KeyAssetItem) => (
-                    <KeyAssetCard key={item._id} data={item} />
-                  ))}
-            </CardGrid>
-          )}
-        </WrapperSection>
-      </S.ContentWrapper>
+        </S.ContentWrapper>
+      </S.ContentRoot>
     </S.HomeContainer>
   );
 };
