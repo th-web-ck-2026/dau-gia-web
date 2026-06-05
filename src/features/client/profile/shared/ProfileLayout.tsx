@@ -5,14 +5,15 @@ import { useTranslations } from "next-intl";
 import {
   CameraOutlined,
   IdcardOutlined,
+  LoadingOutlined,
   LockOutlined,
   LogoutOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { message } from "antd";
+import { UploadProps } from "antd";
 
 import { BaseAvatar, BaseCol, BaseRow, BaseUpload } from "@/components/common";
-import { UserRoleType } from "@/constants";
+import { AuthProvider, UserRoleType } from "@/constants";
 import type { User } from "@/interfaces/auth";
 
 import * as S from "../index.styles";
@@ -28,6 +29,10 @@ export interface ProfileLayoutProps {
   activeTab: string;
   onTabChange: (key: string) => void;
   onLogout: () => void;
+  onAvatarUpload?: (
+    options: Parameters<Required<UploadProps>["customRequest"]>[0]
+  ) => void;
+  isUploadingAvatar?: boolean;
   contentHeader: {
     icon: React.ReactNode;
     title: string;
@@ -41,6 +46,8 @@ const ProfileLayout: React.FC<ProfileLayoutProps> = ({
   activeTab,
   onTabChange,
   onLogout,
+  onAvatarUpload,
+  isUploadingAvatar = false,
   contentHeader,
   children,
 }) => {
@@ -54,11 +61,15 @@ const ProfileLayout: React.FC<ProfileLayoutProps> = ({
       label: t("infomationAccount"),
       icon: <UserOutlined />,
     },
-    {
-      key: "password",
-      label: t("changePassword"),
-      icon: <LockOutlined />,
-    },
+    ...(user.authProvider !== AuthProvider.GOOGLE
+      ? [
+          {
+            key: "password",
+            label: t("changePassword"),
+            icon: <LockOutlined />,
+          },
+        ]
+      : []),
     ...(isIndividual
       ? [
           {
@@ -83,14 +94,6 @@ const ProfileLayout: React.FC<ProfileLayoutProps> = ({
     }
   };
 
-  const handleAvatarChange = (info: any) => {
-    if (info.file.status === "done") {
-      message.success("Cập nhật ảnh đại diện thành công!");
-    } else if (info.file.status === "error") {
-      message.error("Lỗi khi tải ảnh đại diện lên.");
-    }
-  };
-
   return (
     <BaseRow gutter={[24, 24]}>
       {/* Sidebar Col */}
@@ -101,11 +104,13 @@ const ProfileLayout: React.FC<ProfileLayoutProps> = ({
             <BaseUpload
               name="avatar"
               showUploadList={false}
-              action="/api/user/avatar" // Mock or active endpoint
-              onChange={handleAvatarChange}
+              customRequest={onAvatarUpload}
+              disabled={isUploadingAvatar}
             >
               <S.AvatarWrapper>
-                {user.avatar ? (
+                {isUploadingAvatar ? (
+                  <LoadingOutlined style={{ fontSize: 24, color: "#1890ff" }} />
+                ) : user.avatar ? (
                   <BaseAvatar
                     src={user.avatar}
                     size={110}

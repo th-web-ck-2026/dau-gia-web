@@ -18,7 +18,14 @@ import ChangePasswordForm from "./shared/ChangePasswordForm";
 import ProfileLayout from "./shared/ProfileLayout";
 
 const ClientProfile = () => {
-  const { items, t } = useClientProfile();
+  const {
+    items,
+    t,
+    updateIndividual,
+    updateOrganization,
+    handleAvatarUpload,
+    isUploadingAvatar,
+  } = useClientProfile();
   const { user, isLoading, logout } = useAuth();
   const [activeTab, setActiveTab] = useState("info");
 
@@ -79,13 +86,15 @@ const ClientProfile = () => {
         activeTab={activeTab}
         onTabChange={setActiveTab}
         onLogout={logout}
+        onAvatarUpload={handleAvatarUpload}
+        isUploadingAvatar={isUploadingAvatar}
         contentHeader={getHeaderConfig()}
       >
         {activeTab === "info" && isIndividual && (
-          <IndividualAccountForm user={user} />
+          <IndividualAccountForm user={user} onSave={updateIndividual} />
         )}
         {activeTab === "info" && !isIndividual && (
-          <OrganizationAccountForm user={user} />
+          <OrganizationAccountForm user={user} onSave={updateOrganization} />
         )}
         {activeTab === "password" && <ChangePasswordForm />}
         {activeTab === "verify" && isIndividual && <IndividualIdentityForm />}

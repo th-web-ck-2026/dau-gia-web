@@ -1,4 +1,18 @@
-import { Role, UserRoleType } from "@/constants";
+import { AuthProvider, Role, UserRoleType } from "@/constants";
+
+export interface ToChucProfile {
+  _id: string;
+  userId: string;
+  tenToChuc: string;
+  maSoThue: string;
+  soDienThoai: string;
+  email: string;
+  tenTinhTp?: string;
+  maTinhTp?: string;
+  tenXaPhuong?: string;
+  maXaPhuong?: string;
+  diaChi?: string;
+}
 
 export interface User {
   _id: string;
@@ -18,17 +32,20 @@ export interface User {
   soCccd?: string | null;
   ngayCapCccd?: string | null;
   noiCapCccd?: string | null;
-  userRoles?: UserRoleType
+  userRoles?: UserRoleType;
+  tenNganHang?: string | null;
+  soTaiKhoan?: string | null;
+  tenTaiKhoan?: string | null;
+  chiNhanhNganHang?: string | null;
+  toChucProfile?: ToChucProfile | null;
+  authProvider?: AuthProvider;
 }
-
-
 
 export interface AuthData {
   access_token: string;
   refresh_token: string;
   user: User;
 }
-
 
 export interface LoginDto {
   email: string;
@@ -71,4 +88,3 @@ export interface ChangePasswordDto {
   oldPassword: string;
   newPassword: string;
 }
-
