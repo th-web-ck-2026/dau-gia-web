@@ -82,7 +82,18 @@
     "newPasswordPlaceholder": "Nhập mật khẩu mới của bạn",
     "confirmNewPasswordPlaceholder": "Nhập lại mật khẩu",
     "submitResetPasswordButton": "Cập nhật mật khẩu",
-    "resetPasswordSuccess": "Mật khẩu đã được cập nhật thành công!"
+    "resetPasswordSuccess": "Mật khẩu đã được cập nhật thành công!",
+    "selectRole": {
+      "title": "Thiết lập vai trò tài khoản",
+      "subtitle": "Vui lòng chọn loại hình tài khoản để tham gia đấu giá trên hệ thống",
+      "individual": "Tài khoản cá nhân",
+      "individualDesc": "Đăng ký tham gia đấu giá với tư cách cá nhân, cần xác thực bằng CMND/CCCD.",
+      "organization": "Tài khoản tổ chức",
+      "organizationDesc": "Dành cho các doanh nghiệp, tổ chức hoặc hộ kinh doanh cá thể.",
+      "saveButton": "Xác nhận & Thiết lập",
+      "success": "Thiết lập vai trò tài khoản thành công!",
+      "error": "Có lỗi xảy ra, vui lòng thử lại sau."
+    }
   },
   "validation": {
     "required": "Vui lòng nhập {field}",
@@ -205,6 +216,9 @@
       "errPasswordMismatch": "Mật khẩu xác nhận không khớp",
       "successUpdatePassword": "Cập nhật mật khẩu thành công",
       "successSaveInfo": "Cập nhật thông tin thành công",
+      "successUpdateOrganization": "Cập nhật thông tin tổ chức thành công",
+      "successUpdateAvatar": "Cập nhật ảnh đại diện thành công",
+      "errorUpdateAvatar": "Lỗi khi tải ảnh đại diện lên",
       "uploadIdFront": "Tải lên ảnh mặt trước",
       "uploadIdBack": "Tải lên ảnh mặt sau",
       "uploadInstructions": "Kéo thả hoặc nhấp vào đây để tải lên",

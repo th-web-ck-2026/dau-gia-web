@@ -12,16 +12,25 @@ async function proxy(req: Request, path: string[]) {
     const fullPath = path.join("/");
     const backendUrl = `${API_URL}/${fullPath}${searchParams.toString() ? `?${searchParams.toString()}` : ""}`;
 
+    const contentType = req.headers.get("content-type");
+
+    const headers: Record<string, string> = {
+      Authorization: accessToken ? `Bearer ${accessToken}` : "",
+    };
+
+    if (contentType) {
+      headers["content-type"] = contentType;
+    }
+
+    const body =
+      req.method !== "GET" && req.method !== "HEAD"
+        ? await req.arrayBuffer()
+        : undefined;
+
     let res = await fetch(backendUrl, {
       method: req.method,
-      headers: {
-        Authorization: accessToken ? `Bearer ${accessToken}` : "",
-        "Content-Type": "application/json",
-      },
-      body:
-        req.method !== "GET" && req.method !== "HEAD"
-          ? await req.text()
-          : undefined,
+      headers,
+      body,
     });
 
     if (res.status === ResponseCode.UNAUTHORIZED) {
@@ -82,13 +91,10 @@ async function proxy(req: Request, path: string[]) {
       res = await fetch(backendUrl, {
         method: req.method,
         headers: {
+          ...headers,
           Authorization: `Bearer ${newToken}`,
-          "Content-Type": "application/json",
         },
-        body:
-          req.method !== "GET" && req.method !== "HEAD"
-            ? await req.text()
-            : undefined,
+        body,
       });
     }
 

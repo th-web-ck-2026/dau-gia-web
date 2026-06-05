@@ -1,4 +1,4 @@
-import { AuthProvider } from "@/constants";
+import { AuthProvider, UserRoleType } from "@/constants";
 import {
   AuthData,
   ChangePasswordDto,
@@ -23,6 +23,12 @@ export const login = (
 
 export const register = (data: RegisterDto) =>
   request.post<RegisterDto, ResponseData<User>>("/auth/register", data);
+
+export const selectRole = (data: { userRoles: UserRoleType }) =>
+  request.post<{ userRoles: UserRoleType }, ResponseData<{ user: User }>>(
+    "/auth/select-role",
+    data
+  );
 
 export const forgotPassword = (data: ForgotPasswordDto) =>
   request.post<ForgotPasswordDto, ResponseData<any>>(

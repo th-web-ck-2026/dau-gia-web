@@ -1,21 +1,29 @@
 "use client";
 import React from "react";
 
-import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
-import { AuthLayout } from "../shared/AuthLayout";
-import * as S from "./index.styles";
+
 import BidwarLogo from "@/assets/svg/bidwar-text-brand.svg";
-import FormRegister from "./form";
-import { useRegisterHooks } from "./index.hooks";
-import { useRegisterUtils } from "./index.utils";
 import { BaseSegmented } from "@/components/common";
 import { UserRoleType } from "@/constants";
+import { Link } from "@/i18n/routing";
+
+import { AuthLayout } from "../shared/AuthLayout";
+import FormRegister from "./form";
+import { useRegisterHooks } from "./index.hooks";
+import * as S from "./index.styles";
+import { useRegisterUtils } from "./index.utils";
 
 const RegisterPage: React.FC = () => {
   const t = useTranslations("auth");
   const { form, handleRegister, isLoading } = useRegisterHooks();
-  const { validationRules, initialValues, optionsSegmented, userType, setUserType } = useRegisterUtils();
+  const {
+    validationRules,
+    initialValues,
+    optionsSegmented,
+    userType,
+    setUserType,
+  } = useRegisterUtils();
   return (
     <AuthLayout reversed>
       <BidwarLogo style={{ marginBottom: "12px" }} />
@@ -37,7 +45,9 @@ const RegisterPage: React.FC = () => {
       <FormRegister
         type={userType}
         form={form}
-        onFinish={handleRegister}
+        onFinish={(values) =>
+          handleRegister({ ...values, userRoles: userType })
+        }
         validationRules={validationRules}
         initialValues={initialValues}
         isLoading={isLoading}

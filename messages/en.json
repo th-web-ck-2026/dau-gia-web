@@ -82,7 +82,18 @@
     "newPasswordPlaceholder": "Enter your new password",
     "confirmNewPasswordPlaceholder": "Re-enter your password",
     "submitResetPasswordButton": "Update password",
-    "resetPasswordSuccess": "Password has been successfully updated!"
+    "resetPasswordSuccess": "Password has been successfully updated!",
+    "selectRole": {
+      "title": "Account Role Setup",
+      "subtitle": "Please select your account type to proceed with biddings",
+      "individual": "Individual Account",
+      "individualDesc": "For individual participants. Requires identification verification.",
+      "organization": "Organization Account",
+      "organizationDesc": "For businesses, organizations, or enterprise entities.",
+      "saveButton": "Confirm & Set Up",
+      "success": "Account role configured successfully!",
+      "error": "An error occurred, please try again later."
+    }
   },
   "validation": {
     "required": "Please enter {field}",
@@ -205,6 +216,9 @@
       "errPasswordMismatch": "Passwords do not match",
       "successUpdatePassword": "Password updated successfully",
       "successSaveInfo": "Information updated successfully",
+      "successUpdateOrganization": "Organization information updated successfully",
+      "successUpdateAvatar": "Avatar updated successfully",
+      "errorUpdateAvatar": "Failed to upload avatar",
       "uploadIdFront": "Upload ID Front",
       "uploadIdBack": "Upload ID Back",
       "uploadInstructions": "Drag and drop or click here to upload",
