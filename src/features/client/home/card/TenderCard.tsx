@@ -19,7 +19,7 @@ interface TenderCardProps {
 const FALLBACK_IMAGE = "/images/assets-default.png";
 
 const TenderCard = ({ data, onSubmit }: TenderCardProps) => {
-  const t = useTranslations("home");
+  const t = useTranslations("client.home");
 
   const handleSubmit = () => {
     onSubmit?.(data._id);

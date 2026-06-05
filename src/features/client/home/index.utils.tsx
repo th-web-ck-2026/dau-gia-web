@@ -16,7 +16,7 @@ export const NavigationButtons = ({
   activeTab,
   onChange,
 }: NavigationButtonsProps) => {
-  const t = useTranslations("home");
+  const t = useTranslations("client.home");
 
   return (
     <S.ButtonsRow>

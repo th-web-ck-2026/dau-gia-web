@@ -19,7 +19,7 @@ interface AuctionCardProps {
 const FALLBACK_IMAGE = "/images/assets-default.png";
 
 const AuctionCard = ({ data, onViewDetail }: AuctionCardProps) => {
-  const t = useTranslations("home");
+  const t = useTranslations("client.home");
 
   const handleViewDetail = () => {
     onViewDetail?.(data._id);

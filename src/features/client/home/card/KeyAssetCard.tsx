@@ -16,7 +16,7 @@ interface KeyAssetCardProps {
 const FALLBACK_IMAGE = "/images/assets-default.png";
 
 const KeyAssetCard = ({ data, href = "#" }: KeyAssetCardProps) => {
-  const t = useTranslations("home");
+  const t = useTranslations("client.home");
 
   return (
     <S.KeyAssetWrapper>

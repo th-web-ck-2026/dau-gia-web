@@ -12,18 +12,24 @@ export const HomeContainer = styled.div`
   }
 `;
 
-export const ContentWrapper = styled.section`
-  padding: 0 42px;
+export const ContentRoot = styled.section`
   width: 100%;
-  max-width: 1440px;
-  margin: 0 auto;
   display: flex;
-  flex-direction: column;
-  gap: 32px;
+  justify-content: center;
+  align-items: center;
+  padding: 0 42px;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}px) {
     padding: 0 24px;
   }
+`;
+
+export const ContentWrapper = styled.section`
+  width: 100%;
+  max-width: 1440px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
 `;
 
 export const ButtonsRow = styled.div`
