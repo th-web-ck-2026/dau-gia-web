@@ -10,7 +10,7 @@ import { useRouter } from "@/i18n/routing";
 import * as S from "./index.styles";
 
 const HeroBanner = () => {
-  const t = useTranslations("home");
+  const t = useTranslations("client.home");
   const { isAuthenticated } = useAuth();
   const { push } = useRouter();
 
