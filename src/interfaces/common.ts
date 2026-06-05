@@ -77,3 +77,7 @@ export interface ApiErrorData {
   headers: any; // eslint-disable-line @typescript-eslint/no-explicit-any
   config: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
+
+export interface FileData {
+  file: File;
+}
