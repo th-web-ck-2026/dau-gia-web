@@ -125,7 +125,7 @@
     "home": "Trang chủ",
     "auctionAssets": "Tài sản đấu giá",
     "auctionNotices": "Thông báo đấu giá",
-    "sessions": "Danh sách phiên",
+    "sessions": "Danh sách phiên đấu",
     "leaderboard": "Bảng xếp hạng",
     "login": "Đăng nhập",
     "register": "Đăng ký",
@@ -293,6 +293,23 @@
       "personalDetails": "Thông tin cá nhân",
       "identityDetails": "Xác minh danh tính"
     }
+  },
+  "sessions": {
+    "title": "Bộ lọc tài sản",
+    "tabAuction": "Đấu giá",
+    "tabTender": "Đấu thầu",
+    "searchPlaceholder": "Tìm kiếm theo tiêu đề...",
+    "filterPrice": "Khoảng giá",
+    "filterStatus": "Trạng thái",
+    "clearFilters": "Xóa lọc",
+    "resultsCount": "Hiển thị {count} kết quả",
+    "priceUnit": "VND",
+    "participantLabel": "Tham gia",
+    "priceLabel": "Giá khởi điểm",
+    "viewDetailBtn": "Xem chi tiết",
+    "noData": "Không tìm thấy phiên nào phù hợp với bộ lọc.",
+    "statusAll": "Tất cả",
+    "errorLoad": "Có lỗi xảy ra khi tải danh sách."
   },
   "sessionStatus": {
     "NHAP": "Bản nháp",

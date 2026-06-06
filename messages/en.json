@@ -125,7 +125,7 @@
     "home": "Home",
     "auctionAssets": "Auction assets",
     "auctionNotices": "Auction notices",
-    "sessions": "Sessions",
+    "sessions": "Session List",
     "leaderboard": "Leaderboard",
     "login": "Login",
     "register": "Register",
@@ -293,6 +293,23 @@
       "personalDetails": "Personal Details",
       "identityDetails": "Identity Verification"
     }
+  },
+  "sessions": {
+    "title": "Asset Filters",
+    "tabAuction": "Auction",
+    "tabTender": "Tender",
+    "searchPlaceholder": "Search by title...",
+    "filterPrice": "Price Range",
+    "filterStatus": "Status",
+    "clearFilters": "Clear Filters",
+    "resultsCount": "Showing {count} results",
+    "priceUnit": "VND",
+    "participantLabel": "Bidders",
+    "priceLabel": "Starting Price",
+    "viewDetailBtn": "View Details",
+    "noData": "No sessions match the selected filters.",
+    "statusAll": "All",
+    "errorLoad": "An error occurred while loading the list."
   },
   "sessionStatus": {
     "NHAP": "Draft",
