@@ -1,16 +1,29 @@
 import { useDispatch } from "react-redux";
 
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { getMe, updateMe, updateToChucProfile } from "@/api/user";
+import { changePassword } from "@/api/auth";
+import {
+  createXacMinhUserMe,
+  getMe,
+  getXacMinhUserMe,
+  updateMe,
+  updateToChucProfile,
+} from "@/api/user";
 import { useAppMutation } from "@/hooks/common";
-import { ToChucProfile, User } from "@/interfaces/auth";
+import {
+  ChangePasswordDto,
+  ToChucProfile,
+  User,
+  XacMinhUserData,
+  XacMinhUserPayload,
+} from "@/interfaces/auth";
 import { ResponseData } from "@/interfaces/common";
 import { setCredentials } from "@/stores/auth/auth.slice";
 
 export interface UpdateOrganizationPayload {
   userPayload: Partial<User>;
-  orgPayload: Partial<ToChucProfile> & { licenseImage?: string };
+  orgPayload: Partial<ToChucProfile> & { anhDangKy?: string };
 }
 
 export const useSyncUserCredentials = () => {
@@ -53,4 +66,31 @@ export const useUpdateMe = (options?: { onSuccess?: () => void }) => {
     updateMe,
     options
   );
+};
+
+export const useChangePassword = (options?: { onSuccess?: () => void }) => {
+  return useAppMutation<ResponseData<unknown>, Error, ChangePasswordDto>(
+    changePassword,
+    options
+  );
+};
+
+export const useXacMinhUserMe = () => {
+  return useQuery({
+    queryKey: ["xacMinhUserMe"],
+    queryFn: async () => {
+      const response = await getXacMinhUserMe();
+      return response.data;
+    },
+  });
+};
+
+export const useCreateXacMinhUserMe = (options?: {
+  onSuccess?: () => void;
+}) => {
+  return useAppMutation<
+    ResponseData<XacMinhUserData>,
+    Error,
+    XacMinhUserPayload
+  >(createXacMinhUserMe, options);
 };
