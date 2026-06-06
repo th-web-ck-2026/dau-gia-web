@@ -1,9 +1,8 @@
 import { useTranslations } from "next-intl";
 
 import type { BreadcrumbProps, UploadProps } from "antd";
-import { message } from "antd";
 
-import { useUpload } from "@/hooks/common";
+import { useFeedback, useUpload } from "@/hooks/common";
 
 import {
   useSyncUserCredentials,
@@ -14,6 +13,7 @@ import {
 
 const useClientProfile = () => {
   const t = useTranslations("client.profile");
+  const { message } = useFeedback();
   const syncUserCredentials = useSyncUserCredentials();
 
   const items: BreadcrumbProps["items"] = [

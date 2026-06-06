@@ -92,6 +92,8 @@ export const UserName = styled.h3`
   color: #111827;
   margin: 4px 0 0 0;
   text-align: center;
+  word-break: break-word;
+  white-space: normal;
 `;
 
 export const RoleBadge = styled.div`
@@ -333,11 +335,138 @@ export const DraggerContent = styled.div`
 
 export const IdentityGrid = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
   margin-bottom: 24px;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr 1fr;
+  }
 
   @media (max-width: ${({ theme }) => theme.breakpoints?.sm || 576}px) {
     grid-template-columns: 1fr;
   }
+`;
+
+export const PreviewContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: 180px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  overflow: hidden;
+
+  img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+
+  &:hover .preview-overlay {
+    opacity: 1;
+  }
+`;
+
+export const PreviewOverlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  border-radius: 8px;
+`;
+
+export const StatusContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  margin-bottom: 24px;
+`;
+
+export const StatusIconWrapper = styled.div<{
+  $status: "pending" | "approved" | "rejected";
+}>`
+  font-size: 48px;
+  margin-bottom: 16px;
+  color: ${({ $status }) => {
+    if ($status === "approved") return "#22c55e";
+    if ($status === "rejected") return "#ef4444";
+    return "#eab308"; // pending
+  }};
+`;
+
+export const StatusTitle = styled.h3`
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 8px 0;
+`;
+
+export const StatusDescription = styled.p`
+  font-size: 14px;
+  color: #4b5563;
+  max-width: 450px;
+  margin: 0 0 20px 0;
+  line-height: 20px;
+`;
+
+export const StatusDetails = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 14px;
+  color: #374151;
+  background: #f9fafb;
+  border-radius: 6px;
+  padding: 16px;
+  width: 100%;
+  max-width: 500px;
+  text-align: left;
+  border: 1px solid #f3f4f6;
+  margin-bottom: 24px;
+`;
+
+export const StatusDetailItem = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+
+  span:first-child {
+    color: #6b7280;
+    font-weight: 500;
+  }
+
+  span:last-child {
+    font-weight: 600;
+    color: #111827;
+  }
+`;
+
+export const RejectReasonBox = styled.div`
+  background: #fef2f2;
+  border: 1px solid #fee2e2;
+  border-radius: 6px;
+  padding: 12px 16px;
+  color: #991b1b;
+  font-size: 14px;
+  text-align: left;
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 24px;
+  line-height: 20px;
 `;

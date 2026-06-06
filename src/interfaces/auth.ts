@@ -1,4 +1,9 @@
-import { AuthProvider, Role, UserRoleType } from "@/constants";
+import {
+  AuthProvider,
+  Role,
+  TrangThaiXacMinhUser,
+  UserRoleType,
+} from "@/constants";
 
 export interface ToChucProfile {
   _id: string;
@@ -12,6 +17,9 @@ export interface ToChucProfile {
   tenXaPhuong?: string;
   maXaPhuong?: string;
   diaChi?: string;
+  anhDangKy?: string | null;
+  soDangKy?: string;
+  ngayDangKy?: string | null;
 }
 
 export interface User {
@@ -25,10 +33,11 @@ export interface User {
   avatar?: string | null;
   birthday?: string | null;
   gender?: string | null;
-  provinceId?: string | null;
-  districtId?: string | null;
-  wardId?: string | null;
-  address?: string | null;
+  maTinhTp?: string | null;
+  tenTinhTp?: string | null;
+  maXaPhuong?: string | null;
+  tenXaPhuong?: string | null;
+  diaChi?: string | null;
   soCccd?: string | null;
   ngayCapCccd?: string | null;
   noiCapCccd?: string | null;
@@ -36,7 +45,6 @@ export interface User {
   tenNganHang?: string | null;
   soTaiKhoan?: string | null;
   tenTaiKhoan?: string | null;
-  chiNhanhNganHang?: string | null;
   toChucProfile?: ToChucProfile | null;
   authProvider?: AuthProvider;
 }
@@ -87,4 +95,24 @@ export interface ResetPasswordDto {
 export interface ChangePasswordDto {
   oldPassword: string;
   newPassword: string;
+}
+
+export interface XacMinhUserPayload {
+  anhCccdTruoc: string;
+  anhCccdSau: string;
+  anhChanDung: string;
+}
+
+export interface XacMinhUserData {
+  _id: string;
+  userId: string;
+  anhCccdTruoc: string;
+  anhCccdSau: string;
+  anhChanDung: string;
+  trangThai: TrangThaiXacMinhUser;
+  ghiChu?: string;
+  ngayXacMinh?: string;
+  lyDoTuChoi?: string;
+  createdAt: string;
+  updatedAt: string;
 }

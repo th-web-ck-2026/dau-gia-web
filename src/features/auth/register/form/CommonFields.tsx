@@ -1,13 +1,16 @@
 import React from "react";
+
 import { useTranslations } from "next-intl";
+
+import { Rule } from "antd/es/form";
+
 import {
+  BaseCol,
   BaseForm,
   BaseInput,
-  InputPassword,
   BaseRow,
-  BaseCol,
+  InputPassword,
 } from "@/components/common";
-import { Rule } from "antd/es/form";
 import { UserRoleType } from "@/constants";
 
 interface CommonFieldsProps {
@@ -15,7 +18,10 @@ interface CommonFieldsProps {
   type: UserRoleType;
 }
 
-export const CommonFields: React.FC<CommonFieldsProps> = ({ validationRules, type }) => {
+export const CommonFields: React.FC<CommonFieldsProps> = ({
+  validationRules,
+  type,
+}) => {
   const t = useTranslations("auth");
 
   return (
@@ -24,10 +30,21 @@ export const CommonFields: React.FC<CommonFieldsProps> = ({ validationRules, typ
         <BaseCol xs={24} md={12}>
           <BaseForm.Item
             name="fullname"
-            label={t("fullnameLabel")}
+            label={
+              type === UserRoleType.CA_NHAN
+                ? t("fullnameLabel")
+                : t("fullnameLabel2")
+            }
             rules={validationRules.fullname}
           >
-            <BaseInput placeholder={t("inputInfoPlaceholder")} size="large" />
+            <BaseInput
+              placeholder={
+                type === UserRoleType.CA_NHAN
+                  ? t("fullnamePlaceholder")
+                  : t("fullnamePlaceholder2")
+              }
+              size="large"
+            />
           </BaseForm.Item>
         </BaseCol>
         <BaseCol xs={24} md={12}>
@@ -62,11 +79,11 @@ export const CommonFields: React.FC<CommonFieldsProps> = ({ validationRules, typ
             </BaseForm.Item>
           ) : (
             <BaseForm.Item
-              name="soCccd" // Later change to taxCode
+              name="soCccd"
               label={t("soCccdLabel2")}
               rules={validationRules.soCccd}
             >
-              <BaseInput placeholder={t("soCccdPlaceholder")} size="large" />
+              <BaseInput placeholder={t("soCccdPlaceholder2")} size="large" />
             </BaseForm.Item>
           )}
         </BaseCol>
