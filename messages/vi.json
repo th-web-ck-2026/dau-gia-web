@@ -31,7 +31,8 @@
     "actions": "Hành động",
     "status": "Trạng thái",
     "createdAt": "Ngày tạo",
-    "updatedAt": "Ngày cập nhật"
+    "updatedAt": "Ngày cập nhật",
+    "anonymousParticipant": "Người tham gia ẩn danh"
   },
   "notFound": {
     "title": "404 - Không tìm thấy trang",
