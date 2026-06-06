@@ -69,7 +69,17 @@
     "confirmPasswordPlaceholder": "***********",
     "agreementText": "Tôi đồng ý với Điều khoản sử dụng và Chính sách bảo mật của Đấu giá",
     "passwordSubText": "Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường và số",
-    "inputInfoPlaceholder": "Nhập thông tin"
+    "inputInfoPlaceholder": "Nhập thông tin",
+    "forgotPasswordTitle": "Quên mật khẩu",
+    "forgotPasswordSubTitle": "Vui lòng nhập email của bạn để đặt lại mật khẩu",
+    "resetPasswordButton": "Đặt lại mật khẩu",
+    "forgotPasswordSuccess": "Yêu cầu đặt lại mật khẩu đã được gửi thành công đến email của bạn!",
+    "resetPasswordPageTitle": "Đặt mật khẩu mới",
+    "resetPasswordPageSubTitle": "Tạo mật khẩu mới. Hãy đảm bảo mật khẩu này khác với các mật khẩu trước đó để bảo mật.",
+    "newPasswordPlaceholder": "Nhập mật khẩu mới của bạn",
+    "confirmNewPasswordPlaceholder": "Nhập lại mật khẩu",
+    "submitResetPasswordButton": "Cập nhật mật khẩu",
+    "resetPasswordSuccess": "Mật khẩu đã được cập nhật thành công!"
   },
   "validation": {
     "required": "Vui lòng nhập {field}",

@@ -69,7 +69,17 @@
     "confirmPasswordPlaceholder": "Re-enter password",
     "agreementText": "I agree with the Terms of Service and Privacy Policy of Auction",
     "passwordSubText": "Password must be at least 8 characters, including uppercase, lowercase and numbers",
-    "inputInfoPlaceholder": "Enter information"
+    "inputInfoPlaceholder": "Enter information",
+    "forgotPasswordTitle": "Forgot Password",
+    "forgotPasswordSubTitle": "Please enter your email to reset your password",
+    "resetPasswordButton": "Reset Password",
+    "forgotPasswordSuccess": "A password reset request has been successfully sent to your email!",
+    "resetPasswordPageTitle": "Reset Password",
+    "resetPasswordPageSubTitle": "Create a new password. Please make sure this password is different from previous ones for security.",
+    "newPasswordPlaceholder": "Enter your new password",
+    "confirmNewPasswordPlaceholder": "Re-enter your password",
+    "submitResetPasswordButton": "Update password",
+    "resetPasswordSuccess": "Password has been successfully updated!"
   },
   "validation": {
     "required": "Please enter {field}",
