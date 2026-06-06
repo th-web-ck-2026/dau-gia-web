@@ -57,6 +57,7 @@ export interface AuctionSession extends BaseSession {
 export interface TenderSession extends BaseSession {
   thoiDiemCongBo?: string;
   tieuChi?: TenderCriteria[];
+  diemKyThuatToiThieu?: number;
 }
 
 export interface KeyAssetItem {
@@ -77,4 +78,61 @@ export interface PageableResponse<T> {
   limit: number;
   total: number;
   result: T[];
+}
+
+export interface UserBid {
+  _id: string;
+  nguoiThamGia?: {
+    fullname?: string;
+  };
+  giaDat: number;
+  thoiDiemDat: string;
+}
+
+export interface TenderSubmission {
+  _id: string;
+  thuHang?: number;
+  nguoiThamGia?: {
+    fullname?: string;
+  };
+  giaDeXuat: number;
+  diemKyThuat?: number;
+  diemGia?: number;
+  diemTongHop?: number;
+  trangThai: string;
+}
+
+export interface CreateAuctionSessionDto {
+  tieuDe: string;
+  moTa: string;
+  thoiGianBatDau: string;
+  thoiGianKetThuc: string;
+  giaKhoiDiem: number;
+  buocGia: number;
+  danhSachHinhAnh: string[];
+  cheDoAnDanh: boolean;
+}
+
+export interface CreateTenderSessionDto {
+  tieuDe: string;
+  moTa: string;
+  thoiGianBatDau: string;
+  thoiGianKetThuc: string;
+  diemKyThuatToiThieu: number;
+  tieuChi: Array<{
+    ten: string;
+    ma: string;
+    loai: string;
+    trongSo: number;
+    huongToiUu?: string;
+    batBuoc?: boolean;
+    giaTriToiThieu?: number;
+    giaTriToiDa?: number;
+    donViTinh?: string;
+    danhSachLuaChon?: Array<{
+      nhan: string;
+      giaTriDiem: number;
+    }>;
+  }>;
+  danhSachHinhAnh: string[];
 }
