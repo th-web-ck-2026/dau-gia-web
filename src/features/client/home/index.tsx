@@ -124,7 +124,7 @@ const HomeContent = () => {
             <>
               <WrapperSection
                 title={t("auctionSection")}
-                viewAllUrl="/auction-sessions"
+                viewAllUrl="/sessions?tab=DAU_GIA&status=MO"
                 viewAllLabel={t("viewAllAuctions")}
               >
                 {isAuctionsError ? (
@@ -144,7 +144,7 @@ const HomeContent = () => {
 
               <WrapperSection
                 title={t("upcomingAuctionSection")}
-                viewAllUrl="/auction-sessions?status=CONG_BO"
+                viewAllUrl="/sessions?tab=DAU_GIA&status=CONG_BO"
                 viewAllLabel={t("viewAllAuctions")}
               >
                 {isUpcomingAuctionsError ? (
@@ -168,7 +168,7 @@ const HomeContent = () => {
 
               <WrapperSection
                 title={t("successfulAuctionSection")}
-                viewAllUrl="/auction-sessions?status=DONG"
+                viewAllUrl="/sessions?tab=DAU_GIA&status=DONG"
                 viewAllLabel={t("viewAllAuctions")}
               >
                 {isSuccessfulAuctionsError ? (
@@ -192,7 +192,7 @@ const HomeContent = () => {
             <>
               <WrapperSection
                 title={t("tenderSection")}
-                viewAllUrl="/tender-sessions"
+                viewAllUrl="/sessions?tab=DAU_THAU&status=MO"
                 viewAllLabel={t("viewAllTenders")}
               >
                 {isTendersError ? (
@@ -212,7 +212,7 @@ const HomeContent = () => {
 
               <WrapperSection
                 title={t("upcomingTenderSection")}
-                viewAllUrl="/tender-sessions?status=CONG_BO"
+                viewAllUrl="/sessions?tab=DAU_THAU&status=CONG_BO"
                 viewAllLabel={t("viewAllTenders")}
               >
                 {isUpcomingTendersError ? (
@@ -236,7 +236,7 @@ const HomeContent = () => {
 
               <WrapperSection
                 title={t("successfulTenderSection")}
-                viewAllUrl="/tender-sessions?status=DONG"
+                viewAllUrl="/sessions?tab=DAU_THAU&status=DONG"
                 viewAllLabel={t("viewAllTenders")}
               >
                 {isSuccessfulTendersError ? (
