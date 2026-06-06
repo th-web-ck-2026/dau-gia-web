@@ -56,6 +56,9 @@ importers:
       styled-components:
         specifier: 6.3.6
         version: 6.3.6(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      swiper:
+        specifier: 12.2.0
+        version: 12.2.0
     devDependencies:
       '@ant-design/icons':
         specifier: 5.6.1
@@ -3921,6 +3924,10 @@ packages:
     resolution: {integrity: sha512-+wn7I4p7YgJhHs38k2TNjy1vCfPIfLIJWR5MnCStsN8WuuTcBnRKcMHQLMM2ijxGZmDoZwNv8ipl5aTTen62ng==}
     engines: {node: '>=14.0.0'}
     hasBin: true
+
+  swiper@12.2.0:
+    resolution: {integrity: sha512-K8uXsBZU6ME97Ia3xbBge8IRCnR1lOmIILzvY/jGVic7dSTQ530s3uO8RvXbPUtkkXLWIwmZLRPbtDxRWVAFdg==}
+    engines: {node: '>= 4.7.0'}
 
   throttle-debounce@5.0.2:
     resolution: {integrity: sha512-B71/4oyj61iNH0KeCamLuE2rmKuTO5byTOSVwECM5FA7TiAiAW+UqTKZ9ERueC4qvgSttUhdmq1mXC3kJqGX7A==}
@@ -8406,6 +8413,8 @@ snapshots:
       csso: 5.0.5
       picocolors: 1.1.1
       sax: 1.6.0
+
+  swiper@12.2.0: {}
 
   throttle-debounce@5.0.2: {}
 
