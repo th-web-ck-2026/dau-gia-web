@@ -170,8 +170,12 @@
       "auctionBtn": "Asset Auction Platform",
       "tenderBtn": "Project Tender Platform",
       "auctionSection": "Live Auction Sessions",
+      "upcomingAuctionSection": "Upcoming Auction Sessions",
+      "successfulAuctionSection": "Successful Auction Sessions",
       "keyAssetsSection": "Featured Auction Assets",
       "tenderSection": "Open Tender Packages",
+      "upcomingTenderSection": "Upcoming Tender Packages",
+      "successfulTenderSection": "Successful Tender Packages",
       "viewAllAuctions": "View all →",
       "viewAllKeyAssets": "View all →",
       "viewAllTenders": "View all tenders →",
@@ -289,6 +293,13 @@
       "personalDetails": "Personal Details",
       "identityDetails": "Identity Verification"
     }
+  },
+  "sessionStatus": {
+    "NHAP": "Draft",
+    "CONG_BO": "Upcoming",
+    "MO": "In progress",
+    "DONG": "Successful",
+    "HUY": "Cancelled"
   },
   "errorBoundary": {
     "title": "Something went wrong",
