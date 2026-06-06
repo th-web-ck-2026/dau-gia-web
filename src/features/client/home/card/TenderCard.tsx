@@ -6,6 +6,7 @@ import Image from "next/image";
 import { TeamOutlined } from "@ant-design/icons";
 
 import { BaseButton } from "@/components/common/base-button";
+import SessionStatus from "@/components/features/client/session-status";
 import type { TenderSession } from "@/interfaces/sessions";
 import { convertAmountToDateTime } from "@/utils/common";
 
@@ -14,11 +15,16 @@ import * as S from "./index.styles";
 interface TenderCardProps {
   data: TenderSession;
   onSubmit?: (id: string) => void;
+  showParticipantCount?: boolean;
 }
 
 const FALLBACK_IMAGE = "/images/assets-default.png";
 
-const TenderCard = ({ data, onSubmit }: TenderCardProps) => {
+const TenderCard = ({
+  data,
+  onSubmit,
+  showParticipantCount = true,
+}: TenderCardProps) => {
   const t = useTranslations("client.home");
 
   const handleSubmit = () => {
@@ -41,7 +47,7 @@ const TenderCard = ({ data, onSubmit }: TenderCardProps) => {
       </S.TenderImageWrapper>
 
       <S.CardBody>
-        <S.StatusBadge>{t("statusOpen")}</S.StatusBadge>
+        <SessionStatus status={data.trangThai} />
 
         <S.CardTitle ellipsis={{ rows: 1, tooltip: data.tieuDe }}>
           {data.tieuDe}
@@ -63,11 +69,17 @@ const TenderCard = ({ data, onSubmit }: TenderCardProps) => {
           </S.CardField>
         </S.CardFieldList>
 
-        <S.CardFooter>
-          <S.BidCountText>
-            <TeamOutlined />
-            {`${data.soLuongNguoiThamGia ?? 0} ${t("participantCount")}`}
-          </S.BidCountText>
+        <S.CardFooter
+          style={
+            !showParticipantCount ? { justifyContent: "flex-end" } : undefined
+          }
+        >
+          {showParticipantCount && (
+            <S.BidCountText>
+              <TeamOutlined />
+              {`${data.soLuongNguoiThamGia ?? 0} ${t("participantCount")}`}
+            </S.BidCountText>
+          )}
           <BaseButton type="primary" size="small" onClick={handleSubmit}>
             {t("submitProposal")}
           </BaseButton>

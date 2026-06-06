@@ -4,39 +4,22 @@ import { useState } from "react";
 
 import { useTranslations } from "next-intl";
 
-import { SessionQueryParams } from "@/api/sessions";
 import { BaseEmpty } from "@/components/common";
 import { TrangThaiPhien } from "@/constants";
 import { SortOrder } from "@/constants";
 import { LoaiPhien } from "@/constants/scoring";
-import type {
-  AuctionSession,
-  KeyAssetItem,
-  TenderSession,
-} from "@/interfaces/sessions";
+import type { AuctionSession, TenderSession } from "@/interfaces/sessions";
 
 import AuctionCard from "./card/AuctionCard";
-import KeyAssetCard from "./card/KeyAssetCard";
 import TenderCard from "./card/TenderCard";
 import { CardGrid } from "./card/index.styles";
 import AuctionCardSkeleton from "./card/skeleton/AuctionCardSkeleton";
-import KeyAssetCardSkeleton from "./card/skeleton/KeyAssetCardSkeleton";
 import TenderCardSkeleton from "./card/skeleton/TenderCardSkeleton";
 import HeroBanner from "./hero-banner";
-import { useGetAuctions, useGetKeyAssets, useGetTenders } from "./index.hooks";
+import { useGetAuctions, useGetTenders } from "./index.hooks";
 import * as S from "./index.styles";
 import { NavigationButtons } from "./index.utils";
 import WrapperSection from "./shared/WrapperSection";
-
-const defaultParams: SessionQueryParams = {
-  limit: 4,
-  condition: {
-    trangThai: TrangThaiPhien.MO,
-  },
-  order: {
-    createdAt: SortOrder.DESC,
-  },
-};
 
 const HomeContent = () => {
   const t = useTranslations("client.home");
@@ -47,21 +30,87 @@ const HomeContent = () => {
     data: auctionsData,
     isLoading: isAuctionsLoading,
     isError: isAuctionsError,
-  } = useGetAuctions({ ...defaultParams, limit: 4 });
+  } = useGetAuctions(
+    {
+      limit: 4,
+      condition: { trangThai: TrangThaiPhien.MO },
+      order: { createdAt: SortOrder.DESC },
+    },
+    { enabled: activeTab === LoaiPhien.DAU_GIA }
+  );
+
+  const {
+    data: upcomingAuctionsData,
+    isLoading: isUpcomingAuctionsLoading,
+    isError: isUpcomingAuctionsError,
+  } = useGetAuctions(
+    {
+      limit: 4,
+      condition: { trangThai: TrangThaiPhien.CONG_BO },
+      order: { createdAt: SortOrder.DESC },
+    },
+    { enabled: activeTab === LoaiPhien.DAU_GIA }
+  );
+
+  const {
+    data: successfulAuctionsData,
+    isLoading: isSuccessfulAuctionsLoading,
+    isError: isSuccessfulAuctionsError,
+  } = useGetAuctions(
+    {
+      limit: 4,
+      condition: { trangThai: TrangThaiPhien.DONG },
+      order: { createdAt: SortOrder.DESC },
+    },
+    { enabled: activeTab === LoaiPhien.DAU_GIA }
+  );
+
   const {
     data: tendersData,
     isLoading: isTendersLoading,
     isError: isTendersError,
-  } = useGetTenders({ ...defaultParams, limit: 3 });
+  } = useGetTenders(
+    {
+      limit: 3,
+      condition: { trangThai: TrangThaiPhien.MO },
+      order: { createdAt: SortOrder.DESC },
+    },
+    { enabled: activeTab === LoaiPhien.DAU_THAU }
+  );
+
   const {
-    data: keyAssetsData,
-    isLoading: isKeyAssetsLoading,
-    isError: isKeyAssetsError,
-  } = useGetKeyAssets({ ...defaultParams, limit: 3 });
+    data: upcomingTendersData,
+    isLoading: isUpcomingTendersLoading,
+    isError: isUpcomingTendersError,
+  } = useGetTenders(
+    {
+      limit: 3,
+      condition: { trangThai: TrangThaiPhien.CONG_BO },
+      order: { createdAt: SortOrder.DESC },
+    },
+    { enabled: activeTab === LoaiPhien.DAU_THAU }
+  );
+
+  const {
+    data: successfulTendersData,
+    isLoading: isSuccessfulTendersLoading,
+    isError: isSuccessfulTendersError,
+  } = useGetTenders(
+    {
+      limit: 3,
+      condition: { trangThai: TrangThaiPhien.DONG },
+      order: { createdAt: SortOrder.DESC },
+    },
+    { enabled: activeTab === LoaiPhien.DAU_THAU }
+  );
 
   const auctions = auctionsData?.data?.result || [];
+  const upcomingAuctions = upcomingAuctionsData?.data?.result || [];
+  const successfulAuctions = successfulAuctionsData?.data?.result || [];
+
   const tenders = tendersData?.data?.result || [];
-  const keyAssets = keyAssetsData?.data?.result || [];
+  const upcomingTenders = upcomingTendersData?.data?.result || [];
+  const successfulTenders = successfulTendersData?.data?.result || [];
 
   return (
     <S.HomeContainer>
@@ -72,68 +121,140 @@ const HomeContent = () => {
       <S.ContentRoot>
         <S.ContentWrapper>
           {activeTab === LoaiPhien.DAU_GIA && (
-            <WrapperSection
-              title={t("auctionSection")}
-              viewAllUrl="/auction-sessions"
-              viewAllLabel={t("viewAllAuctions")}
-            >
-              {isAuctionsError ? (
-                <BaseEmpty description={t_common("errorNotFound")} />
-              ) : (
-                <CardGrid $columns={4}>
-                  {isAuctionsLoading
-                    ? Array.from({ length: 4 }).map((_, i) => (
-                        <AuctionCardSkeleton key={i} />
-                      ))
-                    : auctions.map((item: AuctionSession) => (
-                        <AuctionCard key={item._id} data={item} />
-                      ))}
-                </CardGrid>
-              )}
-            </WrapperSection>
+            <>
+              <WrapperSection
+                title={t("auctionSection")}
+                viewAllUrl="/auction-sessions"
+                viewAllLabel={t("viewAllAuctions")}
+              >
+                {isAuctionsError ? (
+                  <BaseEmpty description={t_common("errorNotFound")} />
+                ) : (
+                  <CardGrid $columns={4}>
+                    {isAuctionsLoading
+                      ? Array.from({ length: 4 }).map((_, i) => (
+                          <AuctionCardSkeleton key={i} />
+                        ))
+                      : auctions.map((item: AuctionSession) => (
+                          <AuctionCard key={item._id} data={item} />
+                        ))}
+                  </CardGrid>
+                )}
+              </WrapperSection>
+
+              <WrapperSection
+                title={t("upcomingAuctionSection")}
+                viewAllUrl="/auction-sessions?status=CONG_BO"
+                viewAllLabel={t("viewAllAuctions")}
+              >
+                {isUpcomingAuctionsError ? (
+                  <BaseEmpty description={t_common("errorNotFound")} />
+                ) : (
+                  <CardGrid $columns={4}>
+                    {isUpcomingAuctionsLoading
+                      ? Array.from({ length: 4 }).map((_, i) => (
+                          <AuctionCardSkeleton key={i} />
+                        ))
+                      : upcomingAuctions.map((item: AuctionSession) => (
+                          <AuctionCard
+                            key={item._id}
+                            data={item}
+                            showBidCount={false}
+                          />
+                        ))}
+                  </CardGrid>
+                )}
+              </WrapperSection>
+
+              <WrapperSection
+                title={t("successfulAuctionSection")}
+                viewAllUrl="/auction-sessions?status=DONG"
+                viewAllLabel={t("viewAllAuctions")}
+              >
+                {isSuccessfulAuctionsError ? (
+                  <BaseEmpty description={t_common("errorNotFound")} />
+                ) : (
+                  <CardGrid $columns={4}>
+                    {isSuccessfulAuctionsLoading
+                      ? Array.from({ length: 4 }).map((_, i) => (
+                          <AuctionCardSkeleton key={i} />
+                        ))
+                      : successfulAuctions.map((item: AuctionSession) => (
+                          <AuctionCard key={item._id} data={item} />
+                        ))}
+                  </CardGrid>
+                )}
+              </WrapperSection>
+            </>
           )}
 
           {activeTab === LoaiPhien.DAU_THAU && (
-            <WrapperSection
-              title={t("tenderSection")}
-              viewAllUrl="/tender-sessions"
-              viewAllLabel={t("viewAllTenders")}
-            >
-              {isTendersError ? (
-                <BaseEmpty description={t_common("errorNotFound")} />
-              ) : (
-                <CardGrid $columns={3}>
-                  {isTendersLoading
-                    ? Array.from({ length: 3 }).map((_, i) => (
-                        <TenderCardSkeleton key={i} />
-                      ))
-                    : tenders.map((item: TenderSession) => (
-                        <TenderCard key={item._id} data={item} />
-                      ))}
-                </CardGrid>
-              )}
-            </WrapperSection>
-          )}
+            <>
+              <WrapperSection
+                title={t("tenderSection")}
+                viewAllUrl="/tender-sessions"
+                viewAllLabel={t("viewAllTenders")}
+              >
+                {isTendersError ? (
+                  <BaseEmpty description={t_common("errorNotFound")} />
+                ) : (
+                  <CardGrid $columns={3}>
+                    {isTendersLoading
+                      ? Array.from({ length: 3 }).map((_, i) => (
+                          <TenderCardSkeleton key={i} />
+                        ))
+                      : tenders.map((item: TenderSession) => (
+                          <TenderCard key={item._id} data={item} />
+                        ))}
+                  </CardGrid>
+                )}
+              </WrapperSection>
 
-          <WrapperSection
-            title={t("keyAssetsSection")}
-            viewAllUrl="/key-assets"
-            viewAllLabel={t("viewAllKeyAssets")}
-          >
-            {isKeyAssetsError ? (
-              <BaseEmpty description={t_common("errorNotFound")} />
-            ) : (
-              <CardGrid $columns={3}>
-                {isKeyAssetsLoading
-                  ? Array.from({ length: 3 }).map((_, i) => (
-                      <KeyAssetCardSkeleton key={i} />
-                    ))
-                  : keyAssets.map((item: KeyAssetItem) => (
-                      <KeyAssetCard key={item._id} data={item} />
-                    ))}
-              </CardGrid>
-            )}
-          </WrapperSection>
+              <WrapperSection
+                title={t("upcomingTenderSection")}
+                viewAllUrl="/tender-sessions?status=CONG_BO"
+                viewAllLabel={t("viewAllTenders")}
+              >
+                {isUpcomingTendersError ? (
+                  <BaseEmpty description={t_common("errorNotFound")} />
+                ) : (
+                  <CardGrid $columns={3}>
+                    {isUpcomingTendersLoading
+                      ? Array.from({ length: 3 }).map((_, i) => (
+                          <TenderCardSkeleton key={i} />
+                        ))
+                      : upcomingTenders.map((item: TenderSession) => (
+                          <TenderCard
+                            key={item._id}
+                            data={item}
+                            showParticipantCount={false}
+                          />
+                        ))}
+                  </CardGrid>
+                )}
+              </WrapperSection>
+
+              <WrapperSection
+                title={t("successfulTenderSection")}
+                viewAllUrl="/tender-sessions?status=DONG"
+                viewAllLabel={t("viewAllTenders")}
+              >
+                {isSuccessfulTendersError ? (
+                  <BaseEmpty description={t_common("errorNotFound")} />
+                ) : (
+                  <CardGrid $columns={3}>
+                    {isSuccessfulTendersLoading
+                      ? Array.from({ length: 3 }).map((_, i) => (
+                          <TenderCardSkeleton key={i} />
+                        ))
+                      : successfulTenders.map((item: TenderSession) => (
+                          <TenderCard key={item._id} data={item} />
+                        ))}
+                  </CardGrid>
+                )}
+              </WrapperSection>
+            </>
+          )}
         </S.ContentWrapper>
       </S.ContentRoot>
     </S.HomeContainer>

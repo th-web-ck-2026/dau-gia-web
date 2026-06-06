@@ -170,8 +170,12 @@
       "auctionBtn": "Sàn Đấu Giá Tài Sản",
       "tenderBtn": "Sàn Đấu Thầu Dự Án",
       "auctionSection": "Phiên đấu giá đang diễn ra",
+      "upcomingAuctionSection": "Phiên đấu giá sắp diễn ra",
+      "successfulAuctionSection": "Phiên đấu giá đã thành công",
       "keyAssetsSection": "Tài sản đấu giá nổi bật",
       "tenderSection": "Gói thầu đang mở",
+      "upcomingTenderSection": "Gói thầu sắp mở",
+      "successfulTenderSection": "Gói thầu đã thành công",
       "viewAllAuctions": "Xem tất cả →",
       "viewAllKeyAssets": "Xem tất cả →",
       "viewAllTenders": "Xem tất cả gói thầu →",
@@ -289,6 +293,13 @@
       "personalDetails": "Thông tin cá nhân",
       "identityDetails": "Xác minh danh tính"
     }
+  },
+  "sessionStatus": {
+    "NHAP": "Bản nháp",
+    "CONG_BO": "Sắp diễn ra",
+    "MO": "Đang diễn ra",
+    "DONG": "Thành công",
+    "HUY": "Đã hủy"
   },
   "errorBoundary": {
     "title": "Có lỗi xảy ra",
