@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { IdcardOutlined, LockOutlined, UserOutlined } from "@ant-design/icons";
 
@@ -8,6 +8,7 @@ import { BaseSpin } from "@/components/common";
 import ClientBreadCrumb from "@/components/features/client/bread-crumb";
 import { UserRoleType } from "@/constants";
 import { useAuth } from "@/hooks/common";
+import { useRouter } from "@/i18n/routing";
 
 import IndividualAccountForm from "./components/IndividualAccountForm";
 import IndividualIdentityForm from "./components/IndividualIdentityForm";
@@ -18,6 +19,7 @@ import ChangePasswordForm from "./shared/ChangePasswordForm";
 import ProfileLayout from "./shared/ProfileLayout";
 
 const ClientProfile = () => {
+  const router = useRouter();
   const {
     items,
     t,
@@ -28,6 +30,17 @@ const ClientProfile = () => {
   } = useClientProfile();
   const { user, isLoading, logout } = useAuth();
   const [activeTab, setActiveTab] = useState("info");
+
+  useEffect(() => {
+    if (!isLoading && !user) {
+      router.push("/");
+    }
+  }, [isLoading, user, router]);
+
+  const handleLogout = async () => {
+    await logout();
+    router.push("/");
+  };
 
   if (isLoading) {
     return (
@@ -45,30 +58,29 @@ const ClientProfile = () => {
   }
 
   if (!user) {
-    return null; // Let AuthProvider/Middleware handle redirects
+    return null;
   }
 
-  // Dynamic header configurations
   const getHeaderConfig = () => {
     switch (activeTab) {
       case "password":
         return {
           icon: <LockOutlined />,
           title: t("changePassword"),
-          subtitle: "Cập nhật mật khẩu tài khoản của bạn",
+          subtitle: t("changePasswordSubtitle"),
         };
       case "verify":
         return {
           icon: <IdcardOutlined />,
           title: t("verifyIdentity"),
-          subtitle: "Cập nhật thông tin tài khoản của bạn",
+          subtitle: t("verifyIdentitySubtitle"),
         };
       case "info":
       default:
         return {
           icon: <UserOutlined />,
           title: t("infomationAccount"),
-          subtitle: "Cập nhật thông tin tài khoản của bạn",
+          subtitle: t("informationAccountSubtitle"),
         };
     }
   };
@@ -85,7 +97,7 @@ const ClientProfile = () => {
         user={user}
         activeTab={activeTab}
         onTabChange={setActiveTab}
-        onLogout={logout}
+        onLogout={handleLogout}
         onAvatarUpload={handleAvatarUpload}
         isUploadingAvatar={isUploadingAvatar}
         contentHeader={getHeaderConfig()}

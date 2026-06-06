@@ -35,6 +35,13 @@ export const UserTrigger = styled.div`
   &:hover {
     color: ${({ theme }) => theme.primary || "#1f3aa0"};
   }
+
+  .ant-avatar {
+    flex-shrink: 0;
+    img {
+      object-fit: cover;
+    }
+  }
 `;
 
 export const DropdownWrapper = styled.div`
@@ -51,6 +58,14 @@ export const DropdownWrapper = styled.div`
     gap: 10px;
     align-self: stretch;
 
+    .ant-avatar {
+      flex-shrink: 0;
+      img {
+        object-fit: cover;
+        image-rendering: -webkit-optimize-contrast;
+      }
+    }
+
     .info {
       display: flex;
       flex-direction: column;
@@ -60,6 +75,11 @@ export const DropdownWrapper = styled.div`
       .name {
         font-size: ${({ theme }) => theme.fontSizes.xs} !important;
         font-weight: ${({ theme }) => theme.fontWeights.semibold};
+        word-break: break-word;
+        white-space: normal;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
       }
 
       .email {

@@ -16,7 +16,7 @@ import { cookies } from "@/utils/cookie";
 
 export const useAuth = () => {
   const dispatch = useDispatch();
-  const user = useSelector(selectUserInfo);
+  const userFromRedux = useSelector(selectUserInfo);
   const queryClient = useQueryClient();
 
   const sessionHint = cookies.get("session_hint");
@@ -32,10 +32,12 @@ export const useAuth = () => {
   } = useAppQuery({
     queryKey: ["getMe"],
     queryFn: getMe,
-    enabled: !user && sessionHint !== "false",
+    enabled: !userFromRedux && sessionHint !== "false",
     retry: false,
     staleTime: Infinity,
   });
+
+  const user = userFromRedux || (isSuccess ? data?.data : null);
 
   useEffect(() => {
     if (isSuccess) {

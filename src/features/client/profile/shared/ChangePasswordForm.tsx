@@ -2,16 +2,16 @@ import React from "react";
 
 import { useTranslations } from "next-intl";
 
-import { message } from "antd";
-
 import {
   BaseButton,
   BaseForm,
   BaseInput,
   BaseProgress,
 } from "@/components/common";
+import { useFeedback } from "@/hooks/common";
+import type { ChangePasswordDto } from "@/interfaces/auth";
 
-// import type { ChangePasswordDto } from "@/interfaces/auth";
+import { useChangePassword } from "../index.hooks";
 import * as S from "../index.styles";
 
 interface PasswordRule {
@@ -50,6 +50,7 @@ const passwordRules: PasswordRule[] = [
 
 const ChangePasswordForm: React.FC = () => {
   const t = useTranslations("client.profile");
+  const { message } = useFeedback();
   const [form] = BaseForm.useForm();
 
   const newPassword = BaseForm.useWatch("newPassword", form) || "";
@@ -76,29 +77,27 @@ const ChangePasswordForm: React.FC = () => {
     return Promise.resolve();
   };
 
-  const handleFinish = (values: any) => {
-    console.log("Password change requested:", values);
-    message.success(t("successUpdatePassword"));
-    form.resetFields();
+  const { mutate: doChangePassword, isPending } = useChangePassword({
+    onSuccess: () => {
+      message.success(t("successUpdatePassword"));
+      form.resetFields();
+    },
+  });
+
+  const handleFinish = (values: ChangePasswordDto) => {
+    doChangePassword(values);
   };
 
   return (
     <BaseForm
       form={form}
       layout="vertical"
-      requiredMark={false}
       onFinish={handleFinish}
       autoComplete="off"
     >
-      {/* Current Password */}
       <BaseForm.Item
         name="oldPassword"
-        label={
-          <span>
-            {t("currentPassword")}
-            <S.RequiredMark>*</S.RequiredMark>
-          </span>
-        }
+        label={t("currentPassword")}
         rules={[
           {
             required: true,
@@ -112,15 +111,9 @@ const ChangePasswordForm: React.FC = () => {
         />
       </BaseForm.Item>
 
-      {/* New Password */}
       <BaseForm.Item
         name="newPassword"
-        label={
-          <span>
-            {t("newPassword")}
-            <S.RequiredMark>*</S.RequiredMark>
-          </span>
-        }
+        label={t("newPassword")}
         validateTrigger={["onChange", "onBlur"]}
         rules={[{ validator: validateNewPassword }]}
       >
@@ -130,7 +123,6 @@ const ChangePasswordForm: React.FC = () => {
         />
       </BaseForm.Item>
 
-      {/* Requirements progress bar and status */}
       {newPassword && (
         <S.PasswordStatusWrapper>
           <BaseProgress
@@ -160,15 +152,9 @@ const ChangePasswordForm: React.FC = () => {
         </S.PasswordStatusWrapper>
       )}
 
-      {/* Confirm Password */}
       <BaseForm.Item
         name="confirmPassword"
-        label={
-          <span>
-            {t("confirmNewPassword")}
-            <S.RequiredMark>*</S.RequiredMark>
-          </span>
-        }
+        label={t("confirmNewPassword")}
         dependencies={["newPassword"]}
         validateTrigger={["onChange", "onBlur"]}
         rules={[
@@ -192,9 +178,13 @@ const ChangePasswordForm: React.FC = () => {
         />
       </BaseForm.Item>
 
-      {/* Submit Button */}
       <BaseForm.Item style={{ marginTop: 24, marginBottom: 0 }}>
-        <BaseButton type="primary" htmlType="submit" size="large">
+        <BaseButton
+          type="primary"
+          htmlType="submit"
+          size="large"
+          loading={isPending}
+        >
           {t("updatePassword")}
         </BaseButton>
       </BaseForm.Item>

@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { useTranslations } from "next-intl";
 
 import {
   BankOutlined,
   CreditCardOutlined,
+  DeleteOutlined,
   EnvironmentOutlined,
+  EyeOutlined,
   InboxOutlined,
 } from "@ant-design/icons";
-import { UploadProps, message } from "antd";
+import { Image, UploadProps } from "antd";
 import dayjs from "dayjs";
 
 import {
@@ -21,7 +23,8 @@ import {
   BaseSelect,
   BaseUpload,
 } from "@/components/common";
-import { useProvinceWard, useUpload } from "@/hooks/common";
+import { PHONE_NUMBER_VI_PATTERN } from "@/constants";
+import { useFeedback, useProvinceWard, useUpload } from "@/hooks/common";
 import type { User } from "@/interfaces/auth";
 
 import { UpdateOrganizationPayload } from "../index.hooks";
@@ -39,7 +42,21 @@ const OrganizationAccountForm: React.FC<OrganizationAccountFormProps> = ({
   onSave,
 }) => {
   const t = useTranslations("client.profile");
+  const tv = useTranslations("validation");
+  const { message } = useFeedback();
   const [form] = BaseForm.useForm();
+  const [previewVisible, setPreviewVisible] = useState(false);
+  const licenseImageList = BaseForm.useWatch("licenseImage", form);
+  const licenseFile = licenseImageList?.[0];
+
+  const getImageUrl = (file: any) => {
+    if (!file) return "";
+    return (
+      file.url ||
+      file.response ||
+      (file.originFileObj ? URL.createObjectURL(file.originFileObj) : "")
+    );
+  };
 
   const provinceCode = BaseForm.useWatch("province", form);
   const { provincesData, wardsData, isLoadingProvinces, isLoadingWards } =
@@ -59,12 +76,15 @@ const OrganizationAccountForm: React.FC<OrganizationAccountFormProps> = ({
       noiCapCccd: values.orgRegPlace,
       soTaiKhoan: values.bankAccountNo,
       tenNganHang: values.bankName,
-      chiNhanhNganHang: values.bankBranch,
       tenTaiKhoan: values.bankAccountHolder,
     };
 
     const orgPayload = {
       tenToChuc: values.orgName,
+      soDangKy: values.orgRegNo,
+      ngayDangKy: values.orgRegDate
+        ? values.orgRegDate.format("YYYY-MM-DD")
+        : null,
       maSoThue: values.taxCode,
       soDienThoai: values.companyPhone,
       email: values.companyEmail,
@@ -73,7 +93,7 @@ const OrganizationAccountForm: React.FC<OrganizationAccountFormProps> = ({
       maXaPhuong: values.ward,
       tenXaPhuong: wardsData.find((w) => w.code === values.ward)?.name,
       diaChi: values.address,
-      licenseImage: licenseUrl,
+      anhDangKy: licenseUrl,
     };
 
     if (onSave) {
@@ -97,8 +117,12 @@ const OrganizationAccountForm: React.FC<OrganizationAccountFormProps> = ({
 
   const initialValues = {
     orgName: user.toChucProfile?.tenToChuc || user.fullname || "",
-    orgRegNo: user.soCccd || "",
-    orgRegDate: user.ngayCapCccd ? dayjs(user.ngayCapCccd) : null,
+    orgRegNo: user.toChucProfile?.soDangKy || user.soCccd || "",
+    orgRegDate: user.toChucProfile?.ngayDangKy
+      ? dayjs(user.toChucProfile.ngayDangKy)
+      : user.ngayCapCccd
+        ? dayjs(user.ngayCapCccd)
+        : null,
     orgRegPlace: user.noiCapCccd || "",
     taxCode: user.toChucProfile?.maSoThue || "",
     companyPhone: user.toChucProfile?.soDienThoai || user.phone || "",
@@ -108,16 +132,15 @@ const OrganizationAccountForm: React.FC<OrganizationAccountFormProps> = ({
     address: user.toChucProfile?.diaChi || "",
     bankAccountNo: user.soTaiKhoan || "",
     bankName: user.tenNganHang || "",
-    bankBranch: user.chiNhanhNganHang || "",
     bankAccountHolder:
       user.tenTaiKhoan || (user.fullname ? user.fullname.toUpperCase() : ""),
-    licenseImage: user.toChucProfile?.diaChi
+    licenseImage: user.toChucProfile?.anhDangKy
       ? [
           {
             uid: "-1",
             name: "license.png",
             status: "done",
-            url: "https://iili.io/CfJ0CTQ.png",
+            url: user.toChucProfile.anhDangKy,
           },
         ]
       : [],
@@ -127,11 +150,9 @@ const OrganizationAccountForm: React.FC<OrganizationAccountFormProps> = ({
     <BaseForm
       form={form}
       layout="vertical"
-      requiredMark={false}
       initialValues={initialValues}
       onFinish={handleFinish}
     >
-      {/* 1. Thông tin tổ chức */}
       <S.FormSectionTitle>
         <BankOutlined />
         <span>{t("orgDetails")}</span>
@@ -141,33 +162,30 @@ const OrganizationAccountForm: React.FC<OrganizationAccountFormProps> = ({
         <BaseCol xs={24} sm={12}>
           <BaseForm.Item
             name="orgName"
-            label={
-              <span>
-                {t("orgName")}
-                <S.RequiredMark>*</S.RequiredMark>
-              </span>
-            }
-            rules={[{ required: true, message: "Vui lòng nhập tên tổ chức" }]}
+            label={t("orgName")}
+            rules={[
+              {
+                required: true,
+                message: tv("required", { field: t("orgName") }),
+              },
+            ]}
           >
-            <BaseInput size="large" placeholder="Nhập tên tổ chức" />
+            <BaseInput placeholder={t("orgName")} />
           </BaseForm.Item>
         </BaseCol>
 
         <BaseCol xs={24} sm={12}>
           <BaseForm.Item
             name="orgRegNo"
-            label={
-              <span>
-                {t("orgRegNo")}
-                <S.RequiredMark>*</S.RequiredMark>
-              </span>
-            }
-            rules={[{ required: true, message: "Vui lòng nhập số đăng ký" }]}
+            label={t("orgRegNo")}
+            rules={[
+              {
+                required: true,
+                message: tv("required", { field: t("orgRegNo") }),
+              },
+            ]}
           >
-            <BaseInput
-              size="large"
-              placeholder="Nhập số đăng ký doanh nghiệp"
-            />
+            <BaseInput placeholder={t("orgRegNo")} />
           </BaseForm.Item>
         </BaseCol>
       </BaseRow>
@@ -176,9 +194,8 @@ const OrganizationAccountForm: React.FC<OrganizationAccountFormProps> = ({
         <BaseCol xs={24} sm={12}>
           <BaseForm.Item name="orgRegDate" label={t("orgRegDate")}>
             <BaseDatePicker
-              size="large"
               style={{ width: "100%" }}
-              placeholder="Chọn ngày cấp"
+              placeholder={t("orgRegDate")}
               format="DD/MM/YYYY"
             />
           </BaseForm.Item>
@@ -186,85 +203,138 @@ const OrganizationAccountForm: React.FC<OrganizationAccountFormProps> = ({
 
         <BaseCol xs={24} sm={12}>
           <BaseForm.Item name="orgRegPlace" label={t("orgRegPlace")}>
-            <BaseInput size="large" placeholder="Nhập nơi cấp số ĐKKD" />
+            <BaseInput placeholder={t("orgRegPlace")} />
           </BaseForm.Item>
         </BaseCol>
       </BaseRow>
 
-      {/* Upload Organization Certificate */}
-      <BaseForm.Item
-        name="licenseImage"
-        label={
-          <S.UploadContainer style={{ marginBottom: 4 }}>
-            <div>
-              <S.UploadTitle>
-                {t("orgLicenseImage")}
-                <S.RequiredMark>*</S.RequiredMark>
-              </S.UploadTitle>
-              <S.UploadSubTitle>{t("uploadLimits")}</S.UploadSubTitle>
-            </div>
-          </S.UploadContainer>
-        }
-        valuePropName="fileList"
-        getValueFromEvent={(e: any) => {
-          if (Array.isArray(e)) return e;
-          return e && e.fileList;
-        }}
-        rules={[
-          { required: true, message: "Vui lòng tải lên ảnh đăng ký tổ chức" },
-        ]}
-      >
-        <S.DraggerWrapper>
+      <S.DraggerWrapper>
+        <BaseForm.Item
+          name="licenseImage"
+          label={
+            <S.UploadContainer style={{ marginBottom: 4 }}>
+              <div>
+                <S.UploadTitle>{t("orgLicenseImage")}</S.UploadTitle>
+                <S.UploadSubTitle>{t("uploadLimits")}</S.UploadSubTitle>
+              </div>
+            </S.UploadContainer>
+          }
+          valuePropName="fileList"
+          getValueFromEvent={(e: any) => {
+            if (Array.isArray(e)) return e;
+            return e && e.fileList;
+          }}
+          rules={[
+            {
+              required: true,
+              message: tv("required", { field: t("orgLicenseImage") }),
+            },
+          ]}
+        >
           <Dragger
             name="license"
             multiple={false}
             maxCount={1}
             customRequest={handleUploadLicense}
             accept="image/*"
+            showUploadList={false}
           >
-            <S.DraggerContent>
-              <p className="upload-icon">
-                <InboxOutlined />
-              </p>
-              <p className="upload-text">{t("uploadLicense")}</p>
-              <p style={{ fontSize: 12, color: "#9ca3af", margin: 0 }}>
-                {t("uploadInstructions")}
-              </p>
-            </S.DraggerContent>
+            {getImageUrl(licenseFile) ? (
+              <S.PreviewContainer onClick={(e) => e.stopPropagation()}>
+                <img src={getImageUrl(licenseFile)} alt="license" />
+                <S.PreviewOverlay className="preview-overlay">
+                  <div style={{ display: "flex", gap: 16 }}>
+                    <EyeOutlined
+                      style={{ fontSize: 20, color: "#fff", cursor: "pointer" }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setPreviewVisible(true);
+                      }}
+                    />
+                    <DeleteOutlined
+                      style={{ fontSize: 20, color: "#fff", cursor: "pointer" }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        form.setFieldValue("licenseImage", []);
+                      }}
+                    />
+                  </div>
+                </S.PreviewOverlay>
+              </S.PreviewContainer>
+            ) : (
+              <S.DraggerContent>
+                <p className="upload-icon">
+                  <InboxOutlined />
+                </p>
+                <p className="upload-text">{t("uploadLicense")}</p>
+                <p style={{ fontSize: 12, color: "#9ca3af", margin: 0 }}>
+                  {t("uploadInstructions")}
+                </p>
+              </S.DraggerContent>
+            )}
           </Dragger>
-        </S.DraggerWrapper>
-      </BaseForm.Item>
+        </BaseForm.Item>
+        {getImageUrl(licenseFile) && (
+          <Image
+            wrapperStyle={{ display: "none" }}
+            preview={{
+              visible: previewVisible,
+              src: getImageUrl(licenseFile),
+              onVisibleChange: (visible) => setPreviewVisible(visible),
+            }}
+          />
+        )}
+      </S.DraggerWrapper>
 
       <BaseRow gutter={24}>
         <BaseCol xs={24} sm={8}>
           <BaseForm.Item
             name="taxCode"
-            label={
-              <span>
-                {t("taxCode")}
-                <S.RequiredMark>*</S.RequiredMark>
-              </span>
-            }
-            rules={[{ required: true, message: "Vui lòng nhập mã số thuế" }]}
+            label={t("taxCode")}
+            rules={[
+              {
+                required: true,
+                message: tv("required", { field: t("taxCode") }),
+              },
+            ]}
           >
-            <BaseInput size="large" placeholder="Nhập mã số thuế" />
+            <BaseInput placeholder={t("taxCode")} />
           </BaseForm.Item>
         </BaseCol>
 
         <BaseCol xs={24} sm={8}>
-          <BaseForm.Item name="companyPhone" label={t("companyPhone")}>
-            <BaseInput size="large" placeholder="Nhập số điện thoại công ty" />
+          <BaseForm.Item
+            name="companyPhone"
+            label={t("companyPhone")}
+            rules={[
+              {
+                required: true,
+                message: tv("required", { field: t("companyPhone") }),
+              },
+              { pattern: PHONE_NUMBER_VI_PATTERN, message: tv("phoneInvalid") },
+            ]}
+          >
+            <BaseInput placeholder={t("companyPhone")} />
           </BaseForm.Item>
         </BaseCol>
 
         <BaseCol xs={24} sm={8}>
-          <BaseForm.Item name="companyEmail" label={t("companyEmail")}>
-            <BaseInput size="large" placeholder="Nhập email công ty" />
+          <BaseForm.Item
+            name="companyEmail"
+            label={t("companyEmail")}
+            rules={[
+              {
+                required: true,
+                message: tv("required", { field: t("companyEmail") }),
+              },
+              { type: "email", message: tv("emailInvalid") },
+            ]}
+          >
+            <BaseInput placeholder={t("companyEmail")} disabled />
           </BaseForm.Item>
         </BaseCol>
       </BaseRow>
 
-      {/* 2. Địa chỉ tổ chức */}
       <S.FormSectionTitle>
         <EnvironmentOutlined />
         <span>{t("orgAddress")}</span>
@@ -274,19 +344,16 @@ const OrganizationAccountForm: React.FC<OrganizationAccountFormProps> = ({
         <BaseCol xs={24} sm={12}>
           <BaseForm.Item
             name="province"
-            label={
-              <span>
-                {t("province")}
-                <S.RequiredMark>*</S.RequiredMark>
-              </span>
-            }
+            label={t("province")}
             rules={[
-              { required: true, message: "Vui lòng chọn Tỉnh/Thành phố" },
+              {
+                required: true,
+                message: tv("required", { field: t("province") }),
+              },
             ]}
           >
             <BaseSelect
-              size="large"
-              placeholder="Chọn Tỉnh/Thành phố"
+              placeholder={t("selectProvince")}
               loading={isLoadingProvinces}
               options={provincesData.map((p) => ({
                 value: p.code,
@@ -302,17 +369,13 @@ const OrganizationAccountForm: React.FC<OrganizationAccountFormProps> = ({
         <BaseCol xs={24} sm={12}>
           <BaseForm.Item
             name="ward"
-            label={
-              <span>
-                {t("ward")}
-                <S.RequiredMark>*</S.RequiredMark>
-              </span>
-            }
-            rules={[{ required: true, message: "Vui lòng chọn Phường/xã" }]}
+            label={t("ward")}
+            rules={[
+              { required: true, message: tv("required", { field: t("ward") }) },
+            ]}
           >
             <BaseSelect
-              size="large"
-              placeholder="Chọn Phường/xã"
+              placeholder={t("selectWard")}
               loading={isLoadingWards}
               options={wardsData.map((w) => ({
                 value: w.code,
@@ -326,92 +389,72 @@ const OrganizationAccountForm: React.FC<OrganizationAccountFormProps> = ({
 
       <BaseForm.Item
         name="address"
-        label={
-          <span>
-            {t("addressDetail")}
-            <S.RequiredMark>*</S.RequiredMark>
-          </span>
-        }
-        rules={[{ required: true, message: "Vui lòng nhập địa chỉ" }]}
+        label={t("addressDetail")}
+        rules={[
+          {
+            required: true,
+            message: tv("required", { field: t("addressDetail") }),
+          },
+        ]}
       >
-        <BaseInput size="large" placeholder="Nhập địa chỉ" />
+        <BaseInput placeholder={t("enterAddress")} />
       </BaseForm.Item>
 
-      {/* 3. Thông tin tài khoản ngân hàng */}
       <S.FormSectionTitle>
         <CreditCardOutlined />
         <span>{t("bankDetails")}</span>
       </S.FormSectionTitle>
 
       <BaseRow gutter={24}>
-        <BaseCol xs={24} sm={12}>
+        <BaseCol xs={24} sm={8}>
           <BaseForm.Item
             name="bankAccountNo"
-            label={
-              <span>
-                {t("bankAccountNo")}
-                <S.RequiredMark>*</S.RequiredMark>
-              </span>
-            }
-            rules={[{ required: true, message: "Vui lòng nhập số tài khoản" }]}
-          >
-            <BaseInput size="large" placeholder="Nhập số tài khoản" />
-          </BaseForm.Item>
-        </BaseCol>
-
-        <BaseCol xs={24} sm={12}>
-          <BaseForm.Item
-            name="bankName"
-            label={
-              <span>
-                {t("bankName")}
-                <S.RequiredMark>*</S.RequiredMark>
-              </span>
-            }
-            rules={[{ required: true, message: "Vui lòng nhập tên ngân hàng" }]}
-          >
-            <BaseInput size="large" placeholder="Nhập tên ngân hàng" />
-          </BaseForm.Item>
-        </BaseCol>
-      </BaseRow>
-
-      <BaseRow gutter={24}>
-        <BaseCol xs={24} sm={12}>
-          <BaseForm.Item
-            name="bankBranch"
-            label={
-              <span>
-                {t("bankBranch")}
-                <S.RequiredMark>*</S.RequiredMark>
-              </span>
-            }
-            rules={[{ required: true, message: "Vui lòng nhập chi nhánh" }]}
-          >
-            <BaseInput size="large" placeholder="Nhập chi nhánh ngân hàng" />
-          </BaseForm.Item>
-        </BaseCol>
-
-        <BaseCol xs={24} sm={12}>
-          <BaseForm.Item
-            name="bankAccountHolder"
-            label={
-              <span>
-                {t("bankAccountHolder")}
-                <S.RequiredMark>*</S.RequiredMark>
-              </span>
-            }
+            label={t("bankAccountNo")}
             rules={[
-              { required: true, message: "Vui lòng nhập tên chủ tài khoản" },
+              {
+                required: true,
+                message: tv("required", { field: t("bankAccountNo") }),
+              },
             ]}
           >
-            <BaseInput size="large" placeholder="Nhập tên chủ tài khoản" />
+            <BaseInput placeholder={t("bankAccountNo")} />
+          </BaseForm.Item>
+        </BaseCol>
+
+        <BaseCol xs={24} sm={8}>
+          <BaseForm.Item
+            name="bankName"
+            label={t("bankName")}
+            rules={[
+              {
+                required: true,
+                message: tv("required", { field: t("bankName") }),
+              },
+            ]}
+          >
+            <BaseInput placeholder={t("bankName")} />
+          </BaseForm.Item>
+        </BaseCol>
+
+        <BaseCol xs={24} sm={8}>
+          <BaseForm.Item
+            name="bankAccountHolder"
+            label={t("bankAccountHolder")}
+            rules={[
+              {
+                required: true,
+                message: tv("required", { field: t("bankAccountHolder") }),
+              },
+            ]}
+          >
+            <BaseInput placeholder={t("bankAccountHolder")} />
           </BaseForm.Item>
         </BaseCol>
       </BaseRow>
 
       <BaseForm.Item style={{ marginTop: 24, marginBottom: 0 }}>
-        <BaseButton type="primary" htmlType="submit" size="large">
-          Lưu thông tin
+        <BaseButton type="primary" htmlType="submit">
+          {t("saveInfo")}
         </BaseButton>
       </BaseForm.Item>
     </BaseForm>

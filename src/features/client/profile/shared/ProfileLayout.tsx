@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 
 import {
   CameraOutlined,
+  CheckCircleFilled,
   IdcardOutlined,
   LoadingOutlined,
   LockOutlined,
@@ -54,6 +55,9 @@ const ProfileLayout: React.FC<ProfileLayoutProps> = ({
   const t = useTranslations("client.profile");
 
   const isIndividual = user.userRoles === UserRoleType.CA_NHAN;
+  const displayName = isIndividual
+    ? user.fullname
+    : user.toChucProfile?.tenToChuc || user.fullname;
 
   const menuItems: MenuItemConfig[] = [
     {
@@ -70,7 +74,7 @@ const ProfileLayout: React.FC<ProfileLayoutProps> = ({
           },
         ]
       : []),
-    ...(isIndividual
+    ...(isIndividual && !user.isVerified
       ? [
           {
             key: "verify",
@@ -125,7 +129,21 @@ const ProfileLayout: React.FC<ProfileLayoutProps> = ({
               </S.AvatarWrapper>
             </BaseUpload>
             <S.Greetings>{t("hello")}</S.Greetings>
-            <S.UserName>{user.fullname || "User"}</S.UserName>
+            <S.UserName
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 6,
+              }}
+            >
+              <span>{displayName || "User"}</span>
+              {user.isVerified && (
+                <CheckCircleFilled
+                  style={{ color: "#22c55e", fontSize: 16, flexShrink: 0 }}
+                />
+              )}
+            </S.UserName>
             <S.RoleBadge>
               {isIndividual ? t("individualAccount") : t("organizationAccount")}
             </S.RoleBadge>
