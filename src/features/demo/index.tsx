@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
 import {
   DeleteOutlined,
@@ -58,6 +58,9 @@ import {
   SearchInput,
   VerificationCodeInput,
 } from "@/components/common";
+import ImageGallery from "@/components/features/client/image-gallery";
+import RankingSessions from "@/components/features/client/ranking-sessios";
+import { type RankingItem } from "@/components/features/client/ranking-sessios/types";
 
 import * as S from "./index.styles";
 import { useDemo } from "./index.utils";
@@ -74,6 +77,13 @@ const tableData = [
   { key: "1", name: "John Doe", age: 28, email: "john@example.com" },
   { key: "2", name: "Jane Smith", age: 32, email: "jane@example.com" },
   { key: "3", name: "Bob Johnson", age: 45, email: "bob@example.com" },
+];
+
+const MOCK_GALLERY_IMAGES = [
+  "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?q=80&w=900&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1533105079780-92b9be482077?q=80&w=900&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1549887534-1541e9326642?q=80&w=900&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1580136579312-94651dfd596d?q=80&w=900&auto=format&fit=crop",
 ];
 
 const DemoComponent = () => {
@@ -110,6 +120,127 @@ const DemoComponent = () => {
     handleShowMessage,
     handleConfirmModal,
   } = useDemo();
+
+  const [rankingData, setRankingData] = useState<RankingItem[]>([
+    {
+      thuHang: 1,
+      nguoiThamGiaId: "user-1",
+      nguoiThamGia: {
+        _id: "user-1",
+        fullname: "Nguyễn Văn Anh",
+        avatar: "https://i.pravatar.cc/120?img=3",
+      },
+      price: 150000000,
+      bidTime: "23:15:02",
+    },
+    {
+      thuHang: 2,
+      nguoiThamGiaId: "user-2",
+      nguoiThamGia: {
+        _id: "user-2",
+        fullname: "Trần Thị Bình",
+        avatar: "https://i.pravatar.cc/120?img=5",
+      },
+      price: 140000000,
+      bidTime: "23:14:45",
+    },
+    {
+      thuHang: 3,
+      nguoiThamGiaId: "user-3",
+      nguoiThamGia: {
+        _id: "user-3",
+        fullname: "Lê Hoàng Châu",
+        avatar: "https://i.pravatar.cc/120?img=7",
+      },
+      price: 130000000,
+      bidTime: "23:14:10",
+    },
+    {
+      thuHang: 4,
+      nguoiThamGiaId: "ANONYMOUS",
+      bietDanh: "Mã số 049",
+      price: 120000000,
+      bidTime: "23:12:00",
+    },
+    {
+      thuHang: 5,
+      nguoiThamGiaId: "ANONYMOUS",
+      bietDanh: "Mã số 112",
+      price: 110000000,
+      bidTime: "23:10:30",
+    },
+  ]);
+
+  const handleSimulateBid = () => {
+    setRankingData((prev) => {
+      const next = [...prev];
+      const targetIdx = Math.floor(Math.random() * (next.length - 1)) + 1;
+      const newPrice = next[0].price + 10_000_000;
+      next[targetIdx] = {
+        ...next[targetIdx],
+        price: newPrice,
+        bidTime: new Date().toLocaleTimeString("vi-VN"),
+      };
+      return next
+        .sort((a, b) => (b.price as number) - (a.price as number))
+        .map((item, idx) => ({ ...item, thuHang: idx + 1 }));
+    });
+  };
+
+  const rankingColumns = [
+    {
+      title: "Hạng",
+      dataIndex: "thuHang",
+      key: "thuHang",
+      width: 70,
+      align: "center" as const,
+      render: (rank: number) => (
+        <span className={`rank-cell rank-${rank <= 3 ? rank : "other"}`}>
+          {rank}
+        </span>
+      ),
+    },
+    {
+      title: "Người tham gia",
+      key: "participant",
+      render: (_: unknown, record: RankingItem) => {
+        const isAnonymous = record.nguoiThamGiaId === "ANONYMOUS";
+        const name = isAnonymous
+          ? (record.bietDanh ?? "Người tham gia ẩn danh")
+          : (record.nguoiThamGia?.fullname ?? record.nguoiThamGiaId);
+        return (
+          <BaseSpace size="middle">
+            <BaseAvatar
+              src={record.nguoiThamGia?.avatar}
+              icon={<UserOutlined />}
+            />
+            <BaseTypography.Text strong={record.thuHang === 1}>
+              {name}
+            </BaseTypography.Text>
+          </BaseSpace>
+        );
+      },
+    },
+    {
+      title: "Giá đặt (VND)",
+      dataIndex: "price",
+      key: "price",
+      align: "right" as const,
+      render: (price: number) => (
+        <BaseTypography.Text strong>
+          {price?.toLocaleString("vi-VN")} đ
+        </BaseTypography.Text>
+      ),
+    },
+    {
+      title: "Thời gian",
+      dataIndex: "bidTime",
+      key: "bidTime",
+      render: (time: string) => (
+        <BaseTypography.Text>{time}</BaseTypography.Text>
+      ),
+    },
+  ];
 
   return (
     <S.DemoContainer>
@@ -832,6 +963,76 @@ const DemoComponent = () => {
         }}
         description="Are you sure you want to delete this item? This action cannot be undone."
       />
+
+      {/* ================== IMAGE GALLERY ================== */}
+      <S.SectionTitle>Image Gallery</S.SectionTitle>
+      <S.DemoBlock>
+        <BaseRow gutter={[24, 24]}>
+          <BaseCol xs={24} md={14}>
+            <S.Label>
+              Gallery với Swiper + Fade Effect + Ant Design Preview
+            </S.Label>
+            <ImageGallery
+              images={MOCK_GALLERY_IMAGES}
+              slidesPerView={4}
+              previewable
+            />
+          </BaseCol>
+          <BaseCol xs={24} md={10}>
+            <BaseFlex
+              vertical
+              gap={8}
+              style={{ padding: "1rem", height: "100%" }}
+            >
+              <Title level={5}>Cách sử dụng</Title>
+              <BaseTypography.Text type="secondary">
+                • Click ảnh lớn để mở chế độ xem toàn màn hình (Preview).
+              </BaseTypography.Text>
+              <BaseTypography.Text type="secondary">
+                • Click thumbnail hoặc vuốt ngang để chuyển ảnh.
+              </BaseTypography.Text>
+              <BaseTypography.Text type="secondary">
+                • Responsive đầy đủ trên mobile.
+              </BaseTypography.Text>
+            </BaseFlex>
+          </BaseCol>
+        </BaseRow>
+      </S.DemoBlock>
+
+      {/* ================== REALTIME RANKING ================== */}
+      <S.SectionTitle>Realtime Ranking Leaderboard</S.SectionTitle>
+      <S.DemoBlock>
+        <BaseFlex
+          justify="space-between"
+          align="center"
+          style={{ marginBottom: "1.5rem" }}
+        >
+          <div>
+            <Title level={5} style={{ margin: 0 }}>
+              Bảng xếp hạng đấu giá
+            </Title>
+            <BaseTypography.Text type="secondary">
+              Nhấn nút bên phải để mô phỏng có người đặt giá cao mới → xem hiệu
+              ứng chuyển hạng mượt mà
+            </BaseTypography.Text>
+          </div>
+          <BaseButton
+            type="primary"
+            icon={<PlusOutlined />}
+            onClick={handleSimulateBid}
+          >
+            Simulate New Bid
+          </BaseButton>
+        </BaseFlex>
+
+        <RankingSessions
+          data={rankingData}
+          columns={rankingColumns}
+          renderPodiumSubtitle={(item) =>
+            `${(item.price as number)?.toLocaleString("vi-VN")} đ`
+          }
+        />
+      </S.DemoBlock>
     </S.DemoContainer>
   );
 };

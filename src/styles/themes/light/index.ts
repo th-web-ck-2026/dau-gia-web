@@ -127,6 +127,13 @@ export const lightColorsTheme = {
   textSessionDefault: "#555556",
   bgSessionDefault: "#EDEEF6",
 
+  textRankGold: "#FBBF24",
+  bgRankGold: "rgba(251, 191, 36, 0.10)",
+  textRankSilver: "#7A7A83",
+  bgRankSilver: "rgba(122, 122, 131, 0.10)",
+  textRankCopper: "#D97706",
+  bgRankCopper: "rgba(217, 119, 6, 0.10)",
+
   border: "#E5E7EB",
   borderBase: "#E5E7EB",
   borderTertiary: "#F3F4F6",
