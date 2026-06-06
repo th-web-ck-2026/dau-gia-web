@@ -3,9 +3,13 @@ import { TrangThaiPhien } from "@/constants";
 import { ResponseData } from "@/interfaces/common";
 import type {
   AuctionSession,
+  CreateAuctionSessionDto,
+  CreateTenderSessionDto,
   KeyAssetItem,
   PageableResponse,
   TenderSession,
+  TenderSubmission,
+  UserBid,
 } from "@/interfaces/sessions";
 import { request } from "@/services/axios";
 
@@ -49,3 +53,50 @@ export const getKeyAssets = async (
     },
   };
 };
+
+export const createAuctionSession = (data: CreateAuctionSessionDto) =>
+  request.post<CreateAuctionSessionDto, ResponseData<AuctionSession>>(
+    "/auction-sessions",
+    data
+  );
+
+export const createTenderSession = (data: CreateTenderSessionDto) =>
+  request.post<CreateTenderSessionDto, ResponseData<TenderSession>>(
+    "/tender-sessions",
+    data
+  );
+
+export const publishAuctionSession = (id: string) =>
+  request.post<void, ResponseData<AuctionSession>>(
+    `/auction-sessions/${id}/publish`
+  );
+
+export const publishTenderSession = (id: string) =>
+  request.post<void, ResponseData<TenderSession>>(
+    `/tender-sessions/${id}/publish`
+  );
+
+export const closeAuctionSession = (id: string) =>
+  request.post<void, ResponseData<AuctionSession>>(
+    `/auction-sessions/${id}/close`
+  );
+
+export const closeTenderSession = ({
+  id,
+  winnerSubmissionId,
+}: {
+  id: string;
+  winnerSubmissionId?: string;
+}) =>
+  request.post<{ winnerSubmissionId?: string }, ResponseData<TenderSession>>(
+    `/tender-sessions/${id}/close`,
+    { winnerSubmissionId }
+  );
+
+export const getAuctionBids = (id: string) =>
+  request.get<void, ResponseData<UserBid[]>>(`/auction-sessions/${id}/bids`);
+
+export const getTenderSubmissions = (id: string) =>
+  request.get<void, ResponseData<TenderSubmission[]>>(
+    `/tender-sessions/${id}/submissions`
+  );
