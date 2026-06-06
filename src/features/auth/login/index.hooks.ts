@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 
@@ -17,14 +15,8 @@ export const useLoginHooks = () => {
   const router = useRouter();
   const t = useTranslations("auth");
   const { notification } = useFeedback();
-  const { refreshUser, isAuthenticated, isInitializing } = useAuth();
+  const { refreshUser } = useAuth();
   const [form] = BaseForm.useForm();
-
-  useEffect(() => {
-    if (!isInitializing && isAuthenticated) {
-      router.replace("/");
-    }
-  }, [isAuthenticated, isInitializing, router]);
 
   const { mutate: handleLogin, isPending: isLoading } = useAppMutation(
     (data: LoginDto) => login(data, AuthProvider.EMAIL),

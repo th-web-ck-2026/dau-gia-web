@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
+
+import { useRouter } from "next/navigation";
 
 import { LeftOutlined } from "@ant-design/icons";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
+import { Loading } from "@/components/common";
 import LanguageAction from "@/components/layouts/header/language";
+import { useAuth } from "@/hooks/common";
 import { Link } from "@/i18n/routing";
 
 import * as S from "./index.styles";
@@ -19,6 +23,19 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({
   reversed = false,
   backUrl,
 }) => {
+  const router = useRouter();
+  const { isAuthenticated, isInitializing } = useAuth();
+
+  useEffect(() => {
+    if (!isInitializing && isAuthenticated) {
+      router.replace("/");
+    }
+  }, [isAuthenticated, isInitializing, router]);
+
+  if (isInitializing || isAuthenticated) {
+    return <Loading />;
+  }
+
   return (
     <S.AuthLayoutContainer $reversed={reversed}>
       {backUrl && (
