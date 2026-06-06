@@ -136,6 +136,13 @@ export interface ThemeInterface
   textSessionDefault: string;
   bgSessionDefault: string;
 
+  textRankGold: string;
+  bgRankGold: string;
+  textRankSilver: string;
+  bgRankSilver: string;
+  textRankCopper: string;
+  bgRankCopper: string;
+
   border: string;
   borderBase: string;
   borderTertiary: string;
