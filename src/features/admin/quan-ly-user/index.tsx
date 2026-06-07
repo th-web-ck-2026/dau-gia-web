@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useState } from "react";
 
 import { useTranslations } from "next-intl";
 
@@ -11,7 +11,6 @@ import type { ColumnsType } from "antd/es/table";
 import { AdminUserRow } from "@/api/admin";
 import {
   BaseButton,
-  BaseInput,
   BasePagination,
   BaseSpace,
   BaseTable,
@@ -26,7 +25,6 @@ import * as S from "./index.styles";
 const AdminQuanLyUser: React.FC = () => {
   const t = useTranslations("admin");
 
-  const [searchText, setSearchText] = useState("");
   const [roleFilter, setRoleFilter] = useState<string>("ALL");
   const [statusFilter, setStatusFilter] = useState<string>("ALL");
   const [typeFilter, setTypeFilter] = useState<string>("ALL");
@@ -47,15 +45,6 @@ const AdminQuanLyUser: React.FC = () => {
   if (verifiedFilter !== "ALL")
     condition.isVerified = verifiedFilter === "true";
 
-  if (searchText.trim()) {
-    const searchVal = `%${searchText.trim()}%`;
-    condition.$or = [
-      { fullname: { $ilike: searchVal } },
-      { email: { $ilike: searchVal } },
-      { phone: { $ilike: searchVal } },
-    ];
-  }
-
   const queryParams = {
     page,
     limit,
@@ -72,19 +61,6 @@ const AdminQuanLyUser: React.FC = () => {
   const handleModalSuccess = useCallback(() => {
     refetch();
   }, [refetch]);
-
-  const handleSearch = useCallback((value: string) => {
-    setSearchText(value);
-    setPage(1);
-  }, []);
-
-  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const handleSearchDebounced = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (debounceRef.current) clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(() => {
-      handleSearch(e.target.value);
-    }, 400);
-  };
 
   const columns: ColumnsType<AdminUserRow> = [
     {
@@ -183,13 +159,6 @@ const AdminQuanLyUser: React.FC = () => {
       </S.DashboardHeader>
 
       <S.FilterContainer>
-        <BaseInput
-          placeholder="Tìm theo họ tên, email, sđt..."
-          onChange={handleSearchDebounced}
-          style={{ width: 260 }}
-          allowClear
-        />
-
         <div
           style={{
             display: "flex",

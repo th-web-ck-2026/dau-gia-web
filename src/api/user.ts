@@ -31,3 +31,8 @@ export const createXacMinhUserMe = (data: XacMinhUserPayload) =>
     "/xac-minh-user/me",
     data
   );
+
+export const getUserInfo = (id: string) =>
+  request.get<undefined, ResponseData<{ fullname: string }>>(
+    `/user/info/${id}`
+  );

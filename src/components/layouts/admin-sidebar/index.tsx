@@ -9,6 +9,7 @@ import {
   BarChartOutlined,
   SafetyCertificateOutlined,
   TeamOutlined,
+  WarningOutlined,
 } from "@ant-design/icons";
 
 import BrandLogo from "@/assets/svg/bidwar-text-brand.svg";
@@ -26,6 +27,8 @@ const AdminSidebar: React.FC = () => {
     selectedKey = "stats";
   } else if (pathname.includes("/admin/quan-ly-user")) {
     selectedKey = "users";
+  } else if (pathname.includes("/admin/bao-cao-user")) {
+    selectedKey = "reports";
   } else if (pathname.includes("/admin")) {
     selectedKey = "verification";
   }
@@ -48,7 +51,14 @@ const AdminSidebar: React.FC = () => {
     {
       key: "users",
       icon: <TeamOutlined style={{ fontSize: "18px" }} />,
-      label: <Link href="/admin/quan-ly-user">Quản lý người dùng</Link>,
+      label: (
+        <Link href="/admin/quan-ly-user">{t("sidebar.userManagement")}</Link>
+      ),
+    },
+    {
+      key: "reports",
+      icon: <WarningOutlined style={{ fontSize: "18px" }} />,
+      label: <Link href="/admin/bao-cao-user">{t("sidebar.userReports")}</Link>,
     },
   ];
 

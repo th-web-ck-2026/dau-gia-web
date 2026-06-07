@@ -4,6 +4,8 @@ import React, { useCallback, useRef, useState } from "react";
 
 import { useTranslations } from "next-intl";
 
+import { useQueryClient } from "@tanstack/react-query";
+
 import { AdminXacMinhUserData } from "@/api/admin";
 import { BaseInput, BasePagination, BaseTable } from "@/components/common";
 import { SortOrder, TrangThaiXacMinhUser } from "@/constants";
@@ -15,6 +17,7 @@ import { getColumns } from "./index.utils";
 
 const AdminXacMinhDashboard: React.FC = () => {
   const t = useTranslations("admin");
+  const queryClient = useQueryClient();
 
   const [searchText, setSearchText] = useState("");
   const [statusTab, setStatusTab] = useState<TrangThaiXacMinhUser | "ALL">(
@@ -36,7 +39,7 @@ const AdminXacMinhDashboard: React.FC = () => {
     order: { createdAt: SortOrder.DESC },
   };
 
-  const { data, isLoading, refetch } = useGetAdminXacMinhUsers(queryParams);
+  const { data, isLoading } = useGetAdminXacMinhUsers(queryParams);
 
   const handleReview = useCallback((record: AdminXacMinhUserData) => {
     setSelectedRecord(record);
@@ -44,8 +47,9 @@ const AdminXacMinhDashboard: React.FC = () => {
   }, []);
 
   const handleModalSuccess = useCallback(() => {
-    refetch();
-  }, [refetch]);
+    queryClient.invalidateQueries({ queryKey: ["useGetAdminXacMinhUsers"] });
+    queryClient.invalidateQueries({ queryKey: ["useGetAdminStats"] });
+  }, [queryClient]);
 
   const handleSearch = useCallback((value: string) => {
     setSearchText(value);
