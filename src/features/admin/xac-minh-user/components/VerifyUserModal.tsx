@@ -65,10 +65,11 @@ export const VerifyUserModal: React.FC<VerifyUserModalProps> = ({
 
   useEffect(() => {
     if (open) {
-      // setIsRejecting(false); NOTE; đoạn này đang lỗi,bảo AI fix nhé
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setIsRejecting(false);
       form.resetFields();
     }
-  }, [open, form]);
+  }, [open, form, setIsRejecting]);
 
   const handleClose = () => {
     setIsRejecting(false);
