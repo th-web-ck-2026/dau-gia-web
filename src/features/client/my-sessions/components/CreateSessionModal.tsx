@@ -31,6 +31,7 @@ import {
   CreateTenderSessionDto,
   TenderSession,
 } from "@/interfaces/sessions";
+import { toSnakeCase } from "@/utils/common";
 
 import { getErrorMessage } from "../index.utils";
 import { AuctionFields } from "./AuctionFields";
@@ -273,14 +274,20 @@ const CreateSessionModal: React.FC<CreateSessionModalProps> = ({
 
       const formattedCriteria = criteria.map((c) => ({
         tenTieuChi: c.tenTieuChi,
-        maTieuChi: c.maTieuChi,
+        maTieuChi: c.maTieuChi || toSnakeCase(c.tenTieuChi),
         loai: c.loai,
         trongSo: Number(c.trongSo),
         huongToiUu: c.huongToiUu,
         batBuoc: !!c.batBuoc,
         donVi: c.donVi,
-        giaTriToiThieu: c.giaTriToiThieu ? Number(c.giaTriToiThieu) : undefined,
-        giaTriToiDa: c.giaTriToiDa ? Number(c.giaTriToiDa) : undefined,
+        giaTriToiThieu:
+          c.loai !== LoaiTieuChi.LUA_CHON && c.giaTriToiThieu
+            ? Number(c.giaTriToiThieu)
+            : undefined,
+        giaTriToiDa:
+          c.loai !== LoaiTieuChi.LUA_CHON && c.giaTriToiDa
+            ? Number(c.giaTriToiDa)
+            : undefined,
         cacLuaChon:
           c.loai === LoaiTieuChi.LUA_CHON && c.cacLuaChon
             ? c.cacLuaChon.map((opt) => ({

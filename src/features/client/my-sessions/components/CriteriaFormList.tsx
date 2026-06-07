@@ -35,7 +35,7 @@ export const CriteriaFormList: React.FC<CriteriaFormListProps> = ({ t }) => {
                 </S.RemoveCriterionButton>
 
                 <BaseRow gutter={16}>
-                  <BaseCol span={8}>
+                  <BaseCol span={12}>
                     <BaseForm.Item
                       {...restField}
                       name={[name, "tenTieuChi"]}
@@ -47,19 +47,7 @@ export const CriteriaFormList: React.FC<CriteriaFormListProps> = ({ t }) => {
                       <BaseInput placeholder={t("placeholderCriteriaName")} />
                     </BaseForm.Item>
                   </BaseCol>
-                  <BaseCol span={8}>
-                    <BaseForm.Item
-                      {...restField}
-                      name={[name, "maTieuChi"]}
-                      label={t("criteriaKey")}
-                      rules={[
-                        { required: true, message: t("validationRequired") },
-                      ]}
-                    >
-                      <BaseInput placeholder={t("placeholderCriteriaKey")} />
-                    </BaseForm.Item>
-                  </BaseCol>
-                  <BaseCol span={8}>
+                  <BaseCol span={12}>
                     <BaseForm.Item
                       {...restField}
                       name={[name, "loai"]}
@@ -153,26 +141,40 @@ export const CriteriaFormList: React.FC<CriteriaFormListProps> = ({ t }) => {
                   </BaseCol>
                 </BaseRow>
 
-                <BaseRow gutter={16}>
-                  <BaseCol span={12}>
-                    <BaseForm.Item
-                      {...restField}
-                      name={[name, "giaTriToiThieu"]}
-                      label={t("criteriaMinVal")}
-                    >
-                      <BaseInput type="number" />
-                    </BaseForm.Item>
-                  </BaseCol>
-                  <BaseCol span={12}>
-                    <BaseForm.Item
-                      {...restField}
-                      name={[name, "giaTriToiDa"]}
-                      label={t("criteriaMaxVal")}
-                    >
-                      <BaseInput type="number" />
-                    </BaseForm.Item>
-                  </BaseCol>
-                </BaseRow>
+                <BaseForm.Item
+                  noStyle
+                  shouldUpdate={(prev, curr) =>
+                    prev?.tieuChi?.[name]?.loai !== curr?.tieuChi?.[name]?.loai
+                  }
+                >
+                  {({ getFieldValue }) => {
+                    const loai = getFieldValue(["tieuChi", name, "loai"]);
+                    if (loai === LoaiTieuChi.LUA_CHON) return null;
+
+                    return (
+                      <BaseRow gutter={16}>
+                        <BaseCol span={12}>
+                          <BaseForm.Item
+                            {...restField}
+                            name={[name, "giaTriToiThieu"]}
+                            label={t("criteriaMinVal")}
+                          >
+                            <BaseInput type="number" />
+                          </BaseForm.Item>
+                        </BaseCol>
+                        <BaseCol span={12}>
+                          <BaseForm.Item
+                            {...restField}
+                            name={[name, "giaTriToiDa"]}
+                            label={t("criteriaMaxVal")}
+                          >
+                            <BaseInput type="number" />
+                          </BaseForm.Item>
+                        </BaseCol>
+                      </BaseRow>
+                    );
+                  }}
+                </BaseForm.Item>
 
                 <BaseForm.Item
                   noStyle
