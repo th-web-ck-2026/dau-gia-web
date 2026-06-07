@@ -10,9 +10,11 @@ import {
   CheckCircleFilled,
   UserOutlined,
 } from "@ant-design/icons";
+import { useQueryClient } from "@tanstack/react-query";
 import styled from "styled-components";
 
 import { selectRole } from "@/api/auth";
+import { getMe } from "@/api/user";
 import { BaseButton, BaseModal } from "@/components/common";
 import { UserRoleType } from "@/constants";
 import { useAppMutation, useAuth, useFeedback } from "@/hooks/common";
@@ -127,6 +129,7 @@ export const ProfileGuard: React.FC<ProfileGuardProps> = ({ children }) => {
   const dispatch = useDispatch();
   const { user, isAuthenticated } = useAuth();
   const { notification } = useFeedback();
+  const queryClient = useQueryClient();
   const [selectedRole, setSelectedRole] = useState<UserRoleType | null>(null);
 
   const { mutate, isPending } = useAppMutation<
@@ -134,13 +137,21 @@ export const ProfileGuard: React.FC<ProfileGuardProps> = ({ children }) => {
     Error,
     { userRoles: UserRoleType }
   >(selectRole, {
-    onSuccess: (response) => {
+    onSuccess: async (response) => {
       notification.success({
         message: t("success"),
         placement: "topRight",
       });
       if (response?.data?.user) {
         dispatch(setCredentials(response.data.user));
+      }
+      try {
+        const fresh = await getMe();
+        if (fresh?.data) {
+          dispatch(setCredentials(fresh.data));
+        }
+      } catch {
+        queryClient.invalidateQueries({ queryKey: ["getMe"] });
       }
     },
   });
