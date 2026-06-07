@@ -1,8 +1,13 @@
 import { useTranslations } from "next-intl";
 
-import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
+import {
+  DashboardOutlined,
+  LogoutOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import type { MenuProps } from "antd";
 
+import { Role } from "@/constants";
 import { useAuth } from "@/hooks/common/useAuth";
 import { Link } from "@/i18n/routing";
 
@@ -17,6 +22,15 @@ const useProfileUtils = () => {
   };
 
   const userMenuItems: MenuProps["items"] = [
+    ...(user?.role === Role.ADMIN
+      ? [
+          {
+            key: "admin",
+            label: <Link href="/admin">{t("adminPanel")}</Link>,
+            icon: <DashboardOutlined />,
+          },
+        ]
+      : []),
     {
       key: "profile",
       label: <Link href="/profile">{t("profile")}</Link>,

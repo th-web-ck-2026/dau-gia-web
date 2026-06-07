@@ -134,7 +134,8 @@
     "logout": "Logout",
     "profile": "Account Information",
     "connectionStatus": "Connected",
-    "connectionStatusOffline": "Disconnected"
+    "connectionStatusOffline": "Disconnected",
+    "adminPanel": "Admin Panel"
   },
   "footer": {
     "companyName": "DAI VIET PARTNERSHIP AUCTION COMPANY",
@@ -441,5 +442,53 @@
     "noData": "No data available",
     "formImages": "Session Images",
     "uploadBtn": "Upload Image"
+  },
+  "admin": {
+    "sidebar": {
+      "dashboard": "Dashboard",
+      "userVerification": "Account Verification"
+    },
+    "verification": {
+      "title": "User Verification Management",
+      "subtitle": "Approve or reject user identity verification requests",
+      "table": {
+        "fullname": "Full Name",
+        "email": "Email",
+        "phone": "Phone Number",
+        "createdAt": "Request Date",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "status": {
+        "all": "All",
+        "pending": "Pending",
+        "approved": "Approved",
+        "rejected": "Rejected"
+      },
+      "modal": {
+        "title": "Verification Request Details",
+        "userInfo": "User Information",
+        "documents": "Verification Documents",
+        "cccdFront": "ID Card Front",
+        "cccdBack": "ID Card Back",
+        "portrait": "Portrait Photo",
+        "approveConfirm": "Are you sure you want to approve this request?",
+        "approveBtn": "Approve",
+        "rejectBtn": "Reject",
+        "rejectReasonTitle": "Reject Verification Request",
+        "rejectReasonLabel": "Reason for Rejection",
+        "rejectReasonPlaceholder": "Please enter a specific reason for rejection...",
+        "rejectReasonRequired": "Please enter a reason for rejection!",
+        "submitReject": "Confirm Reject",
+        "cancel": "Cancel",
+        "successApprove": "Verification request approved successfully!",
+        "successReject": "Verification request rejected!",
+        "viewDetail": "Review",
+        "reasonForRejection": "Previous Reason for Rejection",
+        "verifiedDate": "Verification Date"
+      },
+      "searchPlaceholder": "Search by name or email...",
+      "noImages": "No images available"
+    }
   }
 }
