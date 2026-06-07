@@ -139,7 +139,8 @@
     "logout": "Đăng xuất",
     "profile": "Thông tin tài khoản",
     "connectionStatus": "Đã kết nối",
-    "connectionStatusOffline": "Mất kết nối"
+    "connectionStatusOffline": "Mất kết nối",
+    "adminPanel": "Trang quản trị"
   },
   "footer": {
     "companyName": "CÔNG TY ĐẤU GIÁ HỢP DANH ĐẠI VIỆT",
@@ -571,5 +572,53 @@
     "noData": "Không có dữ liệu",
     "formImages": "Hình ảnh phiên",
     "uploadBtn": "Tải ảnh lên"
+  },
+  "admin": {
+    "sidebar": {
+      "dashboard": "Bảng điều khiển",
+      "userVerification": "Xác minh tài khoản"
+    },
+    "verification": {
+      "title": "Quản lý xác minh người dùng",
+      "subtitle": "Phê duyệt hoặc từ chối các yêu cầu xác minh danh tính của người dùng",
+      "table": {
+        "fullname": "Họ và tên",
+        "email": "Email",
+        "phone": "Số điện thoại",
+        "createdAt": "Ngày gửi yêu cầu",
+        "status": "Trạng thái",
+        "actions": "Hành động"
+      },
+      "status": {
+        "all": "Tất cả",
+        "pending": "Chờ duyệt",
+        "approved": "Đã duyệt",
+        "rejected": "Từ chối"
+      },
+      "modal": {
+        "title": "Chi tiết yêu cầu xác minh",
+        "userInfo": "Thông tin người dùng",
+        "documents": "Giấy tờ xác minh",
+        "cccdFront": "Ảnh CCCD mặt trước",
+        "cccdBack": "Ảnh CCCD mặt sau",
+        "portrait": "Ảnh chân dung",
+        "approveConfirm": "Bạn có chắc chắn muốn duyệt yêu cầu này?",
+        "approveBtn": "Phê duyệt",
+        "rejectBtn": "Từ chối",
+        "rejectReasonTitle": "Từ chối yêu cầu xác minh",
+        "rejectReasonLabel": "Lý do từ chối",
+        "rejectReasonPlaceholder": "Vui lòng nhập lý do từ chối cụ thể...",
+        "rejectReasonRequired": "Vui lòng nhập lý do từ chối!",
+        "submitReject": "Xác nhận từ chối",
+        "cancel": "Hủy",
+        "successApprove": "Đã duyệt yêu cầu xác minh thành công!",
+        "successReject": "Đã từ chối yêu cầu xác minh!",
+        "viewDetail": "Xét duyệt",
+        "reasonForRejection": "Lý do từ chối trước đó",
+        "verifiedDate": "Ngày xác minh"
+      },
+      "searchPlaceholder": "Tìm kiếm theo tên hoặc email...",
+      "noImages": "Không có ảnh"
+    }
   }
 }

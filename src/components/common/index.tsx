@@ -63,3 +63,4 @@ export * from "./inputs/clipboard-input";
 export * from "./base-segmented";
 export * from "./base-dropdown";
 export * from "./loading";
+export * from "./base-image";
