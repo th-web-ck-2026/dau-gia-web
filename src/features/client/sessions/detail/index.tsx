@@ -113,7 +113,6 @@ const SessionDetail: React.FC<SessionDetailProps> = ({ id }) => {
     return (
       <S.ContentRoot>
         <S.ContentWrapper>
-          {/* Breadcrumb placeholder */}
           <div style={{ height: 22 }} />
           <SessionDetailSkeleton />
         </S.ContentWrapper>
@@ -128,10 +127,10 @@ const SessionDetail: React.FC<SessionDetailProps> = ({ id }) => {
           <Result
             status="404"
             title="404"
-            subTitle="Phiên đấu thầu hoặc đấu giá không tồn tại hoặc đã bị gỡ bỏ."
+            subTitle={t("notFoundSubTitle")}
             extra={
               <Button type="primary" onClick={() => router.push("/sessions")}>
-                Quay về danh sách
+                {t("backToList")}
               </Button>
             }
           />
@@ -166,7 +165,8 @@ const SessionDetail: React.FC<SessionDetailProps> = ({ id }) => {
     sessionData.giaKhoiDiem ??
     0;
   const totalBids = statusRes?.data?.tongSoLuotDat ?? 0;
-  const leadingUserNickname = statusRes?.data?.bietDanhNguoiDanDau ?? "Chưa có";
+  const leadingUserNickname =
+    statusRes?.data?.bietDanhNguoiDanDau ?? t("noLeaderYet");
   const minRequiredBid =
     statusRes?.data?.giaHopLeKeTiep ??
     (sessionData.deXuatThangId || totalBids > 0

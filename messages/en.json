@@ -448,7 +448,17 @@
     "optionLabelWithScore": "{label} ({score}pts)",
     "enterValueWithUnit": "Enter value ({unit})",
     "cancelBtn": "Cancel",
-    "confirmSubmitBtn": "Confirm submit"
+    "confirmSubmitBtn": "Confirm submit",
+    "startPrice": "Starting price",
+    "priceStep": "Price step",
+    "startTime": "Start time",
+    "endTime": "End time",
+    "participant": "Participant",
+    "bidSuccessMsg": "Bid placed successfully!",
+    "proposalSuccessMsg": "Proposal submitted successfully!",
+    "notFoundSubTitle": "The auction or tender session does not exist or has been removed.",
+    "backToList": "Back to list",
+    "noLeaderYet": "None yet"
   },
   "errorBoundary": {
     "title": "Something went wrong",
