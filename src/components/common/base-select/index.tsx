@@ -15,6 +15,12 @@ export interface BaseSelectProps extends ComponentProps<typeof AntSelect> {
   className?: string;
 }
 
+type CompoundedComponent = React.ForwardRefExoticComponent<
+  BaseSelectProps & React.RefAttributes<RefSelectProps>
+> & {
+  Option: typeof Option;
+};
+
 export const BaseSelect = React.forwardRef<RefSelectProps, BaseSelectProps>(
   ({ className, width, shadow, children, ...props }, ref) => (
     <S.Select
@@ -28,6 +34,7 @@ export const BaseSelect = React.forwardRef<RefSelectProps, BaseSelectProps>(
       {children}
     </S.Select>
   )
-);
+) as CompoundedComponent;
 
+BaseSelect.Option = Option;
 BaseSelect.displayName = "BaseSelect";

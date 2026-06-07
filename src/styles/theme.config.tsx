@@ -133,7 +133,6 @@ export const getThemeConfig = (theme: DefaultTheme): ThemeConfig => {
         padding: 13,
         paddingXXS: 2,
         hoverBorderColor: theme.primary,
-
       },
       Form: {
         marginLG: 16,
@@ -246,7 +245,10 @@ export const getThemeConfig = (theme: DefaultTheme): ThemeConfig => {
       },
       Breadcrumb: {
         fontSizeIcon: 10,
-        colorTextDescription: theme.breadcrumb,
+        itemColor: theme.textSenary,
+        lastItemColor: theme.textBrand,
+        linkHoverColor: theme.breadcrumb,
+        separatorColor: theme.textSenary,
       },
       Tabs: {
         colorPrimaryHover: theme.primary,
@@ -264,7 +266,7 @@ export const getThemeConfig = (theme: DefaultTheme): ThemeConfig => {
         horizontalItemGutter: remToPixels(theme.paddings.xs),
       },
       Dropdown: {
-        paddingXXS: 1,
+        paddingXXS: 4,
         fontSizeIcon: 10,
         controlHeight: 34,
       },
@@ -437,7 +439,7 @@ export const getThemeConfig = (theme: DefaultTheme): ThemeConfig => {
         trackBg: theme.primary1,
         itemHoverBg: theme.primary2,
         itemActiveBg: theme.primary3,
-      }
+      },
     },
   };
 };

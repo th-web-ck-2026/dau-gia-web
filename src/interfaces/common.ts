@@ -28,6 +28,9 @@ export interface Meta {
   itemCount?: number;
   currentPage?: number;
   totalPages?: number;
+  total?: number;
+  page?: number;
+  limit?: number;
 }
 
 export interface ResponseData<T> {
@@ -73,4 +76,8 @@ export interface ApiErrorData {
   statusText: string;
   headers: any; // eslint-disable-line @typescript-eslint/no-explicit-any
   config: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+}
+
+export interface FileData {
+  file: File;
 }

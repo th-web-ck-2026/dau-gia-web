@@ -1,0 +1,157 @@
+import { Layout } from "antd";
+import styled from "styled-components";
+
+export const HeaderWrapper = styled(Layout.Header)`
+  height: auto;
+  background: ${({ theme }) => theme.white};
+  line-height: normal;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  z-index: 100;
+  padding: 8px 80px;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.lg - 1}px) {
+    padding: 8px 16px;
+  }
+`;
+
+export const LanguageSelectorWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+export const MainBar = styled.div`
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1440px;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.lg - 1}px) {
+    height: 70px;
+  }
+`;
+
+export const LogoContainer = styled.div`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+`;
+
+export const RightSection = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.lg - 1}px) {
+    display: none;
+  }
+`;
+
+export const ClockWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  line-height: 1.25;
+  gap: 2px;
+`;
+
+export const ClockTime = styled.span`
+  font-size: ${({ theme }) => theme.fontSizes.md};
+  font-weight: ${({ theme }) => theme.fontWeights.semibold};
+  color: ${({ theme }) => theme.textMain};
+`;
+
+export const ClockDate = styled.span`
+  font-size: ${({ theme }) => theme.fontSizes.md};
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
+  color: ${({ theme }) => theme.textMain};
+`;
+
+/* Mobile elements */
+
+export const MobileSection = styled.div`
+  display: none;
+  align-items: center;
+  gap: 16px;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.lg - 1}px) {
+    display: flex;
+  }
+`;
+
+export const MobileHamburger = styled.div`
+  font-size: ${({ theme }) => theme.fontSizes.xxl};
+  color: ${({ theme }) => theme.primary};
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 4px;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.primary1};
+  }
+`;
+
+export const DrawerContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-top: 10px;
+`;
+
+export const DrawerMenu = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+`;
+
+export const DrawerMenuItem = styled.div<{ $selected: boolean }>`
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 8px;
+
+  a {
+    display: block;
+    padding: 12px 16px;
+    color: ${({ $selected, theme }) =>
+      $selected ? theme.primary || "#1f3aa0" : "#374151"};
+    background-color: ${({ $selected }) =>
+      $selected ? "#d6e3ff" : "transparent"};
+    border-radius: 8px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: ${({ $selected }) =>
+        $selected ? "#d6e3ff" : "rgba(31, 58, 160, 0.05)"};
+      color: ${({ theme }) => theme.primary || "#1f3aa0"};
+    }
+  }
+`;
+
+export const DrawerDivider = styled.div`
+  height: 1px;
+  background-color: #e5e7eb;
+  margin: 8px 0;
+`;
+
+export const DrawerFooter = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
+
+export const DrawerClock = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f3f4f6;
+  padding: 12px 16px;
+  border-radius: 8px;
+`;

@@ -1,33 +1,47 @@
-import { useTranslations } from "next-intl";
-import { Rule } from "antd/es/form";
-import { PASSWORD_PATTERN, PHONE_NUMBER_VI_PATTERN, IDENTITY_CARD_NO_PATTERN, UserRoleType } from "@/constants";
-import type { BaseSegmentedProps } from "@/components/common";
-import { BankOutlined, UserOutlined } from "@ant-design/icons";
 import { useState } from "react";
+
+import { useTranslations } from "next-intl";
+
+import { BankOutlined, UserOutlined } from "@ant-design/icons";
+import { Rule } from "antd/es/form";
+
+import type { BaseSegmentedProps } from "@/components/common";
+import {
+  IDENTITY_CARD_NO_PATTERN,
+  PASSWORD_PATTERN,
+  PHONE_NUMBER_VI_PATTERN,
+  UserRoleType,
+} from "@/constants";
 
 export const useRegisterUtils = () => {
   const t = useTranslations("auth");
   const tv = useTranslations("validation");
   const [userType, setUserType] = useState<UserRoleType>(UserRoleType.CA_NHAN);
 
-  const commonRules: Record<string, Rule[]> = {
+  const getCommonRules = (fullnameField: string): Record<string, Rule[]> => ({
     email: [
       { required: true, message: tv("required", { field: t("emailLabel") }) },
       { type: "email", message: tv("emailInvalid") },
     ],
     password: [
-      { required: true, message: tv("required", { field: t("passwordLabel") }) },
+      {
+        required: true,
+        message: tv("required", { field: t("passwordLabel") }),
+      },
       { pattern: PASSWORD_PATTERN, message: tv("passwordInvalid") },
     ],
     fullname: [
-      { required: true, message: tv("required", { field: t("fullnameLabel") }) },
+      { required: true, message: tv("required", { field: fullnameField }) },
     ],
     phone: [
       { required: true, message: tv("required", { field: t("phoneLabel") }) },
       { pattern: PHONE_NUMBER_VI_PATTERN, message: tv("phoneInvalid") },
     ],
     confirmPassword: [
-      { required: true, message: tv("required", { field: t("confirmPasswordLabel") }) },
+      {
+        required: true,
+        message: tv("required", { field: t("confirmPasswordLabel") }),
+      },
       ({ getFieldValue }) => ({
         validator(_, value) {
           if (!value || getFieldValue("password") === value) {
@@ -45,21 +59,30 @@ export const useRegisterUtils = () => {
             : Promise.reject(new Error(tv("agreementRequired"))),
       },
     ],
-  };
+  });
 
   const validationRules: Record<UserRoleType, Record<string, Rule[]>> = {
     [UserRoleType.CA_NHAN]: {
-      ...commonRules,
+      ...getCommonRules(t("fullnameLabel")),
       soCccd: [
-        { required: true, message: tv("required", { field: t("soCccdLabel") }) },
-        { pattern: IDENTITY_CARD_NO_PATTERN, message: tv("identityCardNoInvalid") },
+        {
+          required: true,
+          message: tv("required", { field: t("soCccdLabel") }),
+        },
+        {
+          pattern: IDENTITY_CARD_NO_PATTERN,
+          message: tv("identityCardNoInvalid"),
+        },
       ],
     },
     [UserRoleType.TO_CHUC]: {
-      ...commonRules,
+      ...getCommonRules(t("fullnameLabel2")),
       soCccd: [
-        { required: true, message: tv("required", { field: t("soCccdLabel") }) },
-        { pattern: IDENTITY_CARD_NO_PATTERN, message: tv("identityCardNoInvalid") },
+        {
+          required: true,
+          message: tv("required", { field: t("soCccdLabel2") }),
+        },
+        { pattern: IDENTITY_CARD_NO_PATTERN, message: tv("orgRegNoInvalid") },
       ],
     },
   };
@@ -97,7 +120,7 @@ export const useRegisterUtils = () => {
       value: UserRoleType.TO_CHUC,
       icon: <BankOutlined />,
     },
-  ]
+  ];
 
   return {
     validationRules: validationRules[userType],

@@ -123,6 +123,25 @@ export interface ThemeInterface
   warning700: string;
   error700: string;
   gray700: string;
+  textSessionInProgress: string;
+  bgSessionInProgress: string;
+  bgSessionInProgressGradient: string;
+  textSessionUpcoming: string;
+  bgSessionUpcoming: string;
+  textSessionSuccess: string;
+  bgSessionSuccess: string;
+  bgSessionSuccessGradient: string;
+  textSessionCancel: string;
+  bgSessionCancel: string;
+  textSessionDefault: string;
+  bgSessionDefault: string;
+
+  textRankGold: string;
+  bgRankGold: string;
+  textRankSilver: string;
+  bgRankSilver: string;
+  textRankCopper: string;
+  bgRankCopper: string;
 
   border: string;
   borderBase: string;

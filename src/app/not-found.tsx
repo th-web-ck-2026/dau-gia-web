@@ -8,11 +8,11 @@ const RootNotFound = async () => {
   const messages = await getMessages({ locale: defaultLocale });
 
   return (
-    <ClientWrapper>
-      <LocaleProvider locale={defaultLocale} messages={messages}>
+    <LocaleProvider locale={defaultLocale} messages={messages}>
+      <ClientWrapper>
         <NotFound />
-      </LocaleProvider>
-    </ClientWrapper>
+      </ClientWrapper>
+    </LocaleProvider>
   );
 };
 

@@ -81,7 +81,7 @@ export const lightColorsTheme = {
 
   textMain: "#000",
   textLight: "#9A9B9F",
-  textSecondary: BASE_COLORS.white,
+  textSecondary: "#4E4F53",
   textQuaternary: "#6B6C70",
   textBrand: "#1A3F75",
   textDark: "#404040",
@@ -112,6 +112,27 @@ export const lightColorsTheme = {
   warning700: "#B45309",
   error700: "#B91C1C",
   gray700: "#373D4E",
+  textSessionInProgress: "#13C2C2",
+  bgSessionInProgress: "#E7FFFD",
+  bgSessionInProgressGradient:
+    "linear-gradient(180deg, #E7FFFD 0%, rgba(231, 255, 253, 0.20) 100%)",
+  textSessionUpcoming: "#2B7FFF",
+  bgSessionUpcoming: "#DBEAFE",
+  textSessionSuccess: "#00C950",
+  bgSessionSuccess: "#DBFCE7",
+  bgSessionSuccessGradient:
+    "linear-gradient(180deg, #DBFCE7 0%, rgba(219, 252, 231, 0.20) 100%)",
+  textSessionCancel: "#FB2C36",
+  bgSessionCancel: "#FFE2E2",
+  textSessionDefault: "#555556",
+  bgSessionDefault: "#EDEEF6",
+
+  textRankGold: "#FBBF24",
+  bgRankGold: "rgba(251, 191, 36, 0.10)",
+  textRankSilver: "#7A7A83",
+  bgRankSilver: "rgba(122, 122, 131, 0.10)",
+  textRankCopper: "#D97706",
+  bgRankCopper: "rgba(217, 119, 6, 0.10)",
 
   border: "#E5E7EB",
   borderBase: "#E5E7EB",

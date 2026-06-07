@@ -206,3 +206,11 @@ export function trimAllFields(data: any): any {
 }
 
 /* eslint-enable @typescript-eslint/no-explicit-any */
+
+export const getFirstLetterOfLastName = (fullName?: string): string => {
+  if (!fullName?.trim()) return "";
+
+  const parts = fullName.trim().split(/\s+/);
+
+  return parts[parts.length - 1][0].toUpperCase();
+};
