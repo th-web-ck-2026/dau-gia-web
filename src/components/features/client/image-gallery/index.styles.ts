@@ -12,6 +12,16 @@ export const MainSwiperWrapper = styled.div`
   overflow: hidden;
   background-color: ${({ theme }) => theme.backgroundTeriary};
 
+  @media (max-width: ${({ theme }) => theme.breakpoints.lg}px) {
+    aspect-ratio: 16 / 9;
+    max-height: 400px;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}px) {
+    aspect-ratio: 4 / 3;
+    max-height: 250px;
+  }
+
   .swiper {
     width: 100%;
     height: 100%;
@@ -55,6 +65,10 @@ export const ThumbnailButton = styled.button<{ $isActive: boolean }>`
   &:hover {
     border-color: ${({ theme, $isActive }) =>
       $isActive ? theme.primary : theme.primary3};
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}px) {
+    aspect-ratio: 4 / 3;
   }
 `;
 

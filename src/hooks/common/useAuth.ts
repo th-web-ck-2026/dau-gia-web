@@ -64,7 +64,14 @@ export const useAuth = () => {
       dispatch(clearCredentials());
       cookies.set("session_hint", "false");
       queryClient.clear();
-      // window.location.href = "/auth/login";
+
+      if (typeof window !== "undefined") {
+        const path = window.location.pathname;
+        const isHomePage = /^\/(vi|en)?\/?$/.test(path);
+        if (!isHomePage) {
+          window.location.href = "/";
+        }
+      }
     }
   };
 

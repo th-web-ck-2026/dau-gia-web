@@ -1,17 +1,11 @@
 import { ColumnsType } from "antd/es/table";
 
-export interface RankingUser {
-  _id: string;
-  fullname?: string;
-  avatar?: string;
-  email?: string;
-  phone?: string;
-}
+import { User } from "@/interfaces/auth";
 
 export interface RankingItem {
   thuHang: number;
   nguoiThamGiaId: string;
-  nguoiThamGia?: RankingUser | null;
+  nguoiThamGia?: Partial<User> | null;
   bietDanh?: string;
   trangThai?: string;
   [key: string]: any;

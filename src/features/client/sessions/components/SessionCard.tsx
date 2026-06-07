@@ -11,6 +11,8 @@ import { BaseButton } from "@/components/common/base-button";
 import SessionStatus from "@/components/features/client/session-status";
 import { TrangThaiPhien } from "@/constants";
 import { LoaiPhien } from "@/constants/scoring";
+import { useAuth } from "@/hooks/common/useAuth";
+import { useRouter } from "@/i18n/routing";
 import type { AuctionSession, TenderSession } from "@/interfaces/sessions";
 import { convertAmountToDateTime, formatCurrency } from "@/utils/common";
 
@@ -32,8 +34,16 @@ const SessionCard: React.FC<SessionCardProps> = ({
   const tHome = useTranslations("client.home");
   const tSessions = useTranslations("sessions");
 
+  const router = useRouter();
+  const { isAuthenticated } = useAuth();
+
   const handleViewDetail = () => {
-    onViewDetail?.(data._id, type);
+    if (!isAuthenticated) return;
+    if (onViewDetail) {
+      onViewDetail(data._id, type);
+    } else {
+      router.push(`/sessions/${data._id}`);
+    }
   };
 
   const showParticipant =
@@ -44,7 +54,10 @@ const SessionCard: React.FC<SessionCardProps> = ({
   const auctionData = data as AuctionSession;
 
   return (
-    <S.CardWrapper onClick={handleViewDetail}>
+    <S.CardWrapper
+      onClick={isAuthenticated ? handleViewDetail : undefined}
+      style={{ cursor: isAuthenticated ? "pointer" : "default" }}
+    >
       <S.CardImageWrapper>
         <Image
           src={data.danhSachHinhAnh?.[0] || FALLBACK_IMAGE}
@@ -117,16 +130,18 @@ const SessionCard: React.FC<SessionCardProps> = ({
             </S.ParticipantCountText>
           )}
 
-          <BaseButton
-            type="primary"
-            size="small"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleViewDetail();
-            }}
-          >
-            {tSessions("viewDetailBtn")}
-          </BaseButton>
+          {isAuthenticated && (
+            <BaseButton
+              type="primary"
+              size="small"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleViewDetail();
+              }}
+            >
+              {tSessions("viewDetailBtn")}
+            </BaseButton>
+          )}
         </S.CardFooter>
       </S.CardBody>
     </S.CardWrapper>

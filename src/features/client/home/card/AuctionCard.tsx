@@ -7,6 +7,8 @@ import { UserOutlined } from "@ant-design/icons";
 
 import { BaseButton } from "@/components/common/base-button";
 import SessionStatus from "@/components/features/client/session-status";
+import { useAuth } from "@/hooks/common/useAuth";
+import { useRouter } from "@/i18n/routing";
 import type { AuctionSession } from "@/interfaces/sessions";
 import { convertAmountToDateTime, formatCurrency } from "@/utils/common";
 
@@ -27,12 +29,23 @@ const AuctionCard = ({
 }: AuctionCardProps) => {
   const t = useTranslations("client.home");
 
+  const router = useRouter();
+  const { isAuthenticated } = useAuth();
+
   const handleViewDetail = () => {
-    onViewDetail?.(data._id);
+    if (!isAuthenticated) return;
+    if (onViewDetail) {
+      onViewDetail(data._id);
+    } else {
+      router.push(`/sessions/${data._id}`);
+    }
   };
 
   return (
-    <S.CardWrapper>
+    <S.CardWrapper
+      onClick={isAuthenticated ? handleViewDetail : undefined}
+      style={{ cursor: isAuthenticated ? "pointer" : "default" }}
+    >
       <S.AuctionImageWrapper>
         <Image
           src={data.danhSachHinhAnh?.[0] || FALLBACK_IMAGE}
@@ -78,9 +91,18 @@ const AuctionCard = ({
                 : `0 ${t("bidCount")}`}
             </S.BidCountText>
           )}
-          <BaseButton type="primary" size="small" onClick={handleViewDetail}>
-            {t("viewDetail")}
-          </BaseButton>
+          {isAuthenticated && (
+            <BaseButton
+              type="primary"
+              size="small"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleViewDetail();
+              }}
+            >
+              {t("viewDetail")}
+            </BaseButton>
+          )}
         </S.CardFooter>
       </S.CardBody>
     </S.CardWrapper>

@@ -146,3 +146,59 @@ export const deleteTenderSessionMe = (id: string) =>
   request.delete<void, ResponseData<{ success: boolean }>>(
     `/tender-sessions/me/${id}`
   );
+
+export const getAuctionSessionDetail = (id: string) =>
+  request.get<void, ResponseData<AuctionSession>>(`/auction-sessions/${id}`);
+
+export const getTenderSessionDetail = (id: string) =>
+  request.get<void, ResponseData<TenderSession>>(`/tender-sessions/${id}`);
+
+export const getAuctionSessionStatus = (id: string) =>
+  request.get<
+    void,
+    ResponseData<{
+      trangThai: TrangThaiPhien;
+      tongSoLuotDat: number;
+      giaHienTai: number;
+      thoiGianServer: string;
+      bietDanhNguoiDanDau?: string;
+    }>
+  >(`/auction-sessions/${id}/status`);
+
+export const getAuctionSessionRanking = (id: string) =>
+  request.get<
+    void,
+    ResponseData<{
+      phienId: string;
+      trangThai: TrangThaiPhien;
+      danhSach: any[];
+    }>
+  >(`/auction-sessions/${id}/ranking`);
+
+export const getTenderSessionRanking = (id: string) =>
+  request.get<
+    void,
+    ResponseData<{
+      phienId: string;
+      trangThai: TrangThaiPhien;
+      danhSach: any[];
+    }>
+  >(`/tender-sessions/${id}/ranking`);
+
+export const placeAuctionBid = (id: string, data: { giaDat: number }) =>
+  request.post<{ phienId: string; giaDat: number }, ResponseData<any>>(
+    `/auction-sessions/${id}/bids`,
+    { phienId: id, ...data }
+  );
+
+export const submitTenderProposal = (
+  id: string,
+  data: {
+    giaDeXuat: number;
+    giaTriTieuChi: Array<{ tieuChiId: string; giaTriGoc: any }>;
+  }
+) =>
+  request.post<any, ResponseData<any>>(`/tender-sessions/${id}/submissions`, {
+    phienId: id,
+    ...data,
+  });

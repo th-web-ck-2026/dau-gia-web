@@ -8,6 +8,7 @@ import { CrownOutlined, UserOutlined } from "@ant-design/icons";
 import { motion } from "framer-motion";
 
 import { BaseAvatar, BaseTable } from "@/components/common";
+import { UserRoleType } from "@/constants";
 
 import * as S from "./index.styles";
 import { RankingItem, RankingSessionsProps } from "./types";
@@ -21,6 +22,7 @@ const getUniqueKey = (item: RankingItem): string => {
   );
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const MotionRow = (props: any) => {
   const rowKey = props["data-row-key"];
   return (
@@ -51,7 +53,15 @@ export const RankingSessions = <T extends RankingItem>({
     if (item.nguoiThamGiaId === "ANONYMOUS") {
       return item.bietDanh || t("anonymousParticipant");
     }
-    return item.nguoiThamGia?.fullname || item.bietDanh || item.nguoiThamGiaId;
+    const user = item.nguoiThamGia;
+    if (
+      user &&
+      user.userRoles === UserRoleType.TO_CHUC &&
+      user.toChucProfile?.tenToChuc
+    ) {
+      return user.toChucProfile.tenToChuc;
+    }
+    return user?.fullname || item.bietDanh || item.nguoiThamGiaId;
   };
 
   return (

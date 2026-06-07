@@ -20,7 +20,7 @@ export const PodiumContainer = styled.div`
     margin: 1rem 0;
   }
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.xs}px) {
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}px) {
     flex-direction: column;
     align-items: center;
     gap: 1.5rem;
@@ -39,7 +39,7 @@ export const PodiumItem = styled.div<{ $rank: number }>`
   z-index: ${({ $rank }) => ($rank === 1 ? 2 : 1)};
   transition: transform 0.3s ease;
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.xs}px) {
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}px) {
     order: unset;
     transform: none;
     width: 100%;

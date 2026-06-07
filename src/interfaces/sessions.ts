@@ -16,7 +16,10 @@ export interface TenderCriteria {
   huongToiUu: HuongToiUu;
   batBuoc: boolean;
   rangBuocCung: boolean;
-  cacLuaChon?: string[];
+  cacLuaChon?: Array<{
+    nhan: string;
+    giaTri: number;
+  }>;
   giaTriToiThieu?: number;
   giaTriToiDa?: number;
   donVi?: string;
@@ -82,19 +85,25 @@ export interface PageableResponse<T> {
 
 export interface UserBid {
   _id: string;
+  nguoiThamGiaId?: string;
   nguoiThamGia?: {
+    _id?: string;
     fullname?: string;
-  };
+    avatar?: string;
+  } | null;
   giaDat: number;
   thoiDiemDat: string;
 }
 
 export interface TenderSubmission {
   _id: string;
+  nguoiThamGiaId?: string;
   thuHang?: number;
   nguoiThamGia?: {
+    _id?: string;
     fullname?: string;
-  };
+    avatar?: string;
+  } | null;
   giaDeXuat: number;
   diemKyThuat?: number;
   diemGia?: number;

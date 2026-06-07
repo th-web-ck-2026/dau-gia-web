@@ -109,7 +109,7 @@ const SessionsListContent: React.FC = () => {
                 >
                   <S.RadioStack>
                     <BaseRadio value={undefined}>
-                      {tSessions("clearFilters")} ({tSessions("statusAll")})
+                      {tSessions("statusAll")}
                     </BaseRadio>
                     <BaseRadio value={TrangThaiPhien.MO}>
                       {tStatus("MO")}
