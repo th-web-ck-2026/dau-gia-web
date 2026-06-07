@@ -11,7 +11,12 @@ import dayjs from "dayjs";
 import { BaseButton, BasePopconfirm, BaseSpace } from "@/components/common";
 import { BaseTypography } from "@/components/common/base-typography";
 import SessionStatus from "@/components/features/client/session-status";
-import { LoaiPhien, SortOrder, TrangThaiPhien } from "@/constants";
+import {
+  LoaiPhien,
+  SortOrder,
+  TrangThaiDeXuat,
+  TrangThaiPhien,
+} from "@/constants";
 import { ApiError } from "@/interfaces";
 import { AuctionSession, TenderSession } from "@/interfaces/sessions";
 import { formatNumber } from "@/utils/number";
@@ -398,24 +403,28 @@ export const getDrawerTenderColumns = (t: (key: string) => string) => [
     dataIndex: "diemKyThuat",
     key: "diemKyThuat",
     align: "start" as const,
-    render: (val: number | undefined) =>
-      val !== undefined ? `${val.toFixed(1)} / 100` : "-",
+    render: (val: number | null | undefined) =>
+      val !== undefined && val !== null ? `${val.toFixed(1)} / 100` : "-",
   },
   {
     title: t("colPriceScore"),
     dataIndex: "diemGia",
     key: "diemGia",
     align: "start" as const,
-    render: (val: number | undefined) =>
-      val !== undefined ? `${val.toFixed(1)} / 100` : "-",
+    render: (val: number | null | undefined) =>
+      val !== undefined && val !== null ? `${val.toFixed(1)} / 100` : "-",
   },
   {
     title: t("colCombinedScore"),
     dataIndex: "diemTongHop",
     key: "diemTongHop",
     align: "start" as const,
-    render: (val: number | undefined) =>
-      val !== undefined ? <strong>{val.toFixed(1)}</strong> : "-",
+    render: (val: number | null | undefined) =>
+      val !== undefined && val !== null ? (
+        <strong>{val.toFixed(1)}</strong>
+      ) : (
+        "-"
+      ),
   },
   {
     title: t("colStatus"),
@@ -423,13 +432,23 @@ export const getDrawerTenderColumns = (t: (key: string) => string) => [
     key: "trangThai",
     align: "start" as const,
     render: (val: string) => {
-      if (val === "THANG") {
-        return <S.StatusSuccessText>{t("statusWon")}</S.StatusSuccessText>;
+      switch (val) {
+        case TrangThaiDeXuat.THANG:
+          return <S.StatusSuccessText>{t("statusWon")}</S.StatusSuccessText>;
+        case TrangThaiDeXuat.BI_TU_CHOI:
+          return <S.StatusDangerText>{t("statusRejected")}</S.StatusDangerText>;
+        case TrangThaiDeXuat.THUA:
+          return <S.StatusDangerText>{t("statusLost")}</S.StatusDangerText>;
+        case TrangThaiDeXuat.CHO_DUYET:
+          return (
+            <S.StatusWarningText>{t("statusPending")}</S.StatusWarningText>
+          );
+        case TrangThaiDeXuat.DAN_DAU:
+          return <S.StatusInfoText>{t("statusLeading")}</S.StatusInfoText>;
+        case TrangThaiDeXuat.HOP_LE:
+        default:
+          return <S.StatusInfoText>{t("statusPassed")}</S.StatusInfoText>;
       }
-      if (val === "BI_TU_CHOI") {
-        return <S.StatusDangerText>{t("statusRejected")}</S.StatusDangerText>;
-      }
-      return <S.StatusInfoText>{t("statusPassed")}</S.StatusInfoText>;
     },
   },
 ];

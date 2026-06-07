@@ -204,6 +204,10 @@ export const StatusDangerText = styled.span`
   color: #ff4d4f;
 `;
 
+export const StatusWarningText = styled.span`
+  color: #faad14;
+`;
+
 export const StatusInfoText = styled.span`
   color: ${({ theme }) => theme.primary || "#1890ff"};
 `;
