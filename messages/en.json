@@ -446,7 +446,8 @@
   "admin": {
     "sidebar": {
       "dashboard": "Dashboard",
-      "userVerification": "Account Verification"
+      "userVerification": "Account Verification",
+      "userManagement": "User Management"
     },
     "verification": {
       "title": "User Verification Management",

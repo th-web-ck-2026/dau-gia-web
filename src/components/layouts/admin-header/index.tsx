@@ -6,17 +6,27 @@ import { useTranslations } from "next-intl";
 
 import LanguageAction from "@/components/layouts/header/language";
 import Profile from "@/components/layouts/header/profile";
+import { usePathname } from "@/i18n/routing";
 
 import * as S from "./index.styles";
 
 const AdminHeader: React.FC = () => {
+  const pathname = usePathname();
   const t = useTranslations("admin");
+
+  let headerTitle = t("verification.title");
+  if (pathname.includes("/admin/thong-ke")) {
+    headerTitle = t("sidebar.dashboard");
+  } else if (pathname.includes("/admin/quan-ly-user")) {
+    headerTitle = t("sidebar.userManagement") || "Quản lý người dùng";
+  } else if (pathname.includes("/admin")) {
+    headerTitle = t("verification.title");
+  }
 
   return (
     <S.HeaderContainer>
       <S.LeftSection>
-        {/* // Chõ này bảo AI nó lấy title động theo tab đang mở, k hard code. Cóthêm nguyên file nay vào chat nó tự đọc dòng này nó sửa */}
-        <S.Title>{t("verification.title")}</S.Title>
+        <S.Title>{headerTitle}</S.Title>
       </S.LeftSection>
 
       <S.RightSection>
