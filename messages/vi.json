@@ -576,7 +576,8 @@
   "admin": {
     "sidebar": {
       "dashboard": "Bảng điều khiển",
-      "userVerification": "Xác minh tài khoản"
+      "userVerification": "Xác minh tài khoản",
+      "userManagement": "Quản lý người dùng"
     },
     "verification": {
       "title": "Quản lý xác minh người dùng",
