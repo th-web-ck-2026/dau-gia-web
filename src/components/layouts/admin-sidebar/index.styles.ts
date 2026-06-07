@@ -30,13 +30,18 @@ export const SidebarHeader = styled.div`
   white-space: nowrap;
 `;
 
-export const LogoText = styled.span`
-  font-size: 1.125rem;
-  font-weight: ${({ theme }) => theme.fontWeights.bold};
-  letter-spacing: 0.05em;
-  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+export const LogoWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 180px;
+
+  svg {
+    width: 100%;
+    height: auto;
+    max-height: 36px;
+    filter: brightness(0) invert(1);
+  }
 `;
 
 export const MenuWrapper = styled.div`
@@ -64,6 +69,10 @@ export const MenuWrapper = styled.div`
       color: #ffffff !important;
       background: rgba(59, 130, 246, 0.15) !important;
       font-weight: ${({ theme }) => theme.fontWeights.semibold} !important;
+
+      &::after {
+        display: none !important;
+      }
     }
   }
 `;

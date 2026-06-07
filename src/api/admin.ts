@@ -29,7 +29,7 @@ export const getAdminXacMinhUsers = (params?: AdminXacMinhQueryParams) =>
   request.get<
     AdminXacMinhQueryParams,
     ResponseData<PageableResponse<AdminXacMinhUserData>>
-  >("/xac-minh-user", params);
+  >("/xac-minh-user/admin/page", params);
 
 export const adminDuyetDonXacMinh = (id: string, data: AdminDuyetPayload) =>
   request.post<AdminDuyetPayload, ResponseData<AdminXacMinhUserData>>(

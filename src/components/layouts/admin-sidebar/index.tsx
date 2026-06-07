@@ -9,6 +9,7 @@ import {
   SafetyCertificateOutlined,
 } from "@ant-design/icons";
 
+import BrandLogo from "@/assets/svg/bidwar-text-brand.svg";
 import { BaseMenu } from "@/components/common";
 import { Link, usePathname } from "@/i18n/routing";
 
@@ -43,8 +44,9 @@ const AdminSidebar: React.FC = () => {
   return (
     <S.StyledSider width={260} theme="dark">
       <S.SidebarHeader>
-        {/* // Chỗ này sửa thành để logo như bên homepage ấy, bảo AI làm cho */}
-        <S.LogoText>ĐẤU GIÁ ĐẠI VIỆT</S.LogoText>
+        <S.LogoWrapper>
+          <BrandLogo />
+        </S.LogoWrapper>
       </S.SidebarHeader>
 
       <S.MenuWrapper>
