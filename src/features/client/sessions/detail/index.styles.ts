@@ -1,5 +1,6 @@
-import { Button } from "antd";
 import styled from "styled-components";
+
+import { BaseButton } from "@/components/common/base-button";
 
 export const DetailsContainer = styled.div`
   display: flex;
@@ -229,7 +230,7 @@ export const QuickBidGrid = styled.div`
   margin-top: 10px;
 `;
 
-export const QuickBidButton = styled(Button)<{ $isReset?: boolean }>`
+export const QuickBidButton = styled(BaseButton)<{ $isReset?: boolean }>`
   && {
     background-color: ${({ theme, $isReset }) =>
       $isReset ? "#FEE2E2" : theme.bgBrandSubtle || "#EFF6FF"};

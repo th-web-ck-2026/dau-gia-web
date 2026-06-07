@@ -2,6 +2,7 @@ import {
   HuongToiUu,
   LoaiTieuChi,
   NhomTieuChi,
+  TrangThaiDeXuat,
   TrangThaiPhien,
 } from "@/constants";
 
@@ -108,7 +109,7 @@ export interface TenderSubmission {
   diemKyThuat?: number;
   diemGia?: number;
   diemTongHop?: number;
-  trangThai: string;
+  trangThai: TrangThaiDeXuat;
 }
 
 export interface CreateAuctionSessionDto {

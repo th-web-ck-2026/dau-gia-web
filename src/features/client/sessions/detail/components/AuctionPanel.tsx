@@ -9,22 +9,21 @@ import {
   InfoCircleOutlined,
   SafetyCertificateOutlined,
 } from "@ant-design/icons";
-import {
-  Alert,
-  Button,
-  Form,
-  InputNumber,
-  Modal,
-  Table,
-  Tabs,
-  message,
-} from "antd";
+import { Alert, Modal } from "antd";
 
+import {
+  BaseButton,
+  BaseForm,
+  BaseTable,
+  BaseTabs,
+  InputNumber,
+} from "@/components/common";
 import { BasePagination } from "@/components/common/base-pagination";
 import CountdownTimer from "@/components/features/client/countdown-timer";
 import ImageGallery from "@/components/features/client/image-gallery";
 import RankingSessions from "@/components/features/client/ranking-sessios";
 import { TrangThaiPhien } from "@/constants/scoring";
+import { useFeedback } from "@/hooks/common";
 import { User } from "@/interfaces/auth";
 import { AuctionSession, UserBid } from "@/interfaces/sessions";
 
@@ -96,7 +95,8 @@ export const AuctionPanel: React.FC<AuctionPanelProps> = ({
 }) => {
   const router = useRouter();
   const tCommon = useTranslations("common");
-  const [form] = Form.useForm();
+  const { message } = useFeedback();
+  const [form] = BaseForm.useForm();
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
   const isOwner = isAuthenticated && user?._id === sessionData?.chuPhienId;
@@ -171,12 +171,15 @@ export const AuctionPanel: React.FC<AuctionPanelProps> = ({
             <InfoCircleOutlined style={{ fontSize: 24, color: "#D97706" }} />
             <S.WarningText>{t("loginToBid")}</S.WarningText>
             <S.WarningButtonRow>
-              <Button type="primary" onClick={() => router.push("/auth/login")}>
+              <BaseButton
+                type="primary"
+                onClick={() => router.push("/auth/login")}
+              >
                 {t("unauthorized")}
-              </Button>
-              <Button onClick={() => router.push("/auth/register")}>
+              </BaseButton>
+              <BaseButton onClick={() => router.push("/auth/register")}>
                 {t("register")}
-              </Button>
+              </BaseButton>
             </S.WarningButtonRow>
           </S.WarningBox>
         ) : !user?.isVerified ? (
@@ -185,13 +188,13 @@ export const AuctionPanel: React.FC<AuctionPanelProps> = ({
               style={{ fontSize: 24, color: "#D97706" }}
             />
             <S.WarningText>{t("verifyToBid")}</S.WarningText>
-            <Button type="primary" onClick={() => router.push("/profile")}>
+            <BaseButton type="primary" onClick={() => router.push("/profile")}>
               {t("verifyNow")}
-            </Button>
+            </BaseButton>
           </S.WarningBox>
         ) : (
-          <Form form={form} layout="vertical" onFinish={handleBidSubmit}>
-            <Form.Item
+          <BaseForm form={form} layout="vertical" onFinish={handleBidSubmit}>
+            <BaseForm.Item
               name="giaDat"
               rules={[
                 { required: true, message: t("enterBidAmount") },
@@ -217,7 +220,7 @@ export const AuctionPanel: React.FC<AuctionPanelProps> = ({
                   amount: formatVND(minRequiredBid),
                 })}
               />
-            </Form.Item>
+            </BaseForm.Item>
 
             <S.BidInputLabel style={{ marginTop: 12, marginBottom: 8 }}>
               {t("quickBid")}
@@ -237,7 +240,7 @@ export const AuctionPanel: React.FC<AuctionPanelProps> = ({
               </S.QuickBidButton>
             </S.QuickBidGrid>
 
-            <Button
+            <BaseButton
               type="primary"
               htmlType="submit"
               size="large"
@@ -245,8 +248,8 @@ export const AuctionPanel: React.FC<AuctionPanelProps> = ({
               loading={placeBidMutation.isPending}
             >
               {t("placeBid")}
-            </Button>
-          </Form>
+            </BaseButton>
+          </BaseForm>
         )}
       </S.RightActionCard>
     );
@@ -318,7 +321,7 @@ export const AuctionPanel: React.FC<AuctionPanelProps> = ({
         )}
 
         <S.TabCard>
-          <Tabs
+          <BaseTabs
             defaultActiveKey="info"
             items={[
               {
@@ -375,7 +378,7 @@ export const AuctionPanel: React.FC<AuctionPanelProps> = ({
                       gap: 16,
                     }}
                   >
-                    <Table
+                    <BaseTable
                       dataSource={bidHistory.slice(
                         (currentPage - 1) * pageSize,
                         currentPage * pageSize
