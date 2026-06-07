@@ -1,6 +1,11 @@
 import Image from "next/image";
 
-import { EyeOutlined, PlayCircleOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  EyeOutlined,
+  PlayCircleOutlined,
+} from "@ant-design/icons";
 import dayjs from "dayjs";
 
 import { BaseButton, BasePopconfirm, BaseSpace } from "@/components/common";
@@ -116,8 +121,11 @@ export const getCommonColumns = (t: (key: string) => string) => [
 
 export const getAuctionColumns = (
   t: (key: string) => string,
+  tCommon: (key: string) => string,
   handlePublish: (id: string, type: LoaiPhien) => void,
-  handleOpenDrawer: (record: AuctionSession, type: LoaiPhien) => void
+  handleOpenDrawer: (record: AuctionSession, type: LoaiPhien) => void,
+  handleEdit: (record: AuctionSession, type: LoaiPhien) => void,
+  handleDelete: (id: string, type: LoaiPhien) => void
 ) => [
   ...getCommonColumns(t),
   {
@@ -149,7 +157,7 @@ export const getAuctionColumns = (
   {
     title: t("tableActions"),
     key: "actions",
-    width: 180,
+    width: 220,
     align: "start" as const,
     render: (_: unknown, record: AuctionSession) => (
       <BaseSpace size="small">
@@ -157,8 +165,8 @@ export const getAuctionColumns = (
           <BasePopconfirm
             title={t("publishConfirm")}
             onConfirm={() => handlePublish(record._id, LoaiPhien.DAU_GIA)}
-            okText={t("common.confirm")}
-            cancelText={t("common.cancel")}
+            okText={tCommon("confirm")}
+            cancelText={tCommon("cancel")}
           >
             <BaseButton
               type="primary"
@@ -166,6 +174,33 @@ export const getAuctionColumns = (
               icon={<PlayCircleOutlined />}
             >
               {t("publishBtn")}
+            </BaseButton>
+          </BasePopconfirm>
+        )}
+        {record.trangThai === TrangThaiPhien.NHAP && (
+          <BaseButton
+            type="default"
+            size="small"
+            icon={<EditOutlined />}
+            onClick={() => handleEdit(record, LoaiPhien.DAU_GIA)}
+          >
+            {tCommon("edit")}
+          </BaseButton>
+        )}
+        {record.trangThai === TrangThaiPhien.NHAP && (
+          <BasePopconfirm
+            title={t("deleteConfirm")}
+            onConfirm={() => handleDelete(record._id, LoaiPhien.DAU_GIA)}
+            okText={tCommon("confirm")}
+            cancelText={tCommon("cancel")}
+          >
+            <BaseButton
+              type="primary"
+              danger
+              size="small"
+              icon={<DeleteOutlined />}
+            >
+              {tCommon("delete")}
             </BaseButton>
           </BasePopconfirm>
         )}
@@ -195,8 +230,11 @@ export const getAuctionColumns = (
 
 export const getTenderColumns = (
   t: (key: string) => string,
+  tCommon: (key: string) => string,
   handlePublish: (id: string, type: LoaiPhien) => void,
-  handleOpenDrawer: (record: TenderSession, type: LoaiPhien) => void
+  handleOpenDrawer: (record: TenderSession, type: LoaiPhien) => void,
+  handleEdit: (record: TenderSession, type: LoaiPhien) => void,
+  handleDelete: (id: string, type: LoaiPhien) => void
 ) => [
   ...getCommonColumns(t),
   {
@@ -228,7 +266,7 @@ export const getTenderColumns = (
   {
     title: t("tableActions"),
     key: "actions",
-    width: 180,
+    width: 220,
     align: "start" as const,
     render: (_: unknown, record: TenderSession) => (
       <BaseSpace size="small">
@@ -236,8 +274,8 @@ export const getTenderColumns = (
           <BasePopconfirm
             title={t("publishConfirm")}
             onConfirm={() => handlePublish(record._id, LoaiPhien.DAU_THAU)}
-            okText={t("common.confirm")}
-            cancelText={t("common.cancel")}
+            okText={tCommon("confirm")}
+            cancelText={tCommon("cancel")}
           >
             <BaseButton
               type="primary"
@@ -245,6 +283,33 @@ export const getTenderColumns = (
               icon={<PlayCircleOutlined />}
             >
               {t("publishBtn")}
+            </BaseButton>
+          </BasePopconfirm>
+        )}
+        {record.trangThai === TrangThaiPhien.NHAP && (
+          <BaseButton
+            type="default"
+            size="small"
+            icon={<EditOutlined />}
+            onClick={() => handleEdit(record, LoaiPhien.DAU_THAU)}
+          >
+            {tCommon("edit")}
+          </BaseButton>
+        )}
+        {record.trangThai === TrangThaiPhien.NHAP && (
+          <BasePopconfirm
+            title={t("deleteConfirm")}
+            onConfirm={() => handleDelete(record._id, LoaiPhien.DAU_THAU)}
+            okText={tCommon("confirm")}
+            cancelText={tCommon("cancel")}
+          >
+            <BaseButton
+              type="primary"
+              danger
+              size="small"
+              icon={<DeleteOutlined />}
+            >
+              {tCommon("delete")}
             </BaseButton>
           </BasePopconfirm>
         )}

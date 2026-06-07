@@ -110,7 +110,7 @@ export interface CreateAuctionSessionDto {
   giaKhoiDiem: number;
   buocGia: number;
   danhSachHinhAnh: string[];
-  cheDoAnDanh: boolean;
+  anDanh?: boolean;
 }
 
 export interface CreateTenderSessionDto {
@@ -120,19 +120,20 @@ export interface CreateTenderSessionDto {
   thoiGianKetThuc: string;
   diemKyThuatToiThieu: number;
   tieuChi: Array<{
-    ten: string;
-    ma: string;
+    tenTieuChi: string;
+    maTieuChi: string;
     loai: string;
     trongSo: number;
     huongToiUu?: string;
     batBuoc?: boolean;
     giaTriToiThieu?: number;
     giaTriToiDa?: number;
-    donViTinh?: string;
-    danhSachLuaChon?: Array<{
+    donVi?: string;
+    cacLuaChon?: Array<{
       nhan: string;
-      giaTriDiem: number;
+      giaTri: number;
     }>;
   }>;
   danhSachHinhAnh: string[];
+  anDanh?: boolean;
 }

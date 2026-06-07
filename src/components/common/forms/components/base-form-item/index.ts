@@ -14,7 +14,7 @@ export type BaseFormItemProps = FormItemProps;
 
 export const BaseFormItem = styled(
   Form.Item as React.FC<FormItemProps>
-) <InternalFormItemProps>`
+)<InternalFormItemProps>`
   margin-bottom: 0.75rem;
 
   :disabled {
@@ -116,7 +116,7 @@ export const BaseFormItem = styled(
       align-items: center;
       justify-content: center;
       margin: 0 0.25rem;
-      color: ${({ theme }) => theme.textSecondary};
+      color: ${({ theme }) => theme.white};
       background: ${({ theme }) => theme.error};
       border-radius: 50%;
       width: 1rem;

@@ -10,6 +10,7 @@ import {
   ReloadOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
+import { useQueryClient } from "@tanstack/react-query";
 
 import {
   BaseButton,
@@ -29,10 +30,14 @@ import SubmissionsDrawer from "./components/SubmissionsDrawer";
 import {
   useCreateAuctionSession,
   useCreateTenderSession,
+  useDeleteAuctionSessionMe,
+  useDeleteTenderSessionMe,
   useGetMyAuctionSessions,
   useGetMyTenderSessions,
   usePublishAuctionSession,
   usePublishTenderSession,
+  useUpdateAuctionSessionMe,
+  useUpdateTenderSessionMe,
 } from "./index.hooks";
 import * as S from "./index.styles";
 import {
@@ -44,7 +49,9 @@ import {
 } from "./index.utils";
 
 const MySessionsDashboard: React.FC = () => {
+  const queryClient = useQueryClient();
   const t = useTranslations("mySessionsPage");
+  const tCommon = useTranslations("common");
   const tStatus = useTranslations("sessionStatus");
   const { user } = useAuth();
   const { message: feedbackMsg } = useFeedback();
@@ -68,11 +75,50 @@ const MySessionsDashboard: React.FC = () => {
   const [submissionsDrawerOpen, setSubmissionsDrawerOpen] = useState(false);
   const [selectedSession, setSelectedSession] =
     useState<SelectedSession | null>(null);
+  const [editingSession, setEditingSession] = useState<
+    AuctionSession | TenderSession | null
+  >(null);
 
-  const createAuctionMutation = useCreateAuctionSession();
-  const createTenderMutation = useCreateTenderSession();
-  const publishAuctionMutation = usePublishAuctionSession();
-  const publishTenderMutation = usePublishTenderSession();
+  const createAuctionMutation = useCreateAuctionSession({
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["useGetMyAuctionSessions"] });
+    },
+  });
+  const createTenderMutation = useCreateTenderSession({
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["useGetMyTenderSessions"] });
+    },
+  });
+  const updateAuctionMutation = useUpdateAuctionSessionMe({
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["useGetMyAuctionSessions"] });
+    },
+  });
+  const updateTenderMutation = useUpdateTenderSessionMe({
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["useGetMyTenderSessions"] });
+    },
+  });
+  const deleteAuctionMutation = useDeleteAuctionSessionMe({
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["useGetMyAuctionSessions"] });
+    },
+  });
+  const deleteTenderMutation = useDeleteTenderSessionMe({
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["useGetMyTenderSessions"] });
+    },
+  });
+  const publishAuctionMutation = usePublishAuctionSession({
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["useGetMyAuctionSessions"] });
+    },
+  });
+  const publishTenderMutation = usePublishTenderSession({
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["useGetMyTenderSessions"] });
+    },
+  });
 
   const queryParams = buildQueryParams(searchText, statusFilter, page, limit);
   const userId = user?._id || "";
@@ -115,6 +161,28 @@ const MySessionsDashboard: React.FC = () => {
     }
   };
 
+  const handleEdit = (
+    record: AuctionSession | TenderSession,
+    _type: LoaiPhien
+  ) => {
+    setEditingSession(record);
+    setCreateModalOpen(true);
+  };
+
+  const handleDelete = async (id: string, type: LoaiPhien) => {
+    try {
+      if (type === LoaiPhien.DAU_GIA) {
+        await deleteAuctionMutation.mutateAsync(id);
+      } else {
+        await deleteTenderMutation.mutateAsync(id);
+      }
+      feedbackMsg.success(t("deleteSuccess"));
+      refetchData();
+    } catch (err) {
+      feedbackMsg.error(getErrorMessage(err) || t("deleteError"));
+    }
+  };
+
   const handleOpenDrawer = (
     record: AuctionSession | TenderSession,
     type: LoaiPhien
@@ -151,8 +219,22 @@ const MySessionsDashboard: React.FC = () => {
   const totalItems = currentRes?.data?.total || 0;
   const isLoading = isAuctionTab ? loadingAuctions : loadingTenders;
 
-  const auctionColumns = getAuctionColumns(t, handlePublish, handleOpenDrawer);
-  const tenderColumns = getTenderColumns(t, handlePublish, handleOpenDrawer);
+  const auctionColumns = getAuctionColumns(
+    t,
+    tCommon,
+    handlePublish,
+    handleOpenDrawer,
+    handleEdit,
+    handleDelete
+  );
+  const tenderColumns = getTenderColumns(
+    t,
+    tCommon,
+    handlePublish,
+    handleOpenDrawer,
+    handleEdit,
+    handleDelete
+  );
 
   const breadcrumbItems = [
     {
@@ -181,7 +263,10 @@ const MySessionsDashboard: React.FC = () => {
             <BaseButton
               type="primary"
               icon={<PlusOutlined />}
-              onClick={() => setCreateModalOpen(true)}
+              onClick={() => {
+                setEditingSession(null);
+                setCreateModalOpen(true);
+              }}
             >
               {t("createBtn")}
             </BaseButton>
@@ -257,11 +342,18 @@ const MySessionsDashboard: React.FC = () => {
         </S.TableCard>
 
         <CreateSessionModal
+          key={editingSession?._id || (createModalOpen ? "open" : "closed")}
           open={createModalOpen}
-          onCancel={() => setCreateModalOpen(false)}
+          onCancel={() => {
+            setCreateModalOpen(false);
+            setEditingSession(null);
+          }}
           onSuccess={refetchData}
           createAuction={createAuctionMutation}
           createTender={createTenderMutation}
+          editingSession={editingSession}
+          updateAuction={updateAuctionMutation}
+          updateTender={updateTenderMutation}
         />
 
         <SubmissionsDrawer
