@@ -42,6 +42,16 @@ import {
 
 interface TenderPanelProps {
   sessionData: TenderSession;
+  statusRes: {
+    data?: {
+      phienDauThauId: string;
+      trangThai: TrangThaiPhien;
+      tongSoLuotDat: number;
+      soLuongNguoiThamGia: number;
+      thoiGianServer: string;
+      thoiGianKetThuc: string;
+    };
+  } | null;
   rankingRes: {
     data?: {
       phienId: string;
@@ -70,6 +80,7 @@ interface TenderPanelProps {
 
 export const TenderPanel: React.FC<TenderPanelProps> = ({
   sessionData,
+  statusRes,
   rankingRes,
   rankingLoading,
   isAuthenticated,
@@ -450,6 +461,7 @@ export const TenderPanel: React.FC<TenderPanelProps> = ({
             <CountdownTimer
               targetDate={sessionData.thoiGianKetThuc}
               status={currentStatus}
+              serverTime={statusRes?.data?.thoiGianServer}
             />
           </div>
 

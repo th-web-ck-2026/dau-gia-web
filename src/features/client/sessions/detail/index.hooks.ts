@@ -9,6 +9,7 @@ import {
   getAuctionSessionStatus,
   getTenderSessionDetail,
   getTenderSessionRanking,
+  getTenderSessionStatus,
   getTenderSubmissions,
   placeAuctionBid,
   submitTenderProposal,
@@ -35,11 +36,15 @@ export const useSessionDetails = (
 
 export const useSessionStatus = (
   id: string,
+  type: LoaiPhien,
   options?: Omit<UseQueryOptions<any, ApiError, any>, "queryKey" | "queryFn">
 ) =>
   useAppQuery({
-    queryKey: ["useSessionStatus", id],
-    queryFn: () => getAuctionSessionStatus(id),
+    queryKey: ["useSessionStatus", id, type],
+    queryFn: () =>
+      type === LoaiPhien.DAU_GIA
+        ? getAuctionSessionStatus(id)
+        : getTenderSessionStatus(id),
     ...options,
   });
 

@@ -224,16 +224,19 @@ export const InfoValue = styled.span`
 
 export const QuickBidGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 8px;
   margin-top: 10px;
 `;
 
-export const QuickBidButton = styled(Button)`
+export const QuickBidButton = styled(Button)<{ $isReset?: boolean }>`
   && {
-    background-color: ${({ theme }) => theme.bgBrandSubtle || "#EFF6FF"};
-    color: ${({ theme }) => theme.primary || "#1F3AA0"};
-    border-color: ${({ theme }) => theme.primary3 || "#BFDBFE"};
+    background-color: ${({ theme, $isReset }) =>
+      $isReset ? "#FEE2E2" : theme.bgBrandSubtle || "#EFF6FF"};
+    color: ${({ theme, $isReset }) =>
+      $isReset ? "#ce1e1eff" : theme.primary || "#1F3AA0"};
+    border-color: ${({ theme, $isReset }) =>
+      $isReset ? "#FCA5A5" : theme.primary3 || "#BFDBFE"};
     font-weight: ${({ theme }) => theme.fontWeights.semibold || 600};
     font-size: ${({ theme }) => theme.fontSizes.xs || "0.875rem"};
     height: 38px;
@@ -251,10 +254,12 @@ export const QuickBidButton = styled(Button)`
 
     &:hover,
     &:focus {
-      background-color: ${({ theme }) =>
-        theme.primary1 || "#DBEAFE"} !important;
-      color: ${({ theme }) => theme.primary7 || "#1D4ED8"} !important;
-      border-color: ${({ theme }) => theme.primary || "#2563EB"} !important;
+      background-color: ${({ theme, $isReset }) =>
+        $isReset ? "#FCA5A5" : theme.primary1 || "#DBEAFE"} !important;
+      color: ${({ theme, $isReset }) =>
+        $isReset ? "#a92828ff" : theme.primary7 || "#1D4ED8"} !important;
+      border-color: ${({ theme, $isReset }) =>
+        $isReset ? "#EF4444" : theme.primary || "#2563EB"} !important;
     }
 
     @media (max-width: ${({ theme }) => theme.breakpoints.sm}px) {

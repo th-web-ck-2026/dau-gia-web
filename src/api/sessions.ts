@@ -165,6 +165,19 @@ export const getAuctionSessionStatus = (id: string) =>
     }>
   >(`/auction-sessions/${id}/status`);
 
+export const getTenderSessionStatus = (id: string) =>
+  request.get<
+    void,
+    ResponseData<{
+      phienDauThauId: string;
+      trangThai: TrangThaiPhien;
+      tongSoLuotDat: number;
+      soLuongNguoiThamGia: number;
+      thoiGianServer: string;
+      thoiGianKetThuc: string;
+    }>
+  >(`/tender-sessions/${id}/status`);
+
 export const getAuctionSessionRanking = (id: string) =>
   request.get<
     void,

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { BaseButton } from "@/components/common";
+import { BaseButton, BaseTypography } from "@/components/common";
 
 export const ProfileWrapper = styled.div`
   display: flex;
@@ -45,7 +45,7 @@ export const UserTrigger = styled.div`
 `;
 
 export const DropdownWrapper = styled.div`
-  width: 230px;
+  width: 300px;
   border-radius: 6px;
   padding: 8px 4px;
   background-color: ${({ theme }) => theme.white};
@@ -73,20 +73,27 @@ export const DropdownWrapper = styled.div`
       color: ${({ theme }) => theme.textMain};
 
       .name {
-        font-size: ${({ theme }) => theme.fontSizes.xs} !important;
-        font-weight: ${({ theme }) => theme.fontWeights.semibold};
-        word-break: break-word;
-        white-space: normal;
         display: inline-flex;
         align-items: center;
         gap: 4px;
       }
-
-      .email {
-        font-size: ${({ theme }) => theme.fontSizes.xxs};
-        font-weight: ${({ theme }) => theme.fontWeights.regular};
-        color: ${({ theme }) => theme.subText};
-      }
     }
+  }
+`;
+
+export const NameText = styled(BaseTypography.Text)`
+  && {
+    font-size: ${({ theme }) => theme.fontSizes.xs} !important;
+    font-weight: ${({ theme }) => theme.fontWeights.semibold} !important;
+    color: inherit !important;
+  }
+`;
+
+export const EmailText = styled(BaseTypography.Text)`
+  && {
+    font-size: ${({ theme }) => theme.fontSizes.xxs} !important;
+    font-weight: ${({ theme }) => theme.fontWeights.regular} !important;
+    color: ${({ theme }) => theme.subText} !important;
+    display: block;
   }
 `;
