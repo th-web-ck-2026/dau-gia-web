@@ -128,3 +128,56 @@ export const updateUserByAdmin = (id: string, data: UpdateUserAdminPayload) =>
     `/user/admin/${id}`,
     data
   );
+
+// ─── User Reports Management ──────────────────────────────────────────────────
+
+export interface AdminReportRow {
+  _id: string;
+  nguoiToCaoId: string;
+  nguoiBiToCaoId: string;
+  loai: string;
+  tieuDe: string;
+  noiDung: string;
+  danhSachHinhAnh: string[];
+  trangThai: string;
+  phanHoiAdmin?: string;
+  adminXuLyId?: string;
+  thoiGianXuLy?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AdminReportPageCondition {
+  _id?: string;
+  nguoiToCaoId?: string;
+  nguoiBiToCaoId?: string;
+  loai?: string;
+  trangThai?: string;
+}
+
+export interface AdminReportPageParams {
+  page?: number;
+  limit?: number;
+  condition?: AdminReportPageCondition;
+}
+
+export interface ReplyReportPayload {
+  phanHoiAdmin: string;
+}
+
+export const getAdminReports = (params?: AdminReportPageParams) =>
+  request.get<
+    AdminReportPageParams,
+    ResponseData<PageableResponse<AdminReportRow>>
+  >("/bao-cao-user/admin", params);
+
+export const getAdminReportDetail = (id: string) =>
+  request.get<undefined, ResponseData<AdminReportRow>>(
+    `/bao-cao-user/admin/${id}`
+  );
+
+export const replyAdminReport = (id: string, data: ReplyReportPayload) =>
+  request.put<ReplyReportPayload, ResponseData<AdminReportRow>>(
+    `/bao-cao-user/admin/${id}/tra-loi`,
+    data
+  );
