@@ -77,6 +77,7 @@ const OrganizationAccountForm: React.FC<OrganizationAccountFormProps> = ({
       soTaiKhoan: values.bankAccountNo,
       tenNganHang: values.bankName,
       tenTaiKhoan: values.bankAccountHolder,
+      ...(licenseUrl ? { isVerified: true } : {}),
     };
 
     const orgPayload = {
