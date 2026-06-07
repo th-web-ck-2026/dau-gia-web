@@ -8,23 +8,24 @@ import {
   InfoCircleOutlined,
   SafetyCertificateOutlined,
 } from "@ant-design/icons";
-import {
-  Alert,
-  Button,
-  Form,
-  InputNumber,
-  Modal,
-  Select,
-  Table,
-  Tabs,
-  message,
-} from "antd";
+import { Alert, Modal } from "antd";
 import { ColumnsType } from "antd/es/table";
 
+import {
+  BaseButton,
+  BaseForm,
+  BaseModal,
+  BaseSelect,
+  BaseTable,
+  BaseTabs,
+  BaseTag,
+  InputNumber,
+} from "@/components/common";
 import CountdownTimer from "@/components/features/client/countdown-timer";
 import ImageGallery from "@/components/features/client/image-gallery";
 import RankingSessions from "@/components/features/client/ranking-sessios";
-import { TrangThaiPhien } from "@/constants/scoring";
+import { TrangThaiDeXuat, TrangThaiPhien } from "@/constants/scoring";
+import { useFeedback } from "@/hooks/common";
 import { User } from "@/interfaces/auth";
 import {
   TenderCriteria,
@@ -36,12 +37,21 @@ import * as S from "../index.styles";
 import {
   TenderRankingRecord,
   formatDate,
-  formatVND,
   getTenderRankingColumns,
 } from "../index.utils";
 
 interface TenderPanelProps {
   sessionData: TenderSession;
+  statusRes: {
+    data?: {
+      phienDauThauId: string;
+      trangThai: TrangThaiPhien;
+      tongSoLuotDat: number;
+      soLuongNguoiThamGia: number;
+      thoiGianServer: string;
+      thoiGianKetThuc: string;
+    };
+  } | null;
   rankingRes: {
     data?: {
       phienId: string;
@@ -70,6 +80,7 @@ interface TenderPanelProps {
 
 export const TenderPanel: React.FC<TenderPanelProps> = ({
   sessionData,
+  statusRes,
   rankingRes,
   rankingLoading,
   isAuthenticated,
@@ -83,9 +94,28 @@ export const TenderPanel: React.FC<TenderPanelProps> = ({
   t,
 }) => {
   const router = useRouter();
-  const [form] = Form.useForm();
+  const { message } = useFeedback();
+  const [form] = BaseForm.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const isOwner = isAuthenticated && user?._id === sessionData?.chuPhienId;
+
+  const getStatusTag = (status: string) => {
+    const statusText = t(`proposalStatus.${status}` as any) || status;
+    switch (status) {
+      case TrangThaiDeXuat.CHO_DUYET:
+        return <BaseTag color="warning">{statusText}</BaseTag>;
+      case TrangThaiDeXuat.HOP_LE:
+      case TrangThaiDeXuat.DAN_DAU:
+        return <BaseTag color="blue">{statusText}</BaseTag>;
+      case TrangThaiDeXuat.THANG:
+        return <BaseTag color="success">{statusText}</BaseTag>;
+      case TrangThaiDeXuat.BI_TU_CHOI:
+      case TrangThaiDeXuat.THUA:
+        return <BaseTag color="error">{statusText}</BaseTag>;
+      default:
+        return <BaseTag>{statusText}</BaseTag>;
+    }
+  };
 
   const handleProposalSubmit = (
     values: Record<string, string | number | undefined>
@@ -156,12 +186,15 @@ export const TenderPanel: React.FC<TenderPanelProps> = ({
             <InfoCircleOutlined style={{ fontSize: 24, color: "#D97706" }} />
             <S.WarningText>{t("loginToBid")}</S.WarningText>
             <S.WarningButtonRow>
-              <Button type="primary" onClick={() => router.push("/auth/login")}>
+              <BaseButton
+                type="primary"
+                onClick={() => router.push("/auth/login")}
+              >
                 {t("unauthorized")}
-              </Button>
-              <Button onClick={() => router.push("/auth/register")}>
+              </BaseButton>
+              <BaseButton onClick={() => router.push("/auth/register")}>
                 {t("register")}
-              </Button>
+              </BaseButton>
             </S.WarningButtonRow>
           </S.WarningBox>
         ) : !user?.isVerified ? (
@@ -170,9 +203,9 @@ export const TenderPanel: React.FC<TenderPanelProps> = ({
               style={{ fontSize: 24, color: "#D97706" }}
             />
             <S.WarningText>{t("verifyToBid")}</S.WarningText>
-            <Button type="primary" onClick={() => router.push("/profile")}>
+            <BaseButton type="primary" onClick={() => router.push("/profile")}>
               {t("verifyNow")}
-            </Button>
+            </BaseButton>
           </S.WarningBox>
         ) : (
           <div>
@@ -185,7 +218,7 @@ export const TenderPanel: React.FC<TenderPanelProps> = ({
                 style={{ marginBottom: 12 }}
               />
             )}
-            <Button
+            <BaseButton
               type="primary"
               size="large"
               block
@@ -195,7 +228,7 @@ export const TenderPanel: React.FC<TenderPanelProps> = ({
               {hasSubmittedTender
                 ? t("alreadySubmittedProposal")
                 : t("submitProposal")}
-            </Button>
+            </BaseButton>
           </div>
         )}
       </S.RightActionCard>
@@ -283,7 +316,7 @@ export const TenderPanel: React.FC<TenderPanelProps> = ({
         )}
 
         <S.TabCard>
-          <Tabs
+          <BaseTabs
             defaultActiveKey="info"
             items={[
               {
@@ -349,7 +382,7 @@ export const TenderPanel: React.FC<TenderPanelProps> = ({
                 key: "criteria",
                 label: t("evaluationCriteria"),
                 children: (
-                  <Table
+                  <BaseTable
                     dataSource={sessionData.tieuChi || []}
                     columns={criteriaColumns}
                     rowKey="_id"
@@ -377,14 +410,10 @@ export const TenderPanel: React.FC<TenderPanelProps> = ({
                       }}
                     >
                       <S.InfoItem>
-                        <S.InfoLabel>{t("proposedPrice")}</S.InfoLabel>
-                        <S.InfoValue style={{ color: "#2563EB", fontSize: 16 }}>
-                          {formatVND(mySubmission.giaDeXuat)}
-                        </S.InfoValue>
-                      </S.InfoItem>
-                      <S.InfoItem>
                         <S.InfoLabel>{t("approvalStatus")}</S.InfoLabel>
-                        <S.InfoValue>{mySubmission.trangThai}</S.InfoValue>
+                        <S.InfoValue>
+                          {getStatusTag(mySubmission.trangThai)}
+                        </S.InfoValue>
                       </S.InfoItem>
                       {mySubmission.diemKyThuat !== undefined && (
                         <S.InfoItem>
@@ -450,6 +479,7 @@ export const TenderPanel: React.FC<TenderPanelProps> = ({
             <CountdownTimer
               targetDate={sessionData.thoiGianKetThuc}
               status={currentStatus}
+              serverTime={statusRes?.data?.thoiGianServer}
             />
           </div>
 
@@ -486,20 +516,20 @@ export const TenderPanel: React.FC<TenderPanelProps> = ({
         {renderTenderBox()}
       </S.RightCol>
 
-      <Modal
+      <BaseModal
         title={t("submitProposal")}
         open={isModalOpen}
         onCancel={() => setIsModalOpen(false)}
         footer={null}
         destroyOnClose
       >
-        <Form
+        <BaseForm
           form={form}
           layout="vertical"
           onFinish={handleProposalSubmit}
           style={{ marginTop: 16 }}
         >
-          <Form.Item
+          <BaseForm.Item
             name="giaDeXuat"
             label={t("proposedPriceLabel")}
             rules={[
@@ -516,7 +546,7 @@ export const TenderPanel: React.FC<TenderPanelProps> = ({
               addonAfter={t("vnd")}
               placeholder={t("enterProposedPricePlaceholder")}
             />
-          </Form.Item>
+          </BaseForm.Item>
 
           {sessionData.tieuChi && sessionData.tieuChi.length > 0 && (
             <div style={{ marginBottom: 16 }}>
@@ -526,7 +556,7 @@ export const TenderPanel: React.FC<TenderPanelProps> = ({
               {sessionData.tieuChi.map((cri) => {
                 const isSelect = cri.loai === "LUA_CHON";
                 return (
-                  <Form.Item
+                  <BaseForm.Item
                     key={cri._id}
                     name={`criteria_${cri._id}`}
                     label={t("criteriaLabelWithWeight", {
@@ -543,16 +573,16 @@ export const TenderPanel: React.FC<TenderPanelProps> = ({
                     ]}
                   >
                     {isSelect ? (
-                      <Select placeholder={t("selectValue")}>
+                      <BaseSelect placeholder={t("selectValue")}>
                         {cri.cacLuaChon?.map((o) => (
-                          <Select.Option key={o.giaTri} value={o.giaTri}>
+                          <BaseSelect.Option key={o.giaTri} value={o.giaTri}>
                             {t("optionLabelWithScore", {
                               label: o.nhan,
                               score: o.giaTri,
                             })}
-                          </Select.Option>
+                          </BaseSelect.Option>
                         ))}
-                      </Select>
+                      </BaseSelect>
                     ) : (
                       <InputNumber
                         style={{ width: "100%" }}
@@ -561,7 +591,7 @@ export const TenderPanel: React.FC<TenderPanelProps> = ({
                         })}
                       />
                     )}
-                  </Form.Item>
+                  </BaseForm.Item>
                 );
               })}
             </div>
@@ -575,19 +605,19 @@ export const TenderPanel: React.FC<TenderPanelProps> = ({
               marginTop: 24,
             }}
           >
-            <Button onClick={() => setIsModalOpen(false)}>
+            <BaseButton onClick={() => setIsModalOpen(false)}>
               {t("cancelBtn")}
-            </Button>
-            <Button
+            </BaseButton>
+            <BaseButton
               type="primary"
               htmlType="submit"
               loading={submitProposalMutation.isPending}
             >
               {t("confirmSubmitBtn")}
-            </Button>
+            </BaseButton>
           </div>
-        </Form>
-      </Modal>
+        </BaseForm>
+      </BaseModal>
     </S.GridContainer>
   );
 };

@@ -30,7 +30,7 @@ export const Profile = () => {
   const displayName =
     user?.userRoles === UserRoleType.CA_NHAN
       ? user?.fullname
-      : user?.toChucProfile?.tenToChuc || user?.fullname;
+      : user?.toChucProfile?.tenToChuc || user?.fullname || "";
 
   return (
     <S.ProfileWrapper>
@@ -52,8 +52,13 @@ export const Profile = () => {
                 </BaseAvatar>
               )}
               <div className="info">
-                <span className="name">
-                  {displayName}
+                <span>
+                  <S.NameText
+                    style={{ maxWidth: "160px" }}
+                    ellipsis={{ tooltip: displayName }}
+                  >
+                    {displayName}
+                  </S.NameText>
                   {user?.isVerified && (
                     <CheckCircleFilled
                       style={{
@@ -65,7 +70,12 @@ export const Profile = () => {
                     />
                   )}
                 </span>
-                <span className="email">{user?.email}</span>
+                <S.EmailText
+                  style={{ maxWidth: "180px" }}
+                  ellipsis={{ tooltip: user?.email }}
+                >
+                  {user?.email}
+                </S.EmailText>
               </div>
             </div>
             <BaseDivider size="small"></BaseDivider>

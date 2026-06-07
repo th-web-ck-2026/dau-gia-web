@@ -428,6 +428,14 @@
     "proposalRecorded": "Proposal recorded in the system",
     "proposedPrice": "Proposed price",
     "approvalStatus": "Approval status",
+    "proposalStatus": {
+      "CHO_DUYET": "Pending",
+      "HOP_LE": "Valid",
+      "BI_TU_CHOI": "Rejected",
+      "DAN_DAU": "Leading",
+      "THANG": "Won",
+      "THUA": "Lost"
+    },
     "techScore": "Technical score",
     "priceScore": "Price score",
     "combinedScore": "Combined score",

@@ -428,6 +428,14 @@
     "proposalRecorded": "Hồ sơ thầu đã được ghi nhận hệ thống",
     "proposedPrice": "Giá đề xuất thầu",
     "approvalStatus": "Trạng thái duyệt",
+    "proposalStatus": {
+      "CHO_DUYET": "Chờ duyệt",
+      "HOP_LE": "Hợp lệ",
+      "BI_TU_CHOI": "Bị từ chối",
+      "DAN_DAU": "Dẫn đầu",
+      "THANG": "Thắng thầu",
+      "THUA": "Không trúng thầu"
+    },
     "techScore": "Điểm kỹ thuật",
     "priceScore": "Điểm giá",
     "combinedScore": "Điểm tổng hợp",
