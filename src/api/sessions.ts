@@ -32,11 +32,23 @@ export const getAuctionSessions = (params?: SessionQueryParams) =>
     ResponseData<PageableResponse<AuctionSession>>
   >("/auction-sessions", params);
 
+export const getAuctionSessionsMe = (params?: SessionQueryParams) =>
+  request.get<
+    SessionQueryParams,
+    ResponseData<PageableResponse<AuctionSession>>
+  >("/auction-sessions/me", params);
+
 export const getTenderSessions = (params?: SessionQueryParams) =>
   request.get<
     SessionQueryParams,
     ResponseData<PageableResponse<TenderSession>>
   >("/tender-sessions", params);
+
+export const getTenderSessionsMe = (params?: SessionQueryParams) =>
+  request.get<
+    SessionQueryParams,
+    ResponseData<PageableResponse<TenderSession>>
+  >("/tender-sessions/me", params);
 
 export const getKeyAssets = async (
   _params?: SessionQueryParams
@@ -99,4 +111,38 @@ export const getAuctionBids = (id: string) =>
 export const getTenderSubmissions = (id: string) =>
   request.get<void, ResponseData<TenderSubmission[]>>(
     `/tender-sessions/${id}/submissions`
+  );
+
+export const getAuctionSessionMeDetail = (id: string) =>
+  request.get<void, ResponseData<AuctionSession>>(`/auction-sessions/me/${id}`);
+
+export const getTenderSessionMeDetail = (id: string) =>
+  request.get<void, ResponseData<TenderSession>>(`/tender-sessions/me/${id}`);
+
+export const updateAuctionSessionMe = (
+  id: string,
+  data: Partial<CreateAuctionSessionDto>
+) =>
+  request.put<Partial<CreateAuctionSessionDto>, ResponseData<AuctionSession>>(
+    `/auction-sessions/me/${id}`,
+    data
+  );
+
+export const updateTenderSessionMe = (
+  id: string,
+  data: Partial<CreateTenderSessionDto>
+) =>
+  request.put<Partial<CreateTenderSessionDto>, ResponseData<TenderSession>>(
+    `/tender-sessions/me/${id}`,
+    data
+  );
+
+export const deleteAuctionSessionMe = (id: string) =>
+  request.delete<void, ResponseData<{ success: boolean }>>(
+    `/auction-sessions/me/${id}`
+  );
+
+export const deleteTenderSessionMe = (id: string) =>
+  request.delete<void, ResponseData<{ success: boolean }>>(
+    `/tender-sessions/me/${id}`
   );

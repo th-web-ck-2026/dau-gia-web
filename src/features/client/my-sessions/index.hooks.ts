@@ -8,12 +8,18 @@ import {
   closeTenderSession,
   createAuctionSession,
   createTenderSession,
+  deleteAuctionSessionMe,
+  deleteTenderSessionMe,
   getAuctionBids,
-  getAuctionSessions,
-  getTenderSessions,
+  getAuctionSessionMeDetail,
+  getAuctionSessionsMe,
+  getTenderSessionMeDetail,
+  getTenderSessionsMe,
   getTenderSubmissions,
   publishAuctionSession,
   publishTenderSession,
+  updateAuctionSessionMe,
+  updateTenderSessionMe,
 } from "@/api/sessions";
 import { useAppMutation, useAppQuery } from "@/hooks/common";
 import { ApiError } from "@/interfaces";
@@ -40,17 +46,9 @@ export const useGetMyAuctionSessions = (
     "queryKey" | "queryFn"
   >
 ) => {
-  const queryParams = {
-    ...params,
-    condition: {
-      ...params?.condition,
-      chuPhienId: userId,
-    },
-  };
-
   return useAppQuery({
-    queryKey: ["useGetMyAuctionSessions", queryParams],
-    queryFn: () => getAuctionSessions(queryParams),
+    queryKey: ["useGetMyAuctionSessions", params],
+    queryFn: () => getAuctionSessionsMe(params),
     enabled: !!userId,
     ...options,
   });
@@ -68,17 +66,9 @@ export const useGetMyTenderSessions = (
     "queryKey" | "queryFn"
   >
 ) => {
-  const queryParams = {
-    ...params,
-    condition: {
-      ...params?.condition,
-      chuPhienId: userId,
-    },
-  };
-
   return useAppQuery({
-    queryKey: ["useGetMyTenderSessions", queryParams],
-    queryFn: () => getTenderSessions(queryParams),
+    queryKey: ["useGetMyTenderSessions", params],
+    queryFn: () => getTenderSessionsMe(params),
     enabled: !!userId,
     ...options,
   });
@@ -169,3 +159,77 @@ export const useGetTenderSubmissions = (
     enabled: !!sessionId,
     ...options,
   });
+
+export const useGetMyAuctionSessionDetail = (
+  id: string,
+  options?: Omit<
+    UseQueryOptions<ResponseData<AuctionSession>, ApiError>,
+    "queryKey" | "queryFn"
+  >
+) =>
+  useAppQuery({
+    queryKey: ["useGetMyAuctionSessionDetail", id],
+    queryFn: () => getAuctionSessionMeDetail(id),
+    enabled: !!id,
+    ...options,
+  });
+
+export const useGetMyTenderSessionDetail = (
+  id: string,
+  options?: Omit<
+    UseQueryOptions<ResponseData<TenderSession>, ApiError>,
+    "queryKey" | "queryFn"
+  >
+) =>
+  useAppQuery({
+    queryKey: ["useGetMyTenderSessionDetail", id],
+    queryFn: () => getTenderSessionMeDetail(id),
+    enabled: !!id,
+    ...options,
+  });
+
+export const useUpdateAuctionSessionMe = (
+  options?: Omit<
+    UseMutationOptions<
+      ResponseData<AuctionSession>,
+      ApiError,
+      { id: string; data: Partial<CreateAuctionSessionDto> }
+    >,
+    "mutationFn"
+  >
+) =>
+  useAppMutation(
+    ({ id, data }: { id: string; data: Partial<CreateAuctionSessionDto> }) =>
+      updateAuctionSessionMe(id, data),
+    options
+  );
+
+export const useUpdateTenderSessionMe = (
+  options?: Omit<
+    UseMutationOptions<
+      ResponseData<TenderSession>,
+      ApiError,
+      { id: string; data: Partial<CreateTenderSessionDto> }
+    >,
+    "mutationFn"
+  >
+) =>
+  useAppMutation(
+    ({ id, data }: { id: string; data: Partial<CreateTenderSessionDto> }) =>
+      updateTenderSessionMe(id, data),
+    options
+  );
+
+export const useDeleteAuctionSessionMe = (
+  options?: Omit<
+    UseMutationOptions<ResponseData<{ success: boolean }>, ApiError, string>,
+    "mutationFn"
+  >
+) => useAppMutation(deleteAuctionSessionMe, options);
+
+export const useDeleteTenderSessionMe = (
+  options?: Omit<
+    UseMutationOptions<ResponseData<{ success: boolean }>, ApiError, string>,
+    "mutationFn"
+  >
+) => useAppMutation(deleteTenderSessionMe, options);

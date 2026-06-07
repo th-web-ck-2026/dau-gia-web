@@ -81,7 +81,7 @@ export const lightColorsTheme = {
 
   textMain: "#000",
   textLight: "#9A9B9F",
-  textSecondary: BASE_COLORS.white,
+  textSecondary: "#4E4F53",
   textQuaternary: "#6B6C70",
   textBrand: "#1A3F75",
   textDark: "#404040",

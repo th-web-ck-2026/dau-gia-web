@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 
 import { useTranslations } from "next-intl";
 
@@ -50,6 +50,17 @@ interface CreateSessionModalProps {
     ApiError,
     CreateTenderSessionDto
   >;
+  editingSession?: AuctionSession | TenderSession | null;
+  updateAuction?: UseMutationResult<
+    ResponseData<AuctionSession>,
+    ApiError,
+    { id: string; data: Partial<CreateAuctionSessionDto> }
+  >;
+  updateTender?: UseMutationResult<
+    ResponseData<TenderSession>,
+    ApiError,
+    { id: string; data: Partial<CreateTenderSessionDto> }
+  >;
 }
 
 interface UploadRequestOptions {
@@ -91,6 +102,9 @@ const CreateSessionModal: React.FC<CreateSessionModalProps> = ({
   onSuccess,
   createAuction,
   createTender,
+  editingSession,
+  updateAuction,
+  updateTender,
 }) => {
   const t = useTranslations("mySessionsPage");
   const tCommon = useTranslations("common");
@@ -98,9 +112,75 @@ const CreateSessionModal: React.FC<CreateSessionModalProps> = ({
   const { uploadPublic } = useUpload();
   const { message } = useFeedback();
 
-  const [sessionType, setSessionType] = useState<LoaiPhien>(LoaiPhien.DAU_GIA);
-  const [imageList, setImageList] = useState<string[]>([]);
+  const isTenderSession = editingSession
+    ? "diemKyThuatToiThieu" in editingSession
+    : false;
+
+  const [sessionType, setSessionType] = useState<LoaiPhien>(
+    editingSession
+      ? isTenderSession
+        ? LoaiPhien.DAU_THAU
+        : LoaiPhien.DAU_GIA
+      : LoaiPhien.DAU_GIA
+  );
+  const [imageList, setImageList] = useState<string[]>(
+    editingSession?.danhSachHinhAnh || []
+  );
   const [uploading, setUploading] = useState<boolean>(false);
+
+  const initialFormValues = useMemo(() => {
+    if (!editingSession) {
+      return {
+        tieuDe: "",
+        moTa: "",
+        anDanh: false,
+        diemKyThuatToiThieu: 50,
+      };
+    }
+
+    const baseValues: any = {
+      tieuDe: editingSession.tieuDe,
+      moTa: editingSession.moTa || "",
+      thoiGianBatDau: editingSession.thoiGianBatDau
+        ? dayjs(editingSession.thoiGianBatDau)
+        : null,
+      thoiGianKetThuc: editingSession.thoiGianKetThuc
+        ? dayjs(editingSession.thoiGianKetThuc)
+        : null,
+      anDanh: !!editingSession.anDanh,
+      danhSachHinhAnh: editingSession.danhSachHinhAnh || [],
+    };
+
+    if (isTenderSession) {
+      const tender = editingSession as TenderSession;
+      baseValues.diemKyThuatToiThieu = tender.diemKyThuatToiThieu;
+      if (tender.tieuChi) {
+        baseValues.tieuChi = tender.tieuChi.map((c) => ({
+          tenTieuChi: c.tenTieuChi,
+          maTieuChi: c.maTieuChi,
+          loai: c.loai,
+          trongSo: c.trongSo,
+          huongToiUu: c.huongToiUu,
+          batBuoc: !!c.batBuoc,
+          donVi: c.donVi,
+          giaTriToiThieu: c.giaTriToiThieu,
+          giaTriToiDa: c.giaTriToiDa,
+          cacLuaChon: c.cacLuaChon
+            ? c.cacLuaChon.map((opt: any) => ({
+                nhan: opt.nhan,
+                giaTri: opt.giaTri,
+              }))
+            : undefined,
+        }));
+      }
+    } else {
+      const auction = editingSession as AuctionSession;
+      baseValues.giaKhoiDiem = auction.giaKhoiDiem;
+      baseValues.buocGia = auction.buocGia;
+    }
+
+    return baseValues;
+  }, [editingSession, isTenderSession]);
 
   const handleUpload = async (options: unknown) => {
     const uploadOpts = options as UploadRequestOptions;
@@ -132,7 +212,7 @@ const CreateSessionModal: React.FC<CreateSessionModalProps> = ({
   const handleFinish = async (values: FormValues) => {
     const start = dayjs(values.thoiGianBatDau);
     const end = dayjs(values.thoiGianKetThuc);
-    if (start.isBefore(dayjs())) {
+    if (!editingSession && start.isBefore(dayjs())) {
       message.error(t("validationStartTimeFuture"));
       return;
     }
@@ -147,7 +227,7 @@ const CreateSessionModal: React.FC<CreateSessionModalProps> = ({
       thoiGianBatDau: start.toISOString(),
       thoiGianKetThuc: end.toISOString(),
       danhSachHinhAnh: imageList,
-      cheDoAnDanh: !!values.anDanh,
+      anDanh: !!values.anDanh,
     };
 
     if (sessionType === LoaiPhien.DAU_GIA) {
@@ -157,11 +237,24 @@ const CreateSessionModal: React.FC<CreateSessionModalProps> = ({
         buocGia: Number(values.buocGia),
       };
       try {
-        await createAuction.mutateAsync(auctionPayload);
-        message.success(t("createSuccess"));
+        if (editingSession) {
+          if (updateAuction) {
+            await updateAuction.mutateAsync({
+              id: editingSession._id,
+              data: auctionPayload,
+            });
+            message.success(t("updateSuccess"));
+          }
+        } else {
+          await createAuction.mutateAsync(auctionPayload);
+          message.success(t("createSuccess"));
+        }
         handleClose();
       } catch (err) {
-        message.error(getErrorMessage(err) || t("createAuctionError"));
+        message.error(
+          getErrorMessage(err) ||
+            (editingSession ? t("updateAuctionError") : t("createAuctionError"))
+        );
       }
     } else {
       const criteria = values.tieuChi || [];
@@ -179,20 +272,20 @@ const CreateSessionModal: React.FC<CreateSessionModalProps> = ({
       }
 
       const formattedCriteria = criteria.map((c) => ({
-        ten: c.tenTieuChi,
-        ma: c.maTieuChi,
+        tenTieuChi: c.tenTieuChi,
+        maTieuChi: c.maTieuChi,
         loai: c.loai,
         trongSo: Number(c.trongSo),
         huongToiUu: c.huongToiUu,
         batBuoc: !!c.batBuoc,
-        donViTinh: c.donVi,
+        donVi: c.donVi,
         giaTriToiThieu: c.giaTriToiThieu ? Number(c.giaTriToiThieu) : undefined,
         giaTriToiDa: c.giaTriToiDa ? Number(c.giaTriToiDa) : undefined,
-        danhSachLuaChon:
+        cacLuaChon:
           c.loai === LoaiTieuChi.LUA_CHON && c.cacLuaChon
             ? c.cacLuaChon.map((opt) => ({
                 nhan: opt.nhan,
-                giaTriDiem: Number(opt.giaTri),
+                giaTri: Number(opt.giaTri),
               }))
             : undefined,
       }));
@@ -204,11 +297,24 @@ const CreateSessionModal: React.FC<CreateSessionModalProps> = ({
       };
 
       try {
-        await createTender.mutateAsync(tenderPayload);
-        message.success(t("createSuccess"));
+        if (editingSession) {
+          if (updateTender) {
+            await updateTender.mutateAsync({
+              id: editingSession._id,
+              data: tenderPayload,
+            });
+            message.success(t("updateSuccess"));
+          }
+        } else {
+          await createTender.mutateAsync(tenderPayload);
+          message.success(t("createSuccess"));
+        }
         handleClose();
       } catch (err) {
-        message.error(getErrorMessage(err) || t("createTenderError"));
+        message.error(
+          getErrorMessage(err) ||
+            (editingSession ? t("updateTenderError") : t("createTenderError"))
+        );
       }
     }
   };
@@ -220,15 +326,23 @@ const CreateSessionModal: React.FC<CreateSessionModalProps> = ({
     onSuccess();
   };
 
-  const isPending = createAuction.isPending || createTender.isPending;
+  const isPending =
+    createAuction.isPending ||
+    createTender.isPending ||
+    updateAuction?.isPending ||
+    updateTender?.isPending;
 
   return (
     <BaseModal
       open={open}
       title={
-        sessionType === LoaiPhien.DAU_GIA
-          ? t("createAuctionTitle")
-          : t("createTenderTitle")
+        editingSession
+          ? sessionType === LoaiPhien.DAU_GIA
+            ? t("editAuctionTitle")
+            : t("editTenderTitle")
+          : sessionType === LoaiPhien.DAU_GIA
+            ? t("createAuctionTitle")
+            : t("createTenderTitle")
       }
       onCancel={handleClose}
       footer={null}
@@ -239,6 +353,7 @@ const CreateSessionModal: React.FC<CreateSessionModalProps> = ({
         <S.TypeSelectorLabel>{t("sessionTypeLabel")}</S.TypeSelectorLabel>
         <BaseSelect
           value={sessionType}
+          disabled={!!editingSession}
           onChange={(val) => {
             setSessionType(val as LoaiPhien);
             form.resetFields();
@@ -252,7 +367,12 @@ const CreateSessionModal: React.FC<CreateSessionModalProps> = ({
         />
       </S.TypeSelectorWrapper>
 
-      <BaseForm form={form} onFinish={handleFinish} layout="vertical">
+      <BaseForm
+        form={form}
+        onFinish={handleFinish}
+        layout="vertical"
+        initialValues={initialFormValues}
+      >
         <BaseRow gutter={16}>
           <BaseCol span={12}>
             <BaseForm.Item
