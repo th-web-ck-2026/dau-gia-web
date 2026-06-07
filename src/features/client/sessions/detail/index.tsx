@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 
 import { ArrowLeftOutlined } from "@ant-design/icons";
-import { Button, Result, Spin } from "antd";
+import { Button, Result } from "antd";
 
 import {
   getAuctionSessionDetail,
@@ -18,6 +18,7 @@ import { LoaiPhien, TrangThaiPhien } from "@/constants/scoring";
 import { useAuth } from "@/hooks/common";
 
 import { AuctionPanel } from "./components/AuctionPanel";
+import SessionDetailSkeleton from "./components/SessionDetailSkeleton";
 import { TenderPanel } from "./components/TenderPanel";
 import {
   usePlaceBid,
@@ -110,9 +111,13 @@ const SessionDetail: React.FC<SessionDetailProps> = ({ id }) => {
 
   if (loading) {
     return (
-      <S.CenteredContainer style={{ minHeight: "60vh" }}>
-        <Spin size="large" />
-      </S.CenteredContainer>
+      <S.ContentRoot>
+        <S.ContentWrapper>
+          {/* Breadcrumb placeholder */}
+          <div style={{ height: 22 }} />
+          <SessionDetailSkeleton />
+        </S.ContentWrapper>
+      </S.ContentRoot>
     );
   }
 
