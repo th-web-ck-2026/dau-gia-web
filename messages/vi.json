@@ -449,7 +449,17 @@
     "optionLabelWithScore": "{label} ({score}đ)",
     "enterValueWithUnit": "Nhập giá trị ({unit})",
     "cancelBtn": "Hủy bỏ",
-    "confirmSubmitBtn": "Xác nhận nộp"
+    "confirmSubmitBtn": "Xác nhận nộp",
+    "startPrice": "Giá khởi điểm",
+    "priceStep": "Bước giá",
+    "startTime": "Thời gian bắt đầu",
+    "endTime": "Thời gian kết thúc",
+    "participant": "Người tham gia",
+    "bidSuccessMsg": "Đặt giá thành công!",
+    "proposalSuccessMsg": "Nộp hồ sơ thầu thành công!",
+    "notFoundSubTitle": "Phiên đấu thầu hoặc đấu giá không tồn tại hoặc đã bị gỡ bỏ.",
+    "backToList": "Quay về danh sách",
+    "noLeaderYet": "Chưa có"
   },
   "errorBoundary": {
     "title": "Có lỗi xảy ra",
