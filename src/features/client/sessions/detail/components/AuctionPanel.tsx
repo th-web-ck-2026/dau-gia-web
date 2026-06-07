@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 
 import {
@@ -76,6 +77,7 @@ interface AuctionPanelProps {
 
 export const AuctionPanel: React.FC<AuctionPanelProps> = ({
   sessionData,
+  statusRes,
   rankingRes,
   rankingLoading,
   isAuthenticated,
@@ -93,6 +95,7 @@ export const AuctionPanel: React.FC<AuctionPanelProps> = ({
   t,
 }) => {
   const router = useRouter();
+  const tCommon = useTranslations("common");
   const [form] = Form.useForm();
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
@@ -100,11 +103,17 @@ export const AuctionPanel: React.FC<AuctionPanelProps> = ({
 
   const handleQuickBidClick = (multiplier: number) => {
     const step = sessionData.buocGia || 0;
-    const targetVal = Math.max(
-      minRequiredBid,
-      currentPrice + multiplier * step
-    );
+    const currentInputVal = form.getFieldValue("giaDat");
+    const baseVal =
+      typeof currentInputVal === "number" && currentInputVal >= minRequiredBid
+        ? currentInputVal
+        : minRequiredBid;
+    const targetVal = baseVal + multiplier * step;
     form.setFieldsValue({ giaDat: targetVal });
+  };
+
+  const handleResetBid = () => {
+    form.setFieldsValue({ giaDat: minRequiredBid });
   };
 
   const handleBidSubmit = (values: { giaDat: number }) => {
@@ -222,6 +231,9 @@ export const AuctionPanel: React.FC<AuctionPanelProps> = ({
               </S.QuickBidButton>
               <S.QuickBidButton onClick={() => handleQuickBidClick(5)}>
                 +{formatVND(sessionData.buocGia * 5)}
+              </S.QuickBidButton>
+              <S.QuickBidButton $isReset onClick={handleResetBid}>
+                {tCommon("reset", { defaultValue: "Reset" })}
               </S.QuickBidButton>
             </S.QuickBidGrid>
 
@@ -403,6 +415,7 @@ export const AuctionPanel: React.FC<AuctionPanelProps> = ({
             <CountdownTimer
               targetDate={sessionData.thoiGianKetThuc}
               status={currentStatus}
+              serverTime={statusRes?.data?.thoiGianServer}
             />
           </div>
 

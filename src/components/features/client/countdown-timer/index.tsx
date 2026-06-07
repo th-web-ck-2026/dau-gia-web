@@ -11,12 +11,14 @@ import * as S from "./index.styles";
 interface CountdownTimerProps {
   targetDate: Date | string;
   status: TrangThaiPhien;
+  serverTime?: Date | string;
   onComplete?: () => void;
 }
 
 const CountdownTimer: React.FC<CountdownTimerProps> = ({
   targetDate,
   status,
+  serverTime,
   onComplete,
 }) => {
   const t = useTranslations("common");
@@ -31,8 +33,13 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
   useEffect(() => {
     if (!mounted) return;
 
+    const serverClientOffset = serverTime
+      ? new Date(serverTime).getTime() - Date.now()
+      : 0;
+
     const calculateTimeLeft = () => {
-      const difference = new Date(targetDate).getTime() - new Date().getTime();
+      const currentServerTime = Date.now() + serverClientOffset;
+      const difference = new Date(targetDate).getTime() - currentServerTime;
       return Math.max(0, difference);
     };
 
@@ -52,7 +59,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [targetDate, mounted, onComplete]);
+  }, [targetDate, serverTime, mounted, onComplete]);
 
   if (!mounted) {
     return (

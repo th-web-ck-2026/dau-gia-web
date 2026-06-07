@@ -80,12 +80,18 @@ const SessionDetail: React.FC<SessionDetailProps> = ({ id }) => {
     };
   }, [id]);
 
-  const { data: statusRes, refetch: refetchStatus } = useSessionStatus(id, {
-    enabled:
-      sessionType === LoaiPhien.DAU_GIA &&
-      sessionData?.trangThai === TrangThaiPhien.MO,
-    refetchInterval: 4000,
-  });
+  const { data: statusRes, refetch: refetchStatus } = useSessionStatus(
+    id,
+    sessionType || LoaiPhien.DAU_GIA,
+    {
+      enabled: !!sessionType,
+      refetchInterval:
+        sessionType === LoaiPhien.DAU_GIA &&
+        sessionData?.trangThai === TrangThaiPhien.MO
+          ? 4000
+          : undefined,
+    }
+  );
 
   const {
     data: rankingRes,
@@ -237,6 +243,7 @@ const SessionDetail: React.FC<SessionDetailProps> = ({ id }) => {
           ) : (
             <TenderPanel
               sessionData={sessionData}
+              statusRes={statusRes}
               rankingRes={rankingRes}
               rankingLoading={rankingLoading}
               isAuthenticated={isAuthenticated}
