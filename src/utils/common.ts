@@ -214,3 +214,15 @@ export const getFirstLetterOfLastName = (fullName?: string): string => {
 
   return parts[parts.length - 1][0].toUpperCase();
 };
+
+export const toSnakeCase = (value: string): string =>
+  value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d")
+    .replace(/Đ/g, "D")
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s_]/g, "")
+    .replace(/[\s_]+/g, "_")
+    .replace(/^_+|_+$/g, "");
