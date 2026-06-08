@@ -339,7 +339,8 @@
     "colTechnicalScore": "Technical Score",
     "colPriceScore": "Price Score",
     "colCombinedScore": "Combined Score",
-    "timeLeft": "Time remaining",
+    "timeLeft": "Session ends in",
+    "timeLeftUntilStart": "Session starts in",
     "currentPrice": "Current price",
     "highestBid": "Highest bid",
     "leadingUser": "Leading bidder",
@@ -723,6 +724,13 @@
     "tabs": {
       "won": "My Winning Transactions",
       "hosted": "My Hosted Transactions"
+    },
+    "steps": {
+      "confirm": "Confirm",
+      "payment": "Payment",
+      "signContract": "Sign Contract",
+      "handover": "Handover",
+      "complete": "Complete"
     },
     "table": {
       "id": "Transaction ID",

@@ -339,7 +339,8 @@
     "colTechnicalScore": "Điểm kỹ thuật",
     "colPriceScore": "Điểm giá",
     "colCombinedScore": "Điểm tổng hợp",
-    "timeLeft": "Thời gian còn lại",
+    "timeLeft": "Phiên sẽ kết thúc sau",
+    "timeLeftUntilStart": "Phiên sẽ bắt đầu sau",
     "currentPrice": "Giá hiện tại",
     "highestBid": "Giá cao nhất hiện tại",
     "leadingUser": "Người dẫn đầu",
@@ -723,6 +724,13 @@
     "tabs": {
       "won": "Giao dịch tôi thắng",
       "hosted": "Giao dịch tôi tổ chức"
+    },
+    "steps": {
+      "confirm": "Xác nhận",
+      "payment": "Thanh toán",
+      "signContract": "Ký hợp đồng",
+      "handover": "Bàn giao",
+      "complete": "Hoàn tất"
     },
     "table": {
       "id": "Mã giao dịch",

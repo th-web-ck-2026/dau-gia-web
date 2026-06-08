@@ -87,7 +87,7 @@ const SessionsListContent: React.FC = () => {
                     range
                     min={0}
                     max={10000000000}
-                    step={100000000}
+                    step={10000000}
                     value={activePriceRange}
                     onChange={handlePriceChange}
                     tooltip={{ formatter: (val) => formatCurrency(val || 0) }}

@@ -43,7 +43,7 @@ const MyTransactionsDashboard: React.FC = () => {
 
   const { data, isLoading } = useGetTransactionsMe(queryParams);
 
-  const rawList = Array.isArray(data?.result) ? data.result : [];
+  const rawList = Array.isArray(data?.data?.result) ? data.data.result : [];
 
   const filteredList = useMemo(() => {
     if (!user) return [];
