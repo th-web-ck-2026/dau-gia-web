@@ -633,7 +633,7 @@
         "rejectReasonPlaceholder": "Please enter a specific reason for rejection...",
         "rejectReasonRequired": "Please enter a reason for rejection!",
         "submitReject": "Confirm Reject",
-        "cancel": "Cancel",
+        "cancel": "Back to home",
         "successApprove": "Verification request approved successfully!",
         "successReject": "Verification request rejected!",
         "viewDetail": "Review",

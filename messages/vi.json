@@ -633,7 +633,7 @@
         "rejectReasonPlaceholder": "Vui lòng nhập lý do từ chối cụ thể...",
         "rejectReasonRequired": "Vui lòng nhập lý do từ chối!",
         "submitReject": "Xác nhận từ chối",
-        "cancel": "Hủy",
+        "cancel": "Quay lại trang chủ",
         "successApprove": "Đã duyệt yêu cầu xác minh thành công!",
         "successReject": "Đã từ chối yêu cầu xác minh!",
         "viewDetail": "Xét duyệt",
