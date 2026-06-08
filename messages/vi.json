@@ -140,7 +140,8 @@
     "profile": "Thông tin tài khoản",
     "connectionStatus": "Đã kết nối",
     "connectionStatusOffline": "Mất kết nối",
-    "adminPanel": "Trang quản trị"
+    "adminPanel": "Trang quản trị",
+    "myTransactions": "Giao dịch của tôi"
   },
   "footer": {
     "companyName": "CÔNG TY ĐẤU GIÁ HỢP DANH ĐẠI VIỆT",
