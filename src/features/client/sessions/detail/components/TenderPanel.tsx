@@ -475,9 +475,17 @@ export const TenderPanel: React.FC<TenderPanelProps> = ({
           <S.RightCardTitle>{sessionData.tieuDe}</S.RightCardTitle>
 
           <div>
-            <S.RightCardLabel>{t("timeLeft")}</S.RightCardLabel>
+            <S.RightCardLabel>
+              {currentStatus === TrangThaiPhien.CONG_BO
+                ? t("timeLeftUntilStart")
+                : t("timeLeft")}
+            </S.RightCardLabel>
             <CountdownTimer
-              targetDate={sessionData.thoiGianKetThuc}
+              targetDate={
+                currentStatus === TrangThaiPhien.CONG_BO
+                  ? sessionData.thoiGianBatDau
+                  : sessionData.thoiGianKetThuc
+              }
               status={currentStatus}
               serverTime={statusRes?.data?.thoiGianServer}
             />
