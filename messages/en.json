@@ -140,7 +140,8 @@
     "profile": "Account Information",
     "connectionStatus": "Connected",
     "connectionStatusOffline": "Disconnected",
-    "adminPanel": "Admin Panel"
+    "adminPanel": "Admin Panel",
+    "myTransactions": "My transactions"
   },
   "footer": {
     "companyName": "DAI VIET PARTNERSHIP AUCTION COMPANY",
