@@ -85,13 +85,24 @@ const SessionDetail: React.FC<SessionDetailProps> = ({ id }) => {
     sessionType || LoaiPhien.DAU_GIA,
     {
       enabled: !!sessionType,
-      refetchInterval:
-        sessionType === LoaiPhien.DAU_GIA &&
-        sessionData?.trangThai === TrangThaiPhien.MO
-          ? 4000
-          : undefined,
+      refetchInterval: (query) => {
+        const serverStatus = (
+          query.state.data as { data?: { trangThai?: string } } | undefined
+        )?.data?.trangThai;
+        const status = serverStatus ?? sessionData?.trangThai;
+        const active =
+          status === TrangThaiPhien.MO || status === TrangThaiPhien.CONG_BO;
+        return active ? 4000 : false;
+      },
     }
   );
+
+  const currentStatus = (statusRes?.data?.trangThai ??
+    sessionData?.trangThai) as TrangThaiPhien;
+
+  const isSessionActive =
+    currentStatus === TrangThaiPhien.MO ||
+    currentStatus === TrangThaiPhien.CONG_BO;
 
   const {
     data: rankingRes,
@@ -99,8 +110,7 @@ const SessionDetail: React.FC<SessionDetailProps> = ({ id }) => {
     refetch: refetchRanking,
   } = useSessionRanking(id, sessionType || LoaiPhien.DAU_GIA, {
     enabled: !!sessionType,
-    refetchInterval:
-      sessionData?.trangThai === TrangThaiPhien.MO ? 4000 : undefined,
+    refetchInterval: isSessionActive ? 4000 : undefined,
   });
 
   const placeBidMutation = usePlaceBid(id);
@@ -162,7 +172,6 @@ const SessionDetail: React.FC<SessionDetailProps> = ({ id }) => {
     },
   ];
 
-  const currentStatus = statusRes?.data?.trangThai ?? sessionData.trangThai;
   const isAuction = sessionType === LoaiPhien.DAU_GIA;
 
   const currentPrice =

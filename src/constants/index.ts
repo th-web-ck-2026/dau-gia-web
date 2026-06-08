@@ -4,3 +4,4 @@ export * from "./tender";
 export * from "./user";
 export * from "./notification";
 export * from "./auth";
+export * from "./transaction";

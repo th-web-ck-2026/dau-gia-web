@@ -4,8 +4,8 @@ import type { Metadata, Viewport } from "next";
 import { getLocale } from "next-intl/server";
 
 import StyledComponentsRegistry from "@/lib/styled-components-registry";
-
 import "@/styles/globals.css";
+
 import { beVietnamPro, inter, sfPro } from "./fonts";
 
 export const viewport: Viewport = {
@@ -15,8 +15,8 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Đấu giá online",
-  description: "Đấu giá online",
+  title: "BIDWAR",
+  description: "Hệ thống đấu giá trực tuyến chuyên nghiệp",
 };
 
 interface Props {
