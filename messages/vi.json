@@ -724,6 +724,13 @@
       "won": "Giao dịch tôi thắng",
       "hosted": "Giao dịch tôi tổ chức"
     },
+    "steps": {
+      "confirm": "Xác nhận",
+      "payment": "Thanh toán",
+      "signContract": "Ký hợp đồng",
+      "handover": "Bàn giao",
+      "complete": "Hoàn tất"
+    },
     "table": {
       "id": "Mã giao dịch",
       "sessionType": "Loại phiên",

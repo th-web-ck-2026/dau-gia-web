@@ -724,6 +724,13 @@
       "won": "My Winning Transactions",
       "hosted": "My Hosted Transactions"
     },
+    "steps": {
+      "confirm": "Confirm",
+      "payment": "Payment",
+      "signContract": "Sign Contract",
+      "handover": "Handover",
+      "complete": "Complete"
+    },
     "table": {
       "id": "Transaction ID",
       "sessionType": "Session Type",

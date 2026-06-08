@@ -14,7 +14,7 @@ export interface TransactionQueryParams {
 }
 
 export const getTransactionsMe = (params?: TransactionQueryParams) =>
-  request.get<TransactionQueryParams, PageableResponse<GiaoDich>>(
+  request.get<TransactionQueryParams, ResponseData<PageableResponse<GiaoDich>>>(
     "/giao-dich/me",
     params
   );
