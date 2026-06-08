@@ -15,6 +15,7 @@ import { Link, usePathname } from "@/i18n/routing";
 
 import * as S from "./index.styles";
 import Navigation from "./navigation";
+import { NotificationBell } from "./notification";
 import Profile from "./profile";
 
 const Header = () => {
@@ -86,6 +87,7 @@ const Header = () => {
             </S.ClockWrapper>
           )}
 
+          {isAuthenticated && <NotificationBell />}
           <Profile />
 
           <S.LanguageSelectorWrapper>

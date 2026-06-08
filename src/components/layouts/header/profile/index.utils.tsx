@@ -2,6 +2,7 @@ import { useTranslations } from "next-intl";
 
 import {
   DashboardOutlined,
+  HistoryOutlined,
   LogoutOutlined,
   UserOutlined,
 } from "@ant-design/icons";
@@ -35,6 +36,11 @@ const useProfileUtils = () => {
       key: "profile",
       label: <Link href="/profile">{t("profile")}</Link>,
       icon: <UserOutlined />,
+    },
+    {
+      key: "my-transactions",
+      label: <Link href="/my-transactions">{t("myTransactions")}</Link>,
+      icon: <HistoryOutlined />,
     },
     {
       key: "logout",

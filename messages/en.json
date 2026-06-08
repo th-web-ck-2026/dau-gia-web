@@ -643,6 +643,169 @@
       "noImages": "No images available"
     }
   },
+  "myTransactions": {
+    "title": "Post-Auction Transactions",
+    "detailTitle": "Transaction Details",
+    "loading": "Loading data...",
+    "backToList": "Back to list",
+    "sessionType": {
+      "auction": "Auction",
+      "tender": "Tender"
+    },
+    "role": {
+      "winner": "Winner",
+      "host": "Host"
+    },
+    "status": {
+      "CHO_XAC_NHAN": "Awaiting Confirmation",
+      "CHO_THANH_TOAN": "Awaiting Payment",
+      "DA_THANH_TOAN": "Payment reported",
+      "CHO_KY_HOP_DONG": "Awaiting Contract Signing",
+      "DA_KY_HOP_DONG": "Contract Signed",
+      "DANG_BAN_GIAO": "Handing Over",
+      "HOAN_TAT": "Completed",
+      "THAT_BAI": "Failed",
+      "DA_HUY": "Canceled",
+      "completeBanner": "Transaction has been completed successfully!",
+      "canceledBanner": "Transaction has been canceled by the host.",
+      "failRejectBanner": "Transaction failed because the winner rejected it.",
+      "failExpireBanner": "Transaction failed due to confirmation time limit expiration."
+    },
+    "filters": {
+      "allStatus": "All status",
+      "allTypes": "All session types"
+    },
+    "tabs": {
+      "won": "My Winning Transactions",
+      "hosted": "My Hosted Transactions"
+    },
+    "table": {
+      "id": "Transaction ID",
+      "sessionType": "Session Type",
+      "myRole": "My Role",
+      "finalPrice": "Final Price",
+      "status": "Status",
+      "deadline": "Deadline / Created At",
+      "timeLeft": "{hours}h {mins}m left",
+      "expired": "Expired",
+      "action": "Actions",
+      "viewDetail": "Detail"
+    },
+    "info": {
+      "title": "Transaction Session Info",
+      "sessionId": "Session ID",
+      "sessionType": "Session Type",
+      "finalPrice": "Final Price",
+      "createdAt": "Transaction Created",
+      "deadline": "Confirmation Deadline"
+    },
+    "actions": {
+      "panelTitle": "Actions Required",
+      "yes": "Yes",
+      "no": "No",
+      "cancelBtn": "Cancel Transaction",
+      "cancelConfirmTitle": "Cancel this transaction?",
+      "cancelConfirmDesc": "Are you sure you want to cancel this post-auction transaction?",
+      "confirmBtn": "Confirm Transaction",
+      "rejectBtn": "Reject Transaction",
+      "winnerConfirmMessage": "Please confirm your acceptance of this transaction within 48 hours. Rejection or expiration will lead to penalties according to regulation.",
+      "waitingWinnerConfirm": "Awaiting winner's confirmation.",
+      "rejectConfirmTitle": "Reject this transaction?",
+      "rejectConfirmDesc": "Rejecting this transaction will result in system penalties. Are you sure you want to proceed with rejection?",
+      "confirmSuccess": "Transaction confirmed successfully!",
+      "rejectSuccess": "Transaction rejected successfully.",
+      "updateNoteSuccess": "Contact note saved successfully!",
+      "reportPaidSuccess": "Payment receipt reported successfully!",
+      "confirmPaymentSuccess": "Payment confirmation received!",
+      "completeSuccess": "Transaction completed successfully!",
+      "signSuccess": "Contract signed successfully!",
+      "handoverSuccess": "Asset/service handover marked successfully!",
+      "confirmReceiptSuccess": "Asset/service receipt confirmed successfully!",
+      "cancelSuccess": "Transaction canceled successfully!"
+    },
+    "payment": {
+      "bankTitle": "Host Bank Transfer Information",
+      "bankName": "Bank Name",
+      "accountNo": "Account Number",
+      "accountName": "Account Holder",
+      "amount": "Transfer Amount",
+      "content": "Transfer Description",
+      "uploadLabel": "Upload Payment Receipt image",
+      "uploadPlaceholder": "Click to select or drag & drop payment receipt image here",
+      "receiptRequired": "Please upload the payment receipt image first!",
+      "submitBtn": "Report Payment Made",
+      "waitingWinnerPayment": "Awaiting transfer payment from the winner.",
+      "hostVerifyTitle": "Winner reported payment",
+      "hostVerifyDesc": "Please check your bank account. Once payment is verified, click 'Confirm Payment' then 'Complete Transaction'.",
+      "receiptPreview": "Winner's Payment Receipt image",
+      "confirmReceivedBtn": "Confirm Payment Received",
+      "completeTransactionBtn": "Complete Transaction",
+      "waitingHostVerify": "Payment reported. Awaiting host verification."
+    },
+    "contract": {
+      "signingTitle": "Sign Asset / Service Contract",
+      "signingDesc": "Both parties sign the contract offline. Once done, tick the confirmation box below.",
+      "signed": "Signed",
+      "unsigned": "Unsigned",
+      "signBtn": "Confirm I Have Signed The Contract"
+    },
+    "handover": {
+      "hostTitle": "Hand Over Asset / Service",
+      "hostDesc": "Contracts signed by both sides. Host should hand over the asset/service as agreed.",
+      "handoverBtn": "Confirm Handover Completed",
+      "waitingHostHandover": "Contract signed. Awaiting host handover of asset/service.",
+      "winnerTitle": "Confirm Handover Receipt",
+      "winnerDesc": "Host marked handover as completed. Please check and confirm receipt.",
+      "confirmReceiptBtn": "Confirm Handover Received",
+      "waitingWinnerConfirm": "Awaiting winner's receipt confirmation to finalize."
+    },
+    "contact": {
+      "title": "Contact info of {role}",
+      "titleLocked": "Contact Information (Locked)",
+      "lockedMessage": "Contact details will be visible after the winner confirms the transaction.",
+      "name": "Full Name",
+      "phone": "Phone Number",
+      "email": "Email Address",
+      "address": "Address",
+      "noteLabel": "My Contact Notes (visible to other party)",
+      "notePlaceholder": "Enter delivery address, notes, preferred contact time, etc...",
+      "saveNoteBtn": "Save Note"
+    },
+    "report": {
+      "reportWinnerBtn": "Report Winner Violation",
+      "title": "Report Violation: {username}",
+      "reasonLabel": "Reason for Report",
+      "reasonRequired": "Please select a reason",
+      "reasons": {
+        "BO_THAU_DAU_GIA": "Winner Refused Transaction",
+        "VI_PHAM_QUY_CHE": "Transaction Regulation Violation",
+        "KHAC": "Other Reason"
+      },
+      "titleLabel": "Title",
+      "titleRequired": "Please enter a title",
+      "titlePlaceholder": "Brief summary of the violation",
+      "contentLabel": "Detailed Content",
+      "contentRequired": "Please detail the events",
+      "contentPlaceholder": "Describe the violation in detail, dates, timelines, etc...",
+      "attachments": "Violation Evidence Images",
+      "uploadBtn": "Upload Image",
+      "cancel": "Cancel",
+      "submit": "Submit Report",
+      "successMessage": "Violation report submitted successfully!",
+      "errorMessage": "Failed to submit report. Please try again later."
+    },
+    "error": {
+      "notFoundTitle": "Transaction Not Found",
+      "notFoundDesc": "Transaction does not exist or you do not have permission to view it."
+    }
+  },
+  "notification": {
+    "title": "Notifications",
+    "markAllRead": "Mark all as read",
+    "empty": "No new notifications",
+    "loadMore": "Load more",
+    "loading": "Loading..."
+  },
   "metadata": {
     "title": "BIDWAR | Transparent Online Auction & Tendering Platform",
     "description": "Experience a professional, secure, and cost-effective reverse auction and project tendering platform with industry-leading transparency."
