@@ -84,7 +84,10 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
     );
   }
 
-  if (timeLeft <= 0) {
+  const isActive =
+    status === TrangThaiPhien.MO || status === TrangThaiPhien.CONG_BO;
+
+  if (!isActive || timeLeft <= 0) {
     return (
       <S.TextTimer $status={status}>{t("ended") || "Đã kết thúc"}</S.TextTimer>
     );
